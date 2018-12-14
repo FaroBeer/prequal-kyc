@@ -1,0 +1,5 @@
+{
+    "tableName": "preKYCusers",
+    "partitionKeyName": "email",
+    "partitionKeyType": "S"
+}
