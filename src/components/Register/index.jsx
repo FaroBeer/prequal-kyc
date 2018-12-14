@@ -67,12 +67,17 @@ class TextFields extends Component {
 
   post = async () => {
     console.log('calling api');
+
+    let firstName = this.state.firstName != '' ? this.state.firstName : null;
+    let middleName = this.state.middleName != '' ? this.state.middleName : null;
+    let surname = this.state.surname != '' ? this.state.surname : null;
+
     const response = await API.post('preKYCapi', '/items', {
       body: {
         email:this.state.email,
-        firstName:this.state.firstName,
-        middleName:this.state.middleName,
-        surname:this.state.surname
+        firstName:firstName,
+        middleName:middleName,
+        surname:surname
       }
     });
     alert(JSON.stringify(response, null, 2));
