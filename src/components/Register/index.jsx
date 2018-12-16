@@ -107,7 +107,10 @@ class TextFields extends Component {
           country:country
         }
       });
-      alert(JSON.stringify(response, null, 2));
+      //alert(JSON.stringify(response, null, 2));
+      
+      if(country==='United States') window.location.href='/dashboard-us';
+      else window.location.href='/dashboard';
     }
   }
 
