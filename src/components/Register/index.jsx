@@ -11,6 +11,7 @@ import Filter1 from '@material-ui/icons/Filter1'
 import axios from 'axios';
 import './FileUpload.css'
 import Amplify, { Auth, Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
+import { FormControl, InputLabel } from "@material-ui/core";
 
 
 
@@ -85,6 +86,7 @@ class TextFields extends Component {
     let occupation = this.state.occupation !== '' ? this.state.occupation : null;
     let phone = this.state.phone !== '' ? this.state.phone : null;
     let country = this.state.country !== '' ? this.state.country : null;
+    let email = this.state.email;
 
     if(firstName==='' || surname==='' || country===''){
       if(firstName==='' && surname!=='') alert('The given name is required');
@@ -97,7 +99,7 @@ class TextFields extends Component {
     } else {
       const response = await API.post('preKYCapi', '/items', {
         body: {
-          email:this.state.email,
+          email:email,
           firstName:firstName,
           middleName:middleName,
           surname:surname,
@@ -111,13 +113,14 @@ class TextFields extends Component {
       
       if(country==='United States') window.location.href='/dashboard-us';
       else window.location.href='/dashboard';
-    }
   }
+}
 
   get = async () => {
     console.log('calling api');
     const response = await API.get('preKYCapi', '/items/object/1');
     alert(JSON.stringify(response, null, 2));
+    return response;
   }
   list = async () => {
     console.log('calling api');
@@ -129,17 +132,23 @@ class TextFields extends Component {
     const response = Auth.currentAuthenticatedUser();
     alert(JSON.stringify(response, null, 2));
   }
+  getUser = async (id) => {
+    const response = await API.get('preKYCapi', '/items/object/:' + id);
+    console.log (JSON.stringify(response));
+    }  // doesn't work
 
   render() {
 
-    Auth.currentAuthenticatedUser({
+  Auth.currentAuthenticatedUser({
       bypassCache: false  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
   }).then(user => {
     this.state.email=user.attributes.email;
   })
   .catch(err => console.log(err));
+  
+  this.getUser(this.state.email);
 
-    const { classes } = this.props;
+  const { classes } = this.props;
 
     return (
       <div className={classes.root}>
@@ -155,7 +164,8 @@ class TextFields extends Component {
                   autoComplete="off"
                 >
                   <TextField
-                    placeholder="First Name"
+                    required
+                    placeholder="Given Name"
                     id="first-name"
                     label="Given Name"
                     className={classes.textField}
@@ -173,17 +183,19 @@ class TextFields extends Component {
                     margin="normal"
                   />
                   <TextField
-                    placeholder="Last Name"
+                    required
+                    placeholder="Surname"
                     id="last-name"
                     label="Surname"
                     className={classes.textField}
                     value={this.state.lastName}
                     onChange={this.handleChange("surname")}
                     margin="normal"
-                  />                 
+                  />    
+                  <FormControl required><InputLabel>Country</InputLabel>
                   <Select
+                    required
                     native
-                    placeholder="Country"
                     value={this.state.country}
                     onChange={this.handleChange('country')}
                     inputProps={{
@@ -311,7 +323,7 @@ class TextFields extends Component {
                     <option value="Kyrgyzstan">Kyrgyzstan</option>
                     <option value="Lao">Lao People's Democratic Republic</option>
                     <option value="Latvia">Latvia</option>
-                    <option value="Lebanon" selected>Lebanon</option>
+                    <option value="Lebanon" >Lebanon</option>
                     <option value="Lesotho">Lesotho</option>
                     <option value="Liberia">Liberia</option>
                     <option value="Libyan Arab Jamahiriya">Libyan Arab Jamahiriya</option>
@@ -431,8 +443,10 @@ class TextFields extends Component {
                     <option value="Yugoslavia">Yugoslavia</option>
                     <option value="Zambia">Zambia</option>
                     <option value="Zimbabwe">Zimbabwe</option>
-                  </Select>
+                  </Select></FormControl>
+
                   <TextField
+                    type="Number"
                     placeholder="Phone"
                     id="phone"
                     label="Phone"
@@ -451,6 +465,7 @@ class TextFields extends Component {
                     margin="normal"
                   />     
                   <TextField
+                    type="number"
                     placeholder="Investment Amount"
                     id="amount"
                     label="Investment Amount"

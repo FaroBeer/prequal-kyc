@@ -50,15 +50,7 @@ function Home(props) {
 				In this section we will ask you to provide information in order to begin the KYC (Know Your Customer) approval process.
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-        In this registration process there are different steps in which we<br />will verify the information you provide.<br />Steps are:
-        <br />
-        {bull}General information with the address validation
-        <br />
-				{bull}Picture and document uploads with the identity validation
-        <br />
-				{bull} information and wallet address validation
-        <br />
-				{bull}Term&Conditions
+          Welcome!
         </Typography>
       </CardContent>
     </Card>

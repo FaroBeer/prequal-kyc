@@ -64,7 +64,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "pre-kyc-20181213120006-deployment",
-					"S3Key": "amplify-builds/preKYClambda-1544700391-latest-build.zip"
+					"S3Key": "amplify-builds/preKYClambda-1544994638-latest-build.zip"
 				}
 			}
 		},
