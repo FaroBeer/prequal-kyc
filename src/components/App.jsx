@@ -26,4 +26,4 @@ App.propTypes = {
   children: element
 };
 
-export default withAuthenticator (App, true);
+export default withAuthenticator (App, true)

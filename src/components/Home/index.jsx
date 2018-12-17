@@ -10,7 +10,7 @@ import Grid from '@material-ui/core/Grid';
 //import Amplify, { Auth, Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
 import Background from '../../shared/images/bg_kyc/14122018-01.JPG';
 //import LogoLL from '../../shared/images/Archivio/kyc_logo_01.png';
-import LogoLL from '../../shared/images/logo_01.png';
+//import LogoLL from '../../shared/images/logo_01.png';
 
 const styles = theme => ({
   root: {
@@ -33,8 +33,8 @@ const styles = theme => ({
   },
   imageLL: {
     width: 100,
-    backgroundImage: `url(${LogoLL})`,
-    backgroundSize: 'contain',
+    //backgroundImage: `url(${LogoLL})`,
+    //backgroundSize: 'contain',
     marginLeft: 'auto',
     marginRight: 'auto',
   },
@@ -66,9 +66,14 @@ function Home(props) {
     <Grid item xs></Grid>
     <Grid item xs={6}>
     <Card className={classes.card}>
+
+      <CardMedia
+          className={classes.imageLL}
+          image="../../shared/images/logo_01.png"
+          title="Look Lateral KYC"
+        />
+
       <CardContent>
-        
-        <div className={classes.imageLL}></div>
 
         <Typography className={classes.subtitle}>
 				WELCOME TO LOOK LATERAL SECURITY TOKEN OFFERING

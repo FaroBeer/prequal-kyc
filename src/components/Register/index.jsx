@@ -85,7 +85,8 @@ class TextFields extends Component {
     });
   };
 
-  post = async () => {
+  
+post = async () => {
     console.log('calling api');
 
     if(this.state.firstName==='' || this.state.surname==='' || 
@@ -119,8 +120,8 @@ class TextFields extends Component {
       });
       //alert(JSON.stringify(response, null, 2));
       
-      /*if(country==='United States') window.location.href='/dashboard-us';
-      else */ window.location.href='/dashboard';
+      if(country==='United States') window.location.href='/dashboard-us';
+      else  window.location.href='/dashboard';
   }
 }
 

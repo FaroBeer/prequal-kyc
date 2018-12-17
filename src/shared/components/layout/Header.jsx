@@ -36,8 +36,8 @@ const styles = {
     border: 2,
   },
   logo: {
-    width: 350,
-    height: 40,
+    width: 530,
+    height: 150,
     backgroundImage: `url(${Logo})`,
     backgroundSize: 'contain',
     marginLeft: 'auto',

@@ -7,7 +7,7 @@ const Content = props => {
   console.log(children);
 
   return (
-    <main>
+    <main userState={this.state} _handleSubmit={this._handleSubmit} post={this.post} handleChange={this.handleChange}>
       {children}
     </main>
   );
