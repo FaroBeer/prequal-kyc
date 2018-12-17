@@ -132,10 +132,10 @@ class TextFields extends Component {
     const response = Auth.currentAuthenticatedUser();
     alert(JSON.stringify(response, null, 2));
   }
-  getUser = async (id) => {
-    const response = await API.get('preKYCapi', '/items/object/:' + id);
+  getUser = async () => {
+    const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
     console.log (JSON.stringify(response));
-    }  // doesn't work
+    } 
 
   render() {
 
@@ -143,11 +143,10 @@ class TextFields extends Component {
       bypassCache: false  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
   }).then(user => {
     this.state.email=user.attributes.email;
+    this.getUser();
   })
   .catch(err => console.log(err));
   
-  this.getUser(this.state.email);
-
   const { classes } = this.props;
 
     return (
