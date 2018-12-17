@@ -12,13 +12,14 @@ import axios from 'axios';
 import './FileUpload.css'
 import Amplify, { Auth, Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
 import { FormControl, InputLabel } from "@material-ui/core";
-
+import Background from '../../shared/images/bg_kyc/14122018-02.JPG';
 
 
 
 const styles = theme => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    backgroundImage: `url(${Background})`,
   },
   input: {
     display: 'none',

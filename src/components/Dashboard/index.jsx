@@ -1,77 +1,43 @@
-import React from 'react';
-//import React, { Component } from "react";
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import React, { Component } from "react";
+import { withStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Grid from "@material-ui/core/Grid";
 import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-//import Amplify, { Auth, Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
-import Background from '../../shared/images/bg_kyc/14122018-01.JPG';
+import axios from 'axios';
+//import './FileUpload.css'
+import Amplify, { Auth, Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
+import Background from '../../shared/images/bg_kyc/14122018-03.JPG';
+
+
 
 const styles = theme => ({
   root: {
     flexGrow: 1,
     backgroundImage: `url(${Background})`,
   },
+  input: {
+    display: 'none',
+  },
   card: {
     marginTop: 25,
     minWidth: 275,
     minHeight: 650,
     padding: theme.spacing.unit * 2,
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
+    textAlign: "center",
+    color: theme.palette.text.secondary
   },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
+  container: {
+    display: "flex",
+    flexWrap: "wrap"
   },
-  title: {
-    fontSize: 34,
-  },
-  pos: {
-    fontSize: 20,
-    marginBottom: 10,
-  },
+  
+  dense: {
+    marginTop: 19
+  }
 });
 
-function Home(props) {
-  const { classes } = props;
-  const bull = <span className={classes.bullet}>•</span>;
-
-  return (
-    <div className={classes.root}>
-    <Grid container spacing={24}>
-    <Grid item xs></Grid>
-    <Grid item xs={6}>
-    <Card className={classes.card}>
-      <CardContent>
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
-          Welcome!
-        </Typography>
-        <Typography variant="h5" component="h2">
-				In this section we will ask you to provide information in order to begin the KYC (Know Your Customer) approval process.
-        </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          Welcome!
-        </Typography>
-      </CardContent>
-    </Card>
-    </Grid>
-    <Grid item xs></Grid>
-    </Grid>
-    </div>
-  );
-}
-
-Home.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(Home);
-
-/*class Home extends Component {
+class Dashboard extends Component {
 
   state = {
     email:'',
@@ -123,13 +89,13 @@ export default withStyles(styles)(Home);
       <Card className={classes.card}>
         <CardContent>
           <Typography className={classes.title} color="textSecondary" gutterBottom>
-            Welcome!
+            Dashboard
           </Typography>
           <Typography variant="h5" component="h2">
-          In this section we will ask you to provide information in order to begin the KYC (Know Your Customer) approval process.
+            Ciao {this.state.firstName}
           </Typography>
           <Typography className={classes.pos} color="textSecondary">
-            Welcome!
+            You come from {this.state.country}
           </Typography>
         </CardContent>
       </Card>
@@ -143,4 +109,4 @@ export default withStyles(styles)(Home);
   }
 }
 
-export default withStyles(styles)(Home);*/
+export default withStyles(styles)(Dashboard);

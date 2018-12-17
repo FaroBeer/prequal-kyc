@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
+import Logo from '../../images/Logo-Look-Lateral.png';
 
 const styles = {
   root: {
@@ -20,9 +21,31 @@ const styles = {
     marginLeft: -12,
     marginRight: 20,
   },
+  AppHeader: {
+    height: 150,
+    backgroundColor: '#282c34',
+    opacity: 0.9,
+    padding: 50,
+  }, 
+  register: {
+    color: '#fff',
+    fontSize: 24,
+    borderStyle: 'solid',
+    borderColor: '#fff',
+    borderRadius: 4,
+    border: 2,
+  },
+  logo: {
+    width: 350,
+    height: 40,
+    backgroundImage: `url(${Logo})`,
+    backgroundSize: 'contain',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
 };
 
-function NavBar(props) {
+/*function NavBar(props) {
   const { classes } = props;
   return (
     <div className={classes.root}>
@@ -37,6 +60,24 @@ function NavBar(props) {
           <Link
           to="/register">
           <Button>Register</Button>
+          </Link>
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
+}*/
+
+function NavBar(props) {
+  const { classes } = props;
+  return (
+    <div className={classes.root}>
+      <AppBar position="static" className={classes.AppHeader}>
+        <Toolbar>
+          
+          <div className={classes.logo} />
+          <Link
+          to="/register">
+          <Button className={classes.register}>Register</Button>
           </Link>
         </Toolbar>
       </AppBar>
