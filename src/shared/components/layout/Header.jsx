@@ -29,7 +29,7 @@ const styles = {
   }, 
   register: {
     color: '#fff',
-    fontSize: 24,
+    fontSize: 20,
     borderStyle: 'solid',
     borderColor: '#fff',
     borderRadius: 4,

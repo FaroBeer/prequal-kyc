@@ -55,6 +55,9 @@ class TextFields extends Component {
 
   _handleSubmit(e) {
     e.preventDefault();
+
+    // need to check all fields! noone should be empty, only middle_name
+
     this.post();
     console.log('posting');
   }
@@ -65,10 +68,16 @@ class TextFields extends Component {
     firstName:'',
     middleName:'',
     surname:'',
+    address:'',
+    city:'',
+    zipCode:'',
+    region:'',
     amount:'',
     occupation:'',
     phone:'',
-    country:''
+    country:'',
+    countryResidence:'',
+    dateBirth:'',
   };
 
   handleChange = name => event => {

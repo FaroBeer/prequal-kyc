@@ -3,11 +3,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
+import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 //import Amplify, { Auth, Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
 import Background from '../../shared/images/bg_kyc/14122018-01.JPG';
+//import LogoLL from '../../shared/images/Archivio/kyc_logo_01.png';
+import LogoLL from '../../shared/images/logo_01.png';
 
 const styles = theme => ({
   root: {
@@ -15,7 +18,8 @@ const styles = theme => ({
     backgroundImage: `url(${Background})`,
   },
   card: {
-    marginTop: 25,
+    marginTop: 60,
+    marginBottom: 40,
     minWidth: 275,
     minHeight: 650,
     padding: theme.spacing.unit * 2,
@@ -27,12 +31,28 @@ const styles = theme => ({
     margin: '0 2px',
     transform: 'scale(0.8)',
   },
+  imageLL: {
+    width: 100,
+    backgroundImage: `url(${LogoLL})`,
+    backgroundSize: 'contain',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
   title: {
     fontSize: 34,
+    marginBottom: 30,
+    color: 'rgb(0,0,0,0.54)',
+  },
+  subtitle: {
+    fontSize: 20,
+    marginBottom: 30,
+    color: 'rgb(0,0,0,0.54)',   
   },
   pos: {
     fontSize: 20,
     marginBottom: 10,
+    marginTop: 40,
+    color: 'rgb(0,0,0,0.54)',
   },
 });
 
@@ -47,15 +67,22 @@ function Home(props) {
     <Grid item xs={6}>
     <Card className={classes.card}>
       <CardContent>
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
-          Welcome!
+        
+        <div className={classes.imageLL}></div>
+
+        <Typography className={classes.subtitle}>
+				WELCOME TO LOOK LATERAL SECURITY TOKEN OFFERING
         </Typography>
-        <Typography variant="h5" component="h2">
-				In this section we will ask you to provide information in order to begin the KYC (Know Your Customer) approval process.
+       
+        <Typography className={classes.title} gutterBottom>
+        KYC FIRST STEP<br />PRE-QUALIFICATION PROCEDURE
         </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          Welcome!
+
+        <Typography className={classes.pos}>
+        This procedure is necessary to verify that you are qualified to purchase the Look security token, issued under Reg D and Reg S exemptions.<br /><br />
+        Once you will receive our approval you will have access to the full private placement memorandum, the complete white paper and the STO terms and conditions.
         </Typography>
+
       </CardContent>
     </Card>
     </Grid>
