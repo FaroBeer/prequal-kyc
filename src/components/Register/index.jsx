@@ -60,6 +60,10 @@ const styles = theme => ({
   },
   dense: {
     marginTop: 19
+  },
+  group:{
+    margin: `${theme.spacing.unit}px 0`,
+    display: 'block',
   }
 });
 
@@ -789,7 +793,9 @@ post = async () => {
                     margin="normal"
                   />     
 
+<br />
                   <FormLabel component="legend">Are you an accredited investor (under US law parameters *) ?</FormLabel>
+                  <br />
                   <RadioGroup
                     aria-label="accre"
                     name="accreditedInvestor"
@@ -802,7 +808,9 @@ post = async () => {
                     <FormControlLabel value="false" control={<Radio />} label="No" />
                   </RadioGroup>
                   
+                  <br />
                   <FormLabel component="legend">Please select the size of potential investment you are considering for Look Lateral STO:</FormLabel>
+                  <br />
                   <RadioGroup
                     aria-label="accre"
                     name="amount"
@@ -816,8 +824,9 @@ post = async () => {
                     <FormControlLabel value="200,000 - 499,999 usd" control={<Radio />} label="200,000 - 499,999 usd" />
                     <FormControlLabel value="more than 500,000 usd" control={<Radio />} label="more than 500,000 usd" />
                   </RadioGroup>
-
-
+                    
+                  <br /><br />
+                  
                 </form>
                 <Button className="submitButton" 
                   variant="contained"
