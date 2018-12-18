@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 
 // Components
 import App from './components/App';
+//import App from './components/newApp';
 import Home from './components/Home';
 import Error404 from './components/Error/404';
 import Register from './components/Register';

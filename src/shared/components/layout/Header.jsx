@@ -69,6 +69,7 @@ const styles = {
 
 function NavBar(props) {
   const { classes } = props;
+  console.log(props);
   return (
     <div className={classes.root}>
       <AppBar position="static" className={classes.AppHeader}>

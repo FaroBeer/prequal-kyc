@@ -120,8 +120,8 @@ post = async () => {
       });
       //alert(JSON.stringify(response, null, 2));
       
-      if(country==='United States') window.location.href='/dashboard-us';
-      else  window.location.href='/dashboard';
+      /*if(countryResidence==='United States') window.location.href='/dashboard-us';
+      else*/  window.location.href='/dashboard';
   }
 }
 
