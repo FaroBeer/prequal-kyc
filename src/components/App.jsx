@@ -1,5 +1,5 @@
 import React from 'react';
-import { element } from 'prop-types';
+//import { element } from 'prop-types';
 import Header from '../shared/components/layout/Header';
 import Content from '../shared/components/layout/Content';
 import Footer from '../shared/components/layout/Footer';
@@ -39,7 +39,30 @@ class App extends React.Component {
     //this.post = this.post.bind(this) 
   }
 
-  
+  getUser = async () => {
+    const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
+    //console.log (JSON.stringify(response));
+
+    //check if registered
+    if(response.firstName && response.surname) { //enough to say step1 done
+      this.setState({    // we don't need to set all the state!!      
+        step1:true,
+        firstName:response.firstName,
+        middleName:response.middleName,
+        surname:response.surname,
+        countryCitizenship:response.countryCitizenship,
+        countryResidence:response.countryResidence,
+      });
+    }
+
+    if(response.amount) { //enough to say step2 done
+      this.setState({    // we don't need to set all the state!!      
+        step2:true,
+        accreditedInvestor:response.accreditedInvestor,
+        amount:response.amount,
+      });
+    }
+  }
 
   /*handleChange = name => event => {
     this.setState({
@@ -49,6 +72,7 @@ class App extends React.Component {
 
   _handleSubmit(e) {
     e.preventDefault();
+    console.log(this.children);
     this.post(this.children);
     console.log('posting');
   }
@@ -66,10 +90,10 @@ class App extends React.Component {
     } else {
 
       let middleName = this.state.middleName !== '' ? this.state.middleName : null;
-      let amount = this.state.amount !== '' ? this.state.amount : null;
 
       const response = await API.post('preKYCapi', '/items', {
         body: {
+          step1:true,
           email:this.state.email,
           firstName:this.state.firstName,
           middleName:middleName,
@@ -81,44 +105,15 @@ class App extends React.Component {
           countryCitizenship:this.state.countryCitizenship,
           countryResidence:this.state.countryResidence,
           dateBirth:this.state.dateBirth,
-          amount:amount,
           occupation:this.state.occupation,         
         }
       });
       //alert(JSON.stringify(response, null, 2));
       
-      if(country==='United States') window.location.href='/dashboard-us';
-      else  window.location.href='/dashboard';
-  }*/
+      window.location.href='/investor';
+  };*/
   
-    getUser = async () => {
-      const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
-      console.log (JSON.stringify(response));
-
-      //check if registered
-      if(response.firstName!=='' && response.surname!=='') { //enough to say step1 done
-        this.setState({    // we don't need to set all the state!!      
-          step1:true,
-          firstName:response.firstName,
-          middleName:response.middleName,
-          surname:response.surname,
-          countryCitizenship:response.countryCitizenship,
-          countryResidence:response.countryResidence,
-          
-
-
-        });
-      }
-
-      if(response.amount!=='' && response.accreditedInvestor!=='') { //enough to say step2 done
-        this.setState({    // we don't need to set all the state!!      
-          step2:true,
-          accreditedInvestor:response.accreditedInvestor,
-          amount:response.amount,
-        });
-      }
-
-    }
+    
     
 
   render() {
@@ -132,18 +127,22 @@ class App extends React.Component {
           this.setState({
             email: user.attributes.email
           });
-        console.log ('email: ' + this.state.email);
         this.getUser().bind(this);
       })
       .catch(err => console.log(err));
+    }
+
+    let props = {
+      children:this.props.children,
+      //handleChange:this.handleChange.bind(this)
     }
 
     return (
       <div className="App">
         <Header userState={this.state} />
 
-        
-
+        <Content children={this.props.children} userState={this.state}  />
+          
         <Footer  userState={this.state} />
       </div>
     );

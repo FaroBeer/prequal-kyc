@@ -13,7 +13,7 @@ Amplify.configure(aws_exports);
 const App = props => (
   <div className="App">
     <Header />
-
+    {console.log(props)}
     <Content>
       {props.children}
     </Content>
@@ -21,6 +21,8 @@ const App = props => (
     <Footer />
   </div>
 );
+
+
 
 App.propTypes = {
   children: element

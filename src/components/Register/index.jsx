@@ -62,6 +62,7 @@ class TextFields extends Component {
     console.log('posting');
   }
 
+  
 
   state = {
     email:'',
@@ -120,8 +121,7 @@ post = async () => {
       });
       //alert(JSON.stringify(response, null, 2));
       
-      /*if(countryResidence==='United States') window.location.href='/dashboard-us';
-      else*/  window.location.href='/dashboard';
+      window.location.href='/dashboard';
   }
 }
 
@@ -157,6 +157,8 @@ post = async () => {
   .catch(err => console.log(err));
   
   const { classes } = this.props;
+
+  console.log(this);
 
     return (
       <div className={classes.root}>
@@ -200,9 +202,6 @@ post = async () => {
                     onChange={this.handleChange("surname")}
                     margin="normal"
                   />    
-
-
-
                   <TextField
                     required
                     placeholder="Address"
@@ -750,6 +749,7 @@ post = async () => {
                   </Select></FormControl>
                   
                   <TextField
+                    required
                     type="date"
                     placeholder="Date of Birth"
                     id="dateBirth"
@@ -763,6 +763,7 @@ post = async () => {
                     margin="normal"
                   />     
                   <TextField
+                    required
                     placeholder="Occupation"
                     id="occupation"
                     label="Occupation"
