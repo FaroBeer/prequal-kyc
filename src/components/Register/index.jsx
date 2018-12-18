@@ -21,12 +21,14 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
     backgroundImage: `url(${Background})`,
+    marginTop:-150,
   },
   input: {
     display: 'none',
   },
   card: {
     marginTop: 25,
+    marginBottom: 40,
     minWidth: 275,
     minHeight: 650,
     padding: theme.spacing.unit * 2,

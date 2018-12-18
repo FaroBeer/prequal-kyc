@@ -16,9 +16,10 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
     backgroundImage: `url(${Background})`,
+    marginTop: -150
   },
   card: {
-    marginTop: 60,
+    marginTop: 210,
     marginBottom: 40,
     minWidth: 275,
     minHeight: 650,

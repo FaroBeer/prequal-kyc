@@ -9,6 +9,8 @@ import Button from '@material-ui/core/Button';
 //import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
 import Logo from '../../images/Logo-Look-Lateral.png';
+import { Auth } from 'aws-amplify';
+//import Amplify, { Auth, Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
 
 const styles = {
   root: {
@@ -45,10 +47,20 @@ const styles = {
   },
 };
 
+function signOut(){
+  console.log(Auth);
+  Auth.signOut()
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
+  window.location.reload();
+}
+
 function NavBar(props) {
   
   const { classes } = props;
   let url = '/register'; let label = 'Register';
+
+  
 
   if(props.userState.step1 === false) {
      url = '/register'; label = 'Register';
@@ -67,6 +79,8 @@ function NavBar(props) {
           to={url}>
           <Button className={classes.register}>{label}</Button>
           </Link>
+
+          <Button className={classes.register} onClick={signOut}>Sign Out</Button>
         </Toolbar>
       </AppBar>
     </div>
