@@ -27,7 +27,7 @@ const styles = theme => ({
     display: 'none',
   },
   card: {
-    marginTop: 25,
+    marginTop: 175,
     marginBottom: 40,
     minWidth: 275,
     minHeight: 650,
