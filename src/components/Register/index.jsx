@@ -49,6 +49,11 @@ const styles = theme => ({
     marginRight: theme.spacing.unit,
     width: 500
   },
+  selectOp: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: '100%',
+  },
   dense: {
     marginTop: 19
   }
@@ -245,7 +250,7 @@ post = async () => {
                     onChange={this.handleChange("regionState")}
                     margin="normal"
                   />    
-                  <FormControl required><InputLabel>Country of Residence</InputLabel>
+                  <FormControl required className={classes.selectOp}><InputLabel>Country of Residence</InputLabel>
                   <Select
                     required
                     native
@@ -498,7 +503,7 @@ post = async () => {
                     <option value="Zimbabwe">Zimbabwe</option>
                   </Select></FormControl>
 
-                  <FormControl required><InputLabel>Country of Citizenship</InputLabel>
+                  <FormControl required className={classes.selectOp}><InputLabel>Country of Citizenship</InputLabel>
                   <Select
                     required
                     native
