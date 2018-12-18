@@ -138,6 +138,11 @@ post = async () => {
   getUser = async () => {
     const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
     //if(response) console.log (JSON.stringify(response));
+
+    if(response.step1 === true && response.step2 === true) window.location.href='/';
+    else if(response.step1 === true) window.location.href='/investor';
+    
+
     } 
 
   render() {

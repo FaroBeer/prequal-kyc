@@ -129,6 +129,8 @@ class TextFields extends Component {
         dateBirth:response.dateBirth,
         occupation:response.occupation,      
       });
+
+      if(response.step2 === true) window.location.href='/';
     } 
 
   render() {
