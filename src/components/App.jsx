@@ -41,7 +41,7 @@ class App extends React.Component {
     //if(response) console.log (JSON.stringify(response));
 
     //check if registered
-    if(response.firstName && response.surname) { //enough to say step1 done
+    if(response.firstName && response.surname && this.state.firstName !== response.firstName && this.state.surname !== response.surname) { //enough to say step1 done
       this.setState({    // we don't need to set all the state!!      
         step1:true,
         firstName:response.firstName,
@@ -52,7 +52,7 @@ class App extends React.Component {
       });
     }
 
-    if(response.amount) { //enough to say step2 done
+    if(response.amount && response.amount !== this.state.amount) { //enough to say step2 done
       this.setState({    // we don't need to set all the state!!      
         step2:true,
         accreditedInvestor:response.accreditedInvestor,

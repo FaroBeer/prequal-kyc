@@ -136,7 +136,9 @@ class TextFields extends Component {
   Auth.currentAuthenticatedUser({
       bypassCache: false 
   }).then(user => {
-    this.state.email=user.attributes.email;
+    this.setState({
+      email: user.attributes.email
+    });
     this.getUser();
   })
   .catch(err => console.log(err));

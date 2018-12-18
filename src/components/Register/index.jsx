@@ -136,7 +136,7 @@ post = async () => {
     alert(JSON.stringify(response, null, 2));
   }*/
   getUser = async () => {
-    /*const response = */await API.get('preKYCapi', '/items/object/' + this.state.email);
+    const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
     //if(response) console.log (JSON.stringify(response));
     } 
 
@@ -145,7 +145,11 @@ post = async () => {
   Auth.currentAuthenticatedUser({
       bypassCache: false  
   }).then(user => {
-    this.state.email=user.attributes.email;
+    
+    if(this.state.email !== user.attributes.email)
+      this.setState({
+        email: user.attributes.email
+      });
     this.getUser();
   })
   .catch(err => console.log(err));
