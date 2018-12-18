@@ -77,7 +77,7 @@ function Home(props) {
       <CardContent>
 
         <Typography className={classes.subtitle}>
-				WELCOME TO LOOK LATERAL SECURITY TOKEN OFFERING
+				WELCOME TO THE LOOK LATERAL SECURITY TOKEN OFFERING
         </Typography>
        
         <Typography className={classes.title} gutterBottom>
@@ -86,7 +86,7 @@ function Home(props) {
 
         <Typography className={classes.pos}>
         This procedure is necessary to verify that you are qualified to purchase the Look security token, issued under Reg D and Reg S exemptions.<br /><br />
-        Once you will receive our approval you will have access to the full private placement memorandum, the complete white paper and the STO terms and conditions.
+        Once you receive our approval you will have access to the full private placement memorandum, the complete white paper and the STO terms and conditions.
         </Typography>
 
       </CardContent>

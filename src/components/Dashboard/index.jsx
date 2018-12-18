@@ -74,7 +74,7 @@ class Dashboard extends Component {
           Thank you for your application.
           </Typography>
           <Typography className={classes.pos} color="textSecondary">
-          We will review your position as soon as possible and we will let you know if you are qualified to proceed to the second step of the KYC.
+          We will review your information as soon as possible and we will let you know if you are qualified to proceed to the second step of the KYC.
           </Typography>
         </CardContent>
       </Card>
