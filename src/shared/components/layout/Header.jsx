@@ -31,11 +31,20 @@ const styles = {
   }, 
   register: {
     color: '#fff',
-    fontSize: 20,
+    fontSize: 15,
     borderStyle: 'solid',
     borderColor: '#fff',
     borderRadius: 4,
     border: 2,
+  },
+  signout: {
+    color: '#fff',
+    fontSize: 15,
+    borderStyle: 'solid',
+    borderColor: '#fff',
+    borderRadius: 4,
+    border: 2,
+    marginLeft: 15,
   },
   logo: {
     width: 530,
@@ -80,7 +89,7 @@ function NavBar(props) {
           <Button className={classes.register}>{label}</Button>
           </Link>
 
-          <Button className={classes.register} onClick={signOut}>Sign Out</Button>
+          <Button className={classes.signout} onClick={signOut}>Sign Out</Button>
         </Toolbar>
       </AppBar>
     </div>
