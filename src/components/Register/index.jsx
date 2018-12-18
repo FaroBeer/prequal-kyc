@@ -8,9 +8,10 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Select from '@material-ui/core/Select';
 import Filter1 from '@material-ui/icons/Filter1'
-import axios from 'axios';
+//import axios from 'axios';
 import './FileUpload.css'
-import Amplify, { Auth, Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
+import { Auth, API } from 'aws-amplify';
+//import Amplify, { Auth, Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
 import { FormControl, InputLabel } from "@material-ui/core";
 import Background from '../../shared/images/bg_kyc/14122018-02.JPG';
 
@@ -55,14 +56,9 @@ class TextFields extends Component {
 
   _handleSubmit(e) {
     e.preventDefault();
-
-    // need to check all fields! noone should be empty, only middle_name
-
     this.post();
     console.log('posting');
   }
-
-  
 
   state = {
     email:'',
@@ -100,10 +96,9 @@ post = async () => {
     } else {
 
       let middleName = this.state.middleName !== '' ? this.state.middleName : null;
-      let amount = this.state.amount !== '' ? this.state.amount : null;
-
       const response = await API.post('preKYCapi', '/items', {
         body: {
+          step1:true,
           email:this.state.email,
           firstName:this.state.firstName,
           middleName:middleName,
@@ -115,17 +110,16 @@ post = async () => {
           countryCitizenship:this.state.countryCitizenship,
           countryResidence:this.state.countryResidence,
           dateBirth:this.state.dateBirth,
-          amount:amount,
           occupation:this.state.occupation,         
         }
       });
-      //alert(JSON.stringify(response, null, 2));
-      
-      window.location.href='/dashboard';
+      if(response) console.log(response);
+
+      window.location.href='/investor';
   }
 }
 
-  get = async () => {
+  /*get = async () => {
     console.log('calling api');
     const response = await API.get('preKYCapi', '/items/object/1');
     alert(JSON.stringify(response, null, 2));
@@ -140,16 +134,16 @@ post = async () => {
     console.log('calling api');
     const response = Auth.currentAuthenticatedUser();
     alert(JSON.stringify(response, null, 2));
-  }
+  }*/
   getUser = async () => {
-    const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
-    console.log (JSON.stringify(response));
+    /*const response = */await API.get('preKYCapi', '/items/object/' + this.state.email);
+    //if(response) console.log (JSON.stringify(response));
     } 
 
   render() {
 
   Auth.currentAuthenticatedUser({
-      bypassCache: false  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
+      bypassCache: false  
   }).then(user => {
     this.state.email=user.attributes.email;
     this.getUser();
@@ -157,8 +151,6 @@ post = async () => {
   .catch(err => console.log(err));
   
   const { classes } = this.props;
-
-  console.log(this);
 
     return (
       <div className={classes.root}>

@@ -4,10 +4,10 @@ import { Route, Switch } from 'react-router-dom';
 
 // Components
 import App from './components/App';
-//import App from './components/newApp';
 import Home from './components/Home';
 import Error404 from './components/Error/404';
 import Register from './components/Register';
+import Investor from './components/Investor';
 import Dashboard from './components/Dashboard';
 
 const AppRoutes = () => (
@@ -15,6 +15,7 @@ const AppRoutes = () => (
     <Switch>
       <Route path="/" component={Home} exact />
       <Route path="/register" component={Register} exact />
+      <Route path="/investor" component={Investor} exact />
       <Route path="/dashboard" component={Dashboard} exact />
       <Route component={Error404} />
     </Switch>

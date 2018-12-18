@@ -6,8 +6,8 @@ import Footer from '../shared/components/layout/Footer';
 import './App.css';
 import aws_exports from '../aws-exports';
 import { withAuthenticator } from 'aws-amplify-react';
-import Amplify, { Auth, Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
-
+import Amplify, { Auth, API } from 'aws-amplify';
+//import Amplify, { Auth, Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
 
 Amplify.configure(aws_exports);
 
@@ -34,14 +34,11 @@ class App extends React.Component {
       accreditedInvestor: false,
       amount:'',
     }
-    //this.handleChange = this.handleChange.bind(this)
-    //this._handleSubmit = this._handleSubmit.bind(this) 
-    //this.post = this.post.bind(this) 
   }
 
   getUser = async () => {
     const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
-    //console.log (JSON.stringify(response));
+    //if(response) console.log (JSON.stringify(response));
 
     //check if registered
     if(response.firstName && response.surname) { //enough to say step1 done
@@ -63,58 +60,7 @@ class App extends React.Component {
       });
     }
   }
-
-  /*handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value
-    });
-  };
-
-  _handleSubmit(e) {
-    e.preventDefault();
-    console.log(this.children);
-    this.post(this.children);
-    console.log('posting');
-  }
-
-  post = async () => {
-    console.log('calling api');
-
-    if(this.state.firstName==='' || this.state.surname==='' || 
-        this.state.address==='' || this.state.city==='' || this.state.zipCode==='' || this.state.regionState==='' || 
-        this.state.countryCitizenship==='' || this.state.countryResidence==='' || 
-        this.state.dateBirth==='' || this.state.occupation===''){
-          alert('Please complete all required fields'); 
-          return false;
   
-    } else {
-
-      let middleName = this.state.middleName !== '' ? this.state.middleName : null;
-
-      const response = await API.post('preKYCapi', '/items', {
-        body: {
-          step1:true,
-          email:this.state.email,
-          firstName:this.state.firstName,
-          middleName:middleName,
-          surname:this.state.surname,          
-          address:this.state.address,
-          city:this.state.city,
-          zipCode:this.state.zipCode,
-          regionState:this.state.regionState,
-          countryCitizenship:this.state.countryCitizenship,
-          countryResidence:this.state.countryResidence,
-          dateBirth:this.state.dateBirth,
-          occupation:this.state.occupation,         
-        }
-      });
-      //alert(JSON.stringify(response, null, 2));
-      
-      window.location.href='/investor';
-  };*/
-  
-    
-    
 
   render() {
     
@@ -123,25 +69,24 @@ class App extends React.Component {
       Auth.currentAuthenticatedUser({
         bypassCache: false
       }).then(user => {
+        
         if(this.state.email !== user.attributes.email)
           this.setState({
             email: user.attributes.email
           });
-        this.getUser().bind(this);
+        this.getUser();
       })
       .catch(err => console.log(err));
-    }
-
-    let props = {
-      children:this.props.children,
-      //handleChange:this.handleChange.bind(this)
+   
+    } else {
+      this.getUser();
     }
 
     return (
       <div className="App">
         <Header userState={this.state} />
 
-        <Content children={this.props.children} userState={this.state}  />
+        <Content children={this.props.children} />
           
         <Footer  userState={this.state} />
       </div>

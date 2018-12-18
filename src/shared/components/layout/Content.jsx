@@ -2,29 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Content = props => {
-  const { children } = props.children;
-  //const { handleChangeFieldRegister } = props.handleChangeFieldRegister;   
+  const { children } = props;
+  //const { handleChange } = props[1];
 
-  //<main>{...props}</main>
-  //<main children={children} userState={props.userState} />
-  
-  
-  console.log(props); 
-  /*let props = {
-    children:children,
-    userState:props.userState
-  }*/
   return (
-    
-    
-    <main>{props.children}</main>
-    
+    <main>
+      {children}
+    </main>
   );
 };
 
 Content.propTypes = {
-  children: PropTypes.element.isRequired,
-  //handleChangeFieldRegister: PropTypes.func.isRequired
+  children: PropTypes.element.isRequired
 };
 
 export default Content;

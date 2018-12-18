@@ -4,9 +4,10 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
 import Typography from '@material-ui/core/Typography';
-import axios from 'axios';
+//import axios from 'axios';
 //import './FileUpload.css'
-import Amplify, { Auth, Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
+import { API } from 'aws-amplify';
+//import Amplify, { Auth, Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
 import Background from '../../shared/images/bg_kyc/14122018-03.JPG';
 
 
@@ -38,23 +39,7 @@ const styles = theme => ({
 });
 
 class Dashboard extends Component {
-
-  state = {
-    email:'',
-    firstName:'',
-    middleName:'',
-    surname:'',
-    amount:'',
-    occupation:'',
-    phone:'',
-    country:''
-  };
-
-  user = async () => {
-    console.log('calling api');
-    const response = Auth.currentAuthenticatedUser();
-    alert(JSON.stringify(response, null, 2));
-  }
+  
   getUser = async () => {
     const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
     console.log (JSON.stringify(response));
@@ -71,13 +56,13 @@ class Dashboard extends Component {
 
   render() {
 
-    Auth.currentAuthenticatedUser({
+    /*Auth.currentAuthenticatedUser({
       bypassCache: false  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
     }).then(user => {
       this.state.email=user.attributes.email;
       this.getUser();
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log(err));*/
 
     const { classes } = this.props;
 
@@ -92,10 +77,10 @@ class Dashboard extends Component {
             Dashboard
           </Typography>
           <Typography variant="h5" component="h2">
-            Ciao {this.state.firstName}
+          Thank you for your application.
           </Typography>
           <Typography className={classes.pos} color="textSecondary">
-            You come from {this.state.country}
+          We will review your position as soon as possible and we will let you know if you are qualified to proceed to the second step of the KYC.
           </Typography>
         </CardContent>
       </Card>
