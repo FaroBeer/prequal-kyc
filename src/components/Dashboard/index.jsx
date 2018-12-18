@@ -58,14 +58,6 @@ class Dashboard extends Component {
 
   render() {
 
-    /*Auth.currentAuthenticatedUser({
-      bypassCache: false  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
-    }).then(user => {
-      this.state.email=user.attributes.email;
-      this.getUser();
-    })
-    .catch(err => console.log(err));*/
-
     const { classes } = this.props;
 
     return (

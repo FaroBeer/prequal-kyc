@@ -41,6 +41,11 @@ const styles = theme => ({
   dense: {
     marginTop: 19
   },
+  selectOp: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: '100%',
+  },
   group: {
     margin: `${theme.spacing.unit}px 0`,
   },
@@ -109,31 +114,33 @@ class TextFields extends Component {
           registered:true,
         }
       });
-      if(response) console.log(response);
+      //if(response) console.log(response);
       window.location.href='/';
   }
 }
 
   getUser = async () => {
     const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
-    //console.log (JSON.stringify(response));
+    console.log (JSON.stringify(response));
+    //if(response.step2 === true && response.amount !=='') window.location.href='/';
+    
     this.setState({   
-        step1:true,
-        firstName:response.firstName,
-        middleName:response.middleName,
-        surname:response.surname,
-        address:response.address,
-        city:response.city,
-        zipCode:response.zipCode,
-        regionState:response.regionState,
-        countryCitizenship:response.countryCitizenship,
-        countryResidence:response.countryResidence,
-        dateBirth:response.dateBirth,
-        occupation:response.occupation,      
-      });
+      step1:true,
+      firstName:response.firstName,
+      middleName:response.middleName,
+      surname:response.surname,
+      address:response.address,
+      city:response.city,
+      zipCode:response.zipCode,
+      regionState:response.regionState,
+      countryCitizenship:response.countryCitizenship,
+      countryResidence:response.countryResidence,
+      dateBirth:response.dateBirth,
+      occupation:response.occupation,      
+    });
 
-      if(response.step2 === true) window.location.href='/';
-    } 
+     
+  } 
 
   render() {
 
@@ -143,7 +150,7 @@ class TextFields extends Component {
     this.setState({
       email: user.attributes.email
     });
-    this.getUser();
+    //this.getUser().bind(this);
   })
   .catch(err => console.log(err));
   

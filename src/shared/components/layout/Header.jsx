@@ -73,8 +73,8 @@ function NavBar(props) {
 
   if(props.userState.step1 === false) {
      url = '/register'; label = 'Register';
-  } else if(props.userState.step1 === true && props.userState.step2 === false) {
-    url = '/investor'; label = 'Register'; 
+  //} else if(props.userState.step1 === true && props.userState.step2 === false) {
+  //  url = '/investor'; label = 'Register'; 
   } else {
     url = '/dashboard'; label = 'Dashboard';
   }

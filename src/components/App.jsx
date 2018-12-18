@@ -49,16 +49,18 @@ class App extends React.Component {
         surname:response.surname,
         countryCitizenship:response.countryCitizenship,
         countryResidence:response.countryResidence,
+        accreditedInvestor:response.accreditedInvestor,
+        amount:response.amount,
       });
     }
 
-    if(response.amount && response.amount !== this.state.amount) { //enough to say step2 done
+    /*if(response.amount && response.amount !== this.state.amount) { //enough to say step2 done
       this.setState({    // we don't need to set all the state!!      
         step2:true,
         accreditedInvestor:response.accreditedInvestor,
         amount:response.amount,
       });
-    }
+    }*/
   }
   
 

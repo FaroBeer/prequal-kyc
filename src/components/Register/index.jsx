@@ -7,7 +7,11 @@ import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Select from '@material-ui/core/Select';
-import Filter1 from '@material-ui/icons/Filter1'
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import {  FormControlLabel } from "@material-ui/core";
+import FormLabel from '@material-ui/core/FormLabel';
+import Filter1 from '@material-ui/icons/Filter1';
 //import axios from 'axios';
 import './FileUpload.css'
 import { Auth, API } from 'aws-amplify';
@@ -96,7 +100,8 @@ post = async () => {
     if(this.state.firstName==='' || this.state.surname==='' || 
         this.state.address==='' || this.state.city==='' || this.state.zipCode==='' || this.state.regionState==='' || 
         this.state.countryCitizenship==='' || this.state.countryResidence==='' || 
-        this.state.dateBirth==='' || this.state.occupation===''){
+        this.state.dateBirth==='' || this.state.occupation==='' || 
+        this.state.amount==='' || this.state.accreditedInvestor===''){
           alert('Please complete all required fields'); 
           return false;
   
@@ -117,12 +122,14 @@ post = async () => {
           countryCitizenship:this.state.countryCitizenship,
           countryResidence:this.state.countryResidence,
           dateBirth:this.state.dateBirth,
-          occupation:this.state.occupation,         
+          occupation:this.state.occupation,  
+          amount:this.state.amount,  
+          accreditedInvestor:this.state.accreditedInvestor,       
         }
       });
       if(response) console.log(response);
 
-      window.location.href='/investor';
+      window.location.href='/';
   }
 }
 
@@ -146,8 +153,9 @@ post = async () => {
     const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
     //if(response) console.log (JSON.stringify(response));
 
-    if(response.step1 === true && response.step2 === true) window.location.href='/';
-    else if(response.step1 === true) window.location.href='/investor';
+    //if(response.step1 === true && response.step2 === true) window.location.href='/';
+    //else 
+      if(response.step1 === true) window.location.href='/';
     
 
     } 
@@ -780,6 +788,35 @@ post = async () => {
                     onChange={this.handleChange("occupation")}
                     margin="normal"
                   />     
+
+                  <FormLabel component="legend">Are you an accredited investor (under US law parameters *) ?</FormLabel>
+                  <RadioGroup
+                    aria-label="accre"
+                    name="accreditedInvestor"
+                    placeholder="Are you an accredited investor (under US law parameters *) ?"
+                    className={classes.group}
+                    value={this.state.accreditedInvestor}
+                    onChange={this.handleChange("accreditedInvestor")}
+                  >
+                    <FormControlLabel value="true" control={<Radio />} label="Yes" />
+                    <FormControlLabel value="false" control={<Radio />} label="No" />
+                  </RadioGroup>
+                  
+                  <FormLabel component="legend">Please select the size of potential investment you are considering for Look Lateral STO:</FormLabel>
+                  <RadioGroup
+                    aria-label="accre"
+                    name="amount"
+                    className={classes.group}
+                    value={this.state.amount}
+                    onChange={this.handleChange("amount")}
+                  >
+                    <FormControlLabel value="less than 5,000 usd" control={<Radio />} label="less than 5,000 usd" />
+                    <FormControlLabel value="5,000 - 49,999 usd" control={<Radio />} label="5,000 - 49,999 usd" />
+                    <FormControlLabel value="50,000 - 199,999 usd" control={<Radio />} label="50,000 - 199,999 usd" />
+                    <FormControlLabel value="200,000 - 499,999 usd" control={<Radio />} label="200,000 - 499,999 usd" />
+                    <FormControlLabel value="more than 500,000 usd" control={<Radio />} label="more than 500,000 usd" />
+                  </RadioGroup>
+
 
                 </form>
                 <Button className="submitButton" 
