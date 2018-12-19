@@ -1,5 +1,4 @@
 import React from 'react';
-//import { element } from 'prop-types';
 import Header from '../shared/components/layout/Header';
 import Content from '../shared/components/layout/Content';
 import Footer from '../shared/components/layout/Footer';
@@ -7,7 +6,6 @@ import './App.css';
 import aws_exports from '../aws-exports';
 import { withAuthenticator } from 'aws-amplify-react';
 import Amplify, { Auth, API } from 'aws-amplify';
-//import Amplify, { Auth, Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
 
 Amplify.configure(aws_exports);
 

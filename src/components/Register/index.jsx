@@ -12,14 +12,10 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import {  FormControlLabel } from "@material-ui/core";
 import FormLabel from '@material-ui/core/FormLabel';
 import Filter1 from '@material-ui/icons/Filter1';
-//import axios from 'axios';
 import './FileUpload.css'
 import { Auth, API } from 'aws-amplify';
-//import Amplify, { Auth, Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
 import { FormControl, InputLabel } from "@material-ui/core";
 import Background from '../../shared/images/bg_kyc/14122018-02.JPG';
-
-
 
 const styles = theme => ({
   root: {
