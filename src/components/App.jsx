@@ -1,16 +1,33 @@
 import React from 'react';
-//import { element } from 'prop-types';
 import Header from '../shared/components/layout/Header';
 import Content from '../shared/components/layout/Content';
 import Footer from '../shared/components/layout/Footer';
 import './App.css';
 import aws_exports from '../aws-exports';
-import { withAuthenticator } from 'aws-amplify-react';
 import Amplify, { Auth, API } from 'aws-amplify';
-//import Amplify, { Auth, Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
+import { withAuthenticator, SignIn } from 'aws-amplify-react';
+import { I18n } from 'aws-amplify';
+import Background from '../shared/images/bg_kyc/14122018-01.JPG';
 
 Amplify.configure(aws_exports);
 
+const AppTheme = {
+  formSection: { 'backgroundColor':'lightgrey' },
+  formContainer: { 'backgroundImage': `url(${Background})`, 'min-height': '950px', 'margin': '0 0 0 0' }
+}
+
+const authScreenLabels = {
+  en: {
+      'Sign In': 'Sign In',
+      'Sign in to your account': 'Welcome to the Look Lateral STO Prequalification',
+      'Create account': 'Create account'
+  }
+}
+
+I18n.setLanguage('en');
+I18n.putVocabularies(authScreenLabels);
+
+// Main App component
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -86,6 +103,7 @@ class App extends React.Component {
 
     return (
       <div className="App">
+
         <Header userState={this.state} />
 
         <Content children={this.props.children} />
@@ -97,4 +115,4 @@ class App extends React.Component {
 
 }
 
-export default withAuthenticator (App);
+export default withAuthenticator(App, false, [], null, AppTheme);
