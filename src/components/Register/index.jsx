@@ -18,7 +18,8 @@ import { Auth, API } from 'aws-amplify';
 //import Amplify, { Auth, Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
 import { FormControl, InputLabel } from "@material-ui/core";
 import Background from '../../shared/images/bg_kyc/14122018-02.JPG';
-import { Link } from 'react-router-dom';
+
+
 
 const styles = theme => ({
   root: {
@@ -132,7 +133,7 @@ post = async () => {
       });
       if(response) console.log(response);
 
-      window.location.href='/dashboard';
+      window.location.href='/';
   }
 }
 
@@ -158,7 +159,7 @@ post = async () => {
 
     //if(response.step1 === true && response.step2 === true) window.location.href='/';
     //else 
-      if(response.step1 === true) window.location.href='/dashboard';
+      if(response.step1 === true) window.location.href='/';
     
 
     } 

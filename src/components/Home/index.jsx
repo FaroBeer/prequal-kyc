@@ -7,7 +7,10 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+//import Amplify, { Auth, Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
 import Background from '../../shared/images/bg_kyc/14122018-01.JPG';
+//import LogoLL from '../../shared/images/Archivio/kyc_logo_01.png';
+//import LogoLL from '../../shared/images/logo_01.png';
 
 const styles = theme => ({
   root: {
