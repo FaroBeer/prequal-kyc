@@ -114,6 +114,7 @@ post = async () => {
       let middleName = this.state.middleName !== '' ? this.state.middleName : null;
       const response = await API.post('preKYCapi', '/items', {
         body: {
+          registrationDate: new Date(),
           step1:true,
           email:this.state.email,
           firstName:this.state.firstName,
