@@ -34,8 +34,6 @@ const styles = theme => ({
   },
   imageLL: {
     width: 100,
-    //backgroundImage: `url(${LogoLL})`,
-    //backgroundSize: 'contain',
     marginLeft: 'auto',
     marginRight: 'auto',
   },
@@ -59,7 +57,6 @@ const styles = theme => ({
 
 function Home(props) {
   const { classes } = props;
-  const bull = <span className={classes.bullet}>•</span>;
 
   return (
     <div className={classes.root}>
@@ -70,7 +67,8 @@ function Home(props) {
 
       <CardMedia
           className={classes.imageLL}
-          image="../../shared/images/logo_01.png"
+          component='img' 
+          image={require("../../shared/images/logo_01.png")} 
           title="Look Lateral KYC"
         />
 
