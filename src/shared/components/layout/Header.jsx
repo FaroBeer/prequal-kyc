@@ -7,7 +7,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 //import IconButton from '@material-ui/core/IconButton';
 //import MenuIcon from '@material-ui/icons/Menu';
-import { Link } from 'react-router-dom';
 import Logo from '../../images/Logo-Look-Lateral.png';
 import { Auth } from 'aws-amplify';
 //import Amplify, { Auth, Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
@@ -29,7 +28,7 @@ const styles = {
     opacity: 0.9,
     padding: 50,
   },
-  registerButton: {
+/*  registerButton: {
     textDecoration: 'none',
     position: 'relative',
     right: 20
@@ -41,7 +40,7 @@ const styles = {
     borderColor: '#fff',
     borderRadius: 4,
     border: 2,
-  },
+  },*/
   signout: {
     color: '#fff',
     fontSize: 15,
@@ -83,13 +82,14 @@ function NavBar(props) {
 
   
 
-  if(props.userState.step1 === false) {
+/*  if(props.userState.step1 === false) {
      url = '/register'; label = 'Register';
   //} else if(props.userState.step1 === true && props.userState.step2 === false) {
   //  url = '/investor'; label = 'Register'; 
   } else {
     url = '/dashboard'; label = 'Dashboard';
-  }
+  }*/
+  
   return (
     <div className={classes.root}>
       <AppBar position="static" className={classes.AppHeader}>
@@ -100,11 +100,6 @@ function NavBar(props) {
             <img src={Logo} width='530' height='150'></img> 
           </div>
           </a>
-          <Link className={classes.registerButton}
-          to={url}>
-          <Button className={classes.register}>{label}</Button>
-          </Link>
-
           <Button className={classes.signout} onClick={signOut}>Sign Out</Button>
         </Toolbar>
       </AppBar>

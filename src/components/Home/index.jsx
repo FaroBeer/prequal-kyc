@@ -7,6 +7,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
 //import Amplify, { Auth, Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
 import Background from '../../shared/images/bg_kyc/14122018-01.JPG';
 //import LogoLL from '../../shared/images/Archivio/kyc_logo_01.png';
@@ -26,11 +28,6 @@ const styles = theme => ({
     padding: theme.spacing.unit * 2,
     textAlign: 'center',
     color: theme.palette.text.secondary,
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
   },
   imageLL: {
     width: 100,
@@ -53,10 +50,33 @@ const styles = theme => ({
     marginTop: 40,
     color: 'rgb(0,0,0,0.54)',
   },
+  registerButton: {
+    textDecoration: 'none',
+  }, 
+  register: {
+    color: '#fff',
+    fontSize: 15,
+    borderStyle: 'solid',
+    borderColor: '#fff',
+    borderRadius: 4,
+    border: 2,
+  },
 });
 
 function Home(props) {
+  
   const { classes } = props;
+  let url = '/register'; let label = 'Register';
+    
+    
+    
+  if(this.state.step1 === false) {
+    url = '/register'; label = 'Register';
+    //} else if(props.userState.step1 === true && props.userState.step2 === false) {
+    //  url = '/investor'; label = 'Register'; 
+  } else {
+    url = '/dashboard'; label = 'Dashboard';
+  }
 
   return (
     <div className={classes.root}>
@@ -64,40 +84,46 @@ function Home(props) {
     <Grid item xs></Grid>
     <Grid item xs={6}>
     <Card className={classes.card}>
-
-      <CardMedia
-          className={classes.imageLL}
-          component='img' 
-          image={require("../../shared/images/logo_01.png")} 
-          title="Look Lateral KYC"
-        />
-
-      <CardContent>
-
-        <Typography className={classes.subtitle}>
-				WELCOME TO THE LOOK LATERAL SECURITY TOKEN OFFERING
-        </Typography>
-       
-        <Typography className={classes.title} gutterBottom>
-        KYC FIRST STEP<br />PRE-QUALIFICATION PROCEDURE
-        </Typography>
-
-        <Typography className={classes.pos}>
-        This procedure is necessary to verify that you are qualified to purchase the Look security token, issued under Reg D and Reg S exemptions.<br /><br />
-        Once you receive our approval you will have access to the full private placement memorandum, the complete white paper and the STO terms and conditions.
-        </Typography>
-
-      </CardContent>
+    
+    <CardMedia
+    className={classes.imageLL}
+    component='img' 
+    image={require("../../shared/images/logo_01.png")} 
+    title="Look Lateral KYC"
+    />
+    
+    <CardContent>
+    
+    <Typography className={classes.subtitle}>
+    WELCOME TO THE LOOK LATERAL SECURITY TOKEN OFFERING
+    </Typography>
+    
+    <Typography className={classes.title} gutterBottom>
+    KYC FIRST STEP<br />PRE-QUALIFICATION PROCEDURE
+    </Typography>
+    
+    <Typography className={classes.pos}>
+    This procedure is necessary to verify that you are qualified to purchase the Look security token, issued under Reg D and Reg S exemptions.<br /><br />
+    Once you receive our approval you will have access to the full private placement memorandum, the complete white paper and the STO terms and conditions.
+    </Typography>
+    
+    <Link className={classes.registerButton}
+          to={url}>
+      <Button className={classes.register}>{label}</Button>
+    </Link>
+    
+    </CardContent>
     </Card>
     </Grid>
     <Grid item xs></Grid>
     </Grid>
     </div>
-  );
-}
-
-Home.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(Home);
+    );
+  }
+  
+  Home.propTypes = {
+    classes: PropTypes.object.isRequired,
+  };
+  
+  export default withStyles(styles)(Home);
+  
