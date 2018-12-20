@@ -28,6 +28,9 @@ const styles = {
     backgroundColor: '#282c34',
     opacity: 0.9,
     padding: 50,
+  },
+  registerButton: {
+    textDecoration: 'none'
   }, 
   register: {
     color: '#fff',
@@ -83,8 +86,9 @@ function NavBar(props) {
       <AppBar position="static" className={classes.AppHeader}>
         <Toolbar>
           
-          <div className={classes.logo} />
-          <Link
+          <a href="https://www.looklateral.com/" >
+          <div className={classes.logo} /></a>
+          <Link className={classes.registerButton}
           to={url}>
           <Button className={classes.register}>{label}</Button>
           </Link>
