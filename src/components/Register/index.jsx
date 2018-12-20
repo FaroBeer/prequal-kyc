@@ -11,6 +11,12 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import {  FormControlLabel } from "@material-ui/core";
 import FormLabel from '@material-ui/core/FormLabel';
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
 import Filter1 from '@material-ui/icons/Filter1';
 import './FileUpload.css'
 import { Auth, API } from 'aws-amplify';
@@ -60,6 +66,16 @@ const styles = theme => ({
   group:{
     margin: `${theme.spacing.unit}px 0`,
     display: 'block',
+  },
+  investorDialog: {
+    color: '#333',
+    fontWeight: 'bold',
+    //fontSize: '100%',
+  },
+  investorDialogHover: {
+    color: '#f00',
+    fontWeight: 'bold',
+    //fontSize: '110%',
   }
 });
 
@@ -85,12 +101,27 @@ class TextFields extends Component {
     dateBirth:'',
     occupation:'',
     amount:'',
+
+    open: false,
+    buttonIsHovered: false,
   };
 
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value
     });
+  };
+
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  setButtonHovered = (value) => {
+    this.setState({ buttonIsHovered: value});
   };
 
   
@@ -790,9 +821,37 @@ post = async () => {
                     margin="normal"
                   />     
 
-<br />
-                  <FormLabel component="legend">Are you an accredited investor (under US law parameters *) ?</FormLabel>
                   <br />
+                  <FormLabel component="legend">
+                    Are you an accredited investor 
+                    <span 
+                        onClick={this.handleClickOpen} 
+                        onMouseEnter={() => this.setButtonHovered(true)} 
+                        onMouseLeave={() => this.setButtonHovered(false)}
+                        className={this.state.buttonIsHovered ? classes.investorDialogHover : classes.investorDialog}
+                        > (under US law parameters * ) </span> ?
+                    
+                    </FormLabel>
+                  
+                  <Dialog
+                    open={this.state.open}
+                    onClose={this.handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                  >
+                    <DialogTitle id="alert-dialog-title">{"Accredited Investor"}</DialogTitle>
+                    <DialogContent>
+                      <DialogContentText id="alert-dialog-description">
+                        An accredited investor is meant as:<br />
+                        personal net worth over 1 million usd either alone or together with a spouse, excluding the value of the person's primary residence;<br />
+                        OR<br />
+                        earned income that exceeded 200,000 usd (or 300,000 usd with a spouse) in each of the prior two years
+
+                      </DialogContentText>
+                    </DialogContent>
+                  </Dialog>
+                  <br />
+
                   <RadioGroup
                     aria-label="accre"
                     name="accreditedInvestor"
