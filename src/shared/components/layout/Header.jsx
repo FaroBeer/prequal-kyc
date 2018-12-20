@@ -30,7 +30,9 @@ const styles = {
     padding: 50,
   },
   registerButton: {
-    textDecoration: 'none'
+    textDecoration: 'none',
+    position: 'relative',
+    right: 20
   }, 
   register: {
     color: '#fff',
@@ -48,15 +50,22 @@ const styles = {
     borderRadius: 4,
     border: 2,
     marginLeft: 15,
+    position: 'relative',
+    right: 20,
+    whiteSpace: 'nowrap'
   },
   logo: {
     width: 530,
     height: 150,
-    backgroundImage: `url(${Logo})`,
+//    backgroundImage: `url(${Logo})`,
     backgroundSize: 'contain',
     marginLeft: 'auto',
     marginRight: 'auto',
   },
+  linkLogo: {
+    width:'70%',
+    paddingLeft: '15%'
+  }
 };
 
 function signOut(){
@@ -86,8 +95,11 @@ function NavBar(props) {
       <AppBar position="static" className={classes.AppHeader}>
         <Toolbar>
           
-          <a href="https://www.looklateral.com/" >
-          <div className={classes.logo} /></a>
+          <a href="https://www.looklateral.com/" className={classes.linkLogo}>
+          <div className={classes.logo}>
+            <img src={Logo} width='530' height='150'></img> 
+          </div>
+          </a>
           <Link className={classes.registerButton}
           to={url}>
           <Button className={classes.register}>{label}</Button>
