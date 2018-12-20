@@ -30,19 +30,19 @@ const styles = theme => ({
     color: theme.palette.text.secondary,
   },
   imageLL: {
-    width: 100,
+    width: 250,
     marginLeft: 'auto',
     marginRight: 'auto',
   },
   title: {
-    fontSize: 34,
-    marginBottom: 30,
-    color: 'rgb(0,0,0,0.54)',
+    fontSize: 28,
+    //marginBottom: 30,
+    color: '#00f',
   },
   subtitle: {
     fontSize: 20,
     marginBottom: 30,
-    color: 'rgb(0,0,0,0.54)',   
+    color: 'rgb(0,0,0,0.9)',   
   },
   pos: {
     fontSize: 20,
@@ -62,6 +62,19 @@ const styles = theme => ({
     border: 2,
     marginTop:40,
   },
+  tableHome: {
+    width: '100%',
+    marginBottom: 50,
+  },
+  tdImage: {
+    width: '50%',
+  },
+  tdText: {
+    width: '50%',
+    paddingLeft: 10,
+    textAlign: 'left',
+    verticalAlign: 'center',
+  }
 });
 
 //function Home(props) {
@@ -92,7 +105,7 @@ class Home extends Component {
 
   getUser = async () => {
     const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
-    console.log(response);
+    //console.log(response);
     if(response){
       if(response.step1 === true) {
         this.setState({
@@ -132,23 +145,30 @@ class Home extends Component {
       <Grid item xs></Grid>
       <Grid item xs={6}>
       <Card className={classes.card}>
-      
-      <CardMedia
-        className={classes.imageLL}
-        component='img' 
-        image={require("../../shared/images/logo_01.png")} 
-        title="Look Lateral KYC"
-      />
-      
+            
       <CardContent>
       
         <Typography className={classes.subtitle}>
         WELCOME TO THE LOOK LATERAL SECURITY TOKEN OFFERING
         </Typography>
         
-        <Typography className={classes.title} gutterBottom>
-        KYC FIRST STEP<br />PRE-QUALIFICATION PROCEDURE
-        </Typography>
+        <table className={classes.tableHome}>
+          <tr>
+            <td className={classes.tdImage}>
+              <CardMedia
+                className={classes.imageLL}
+                component='img' 
+                image={require("../../shared/images/logo_01.png")} 
+                title="Look Lateral KYC"
+              />
+            </td>
+            <td className={classes.tdText}>
+              <Typography className={classes.title} gutterBottom>
+              FIRST STEP<br />PRE-QUALIFICATION<br />PROCEDURE
+              </Typography>
+            </td>
+          </tr>
+        </table>
         
         <Typography className={classes.pos}>
         This procedure is necessary to verify that you are qualified to purchase the Look security token, issued under Reg D and Reg S exemptions.<br /><br />
