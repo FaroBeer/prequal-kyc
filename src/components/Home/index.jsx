@@ -67,9 +67,6 @@ const styles = theme => ({
 //function Home(props) {
 class Home extends Component {
 
-  url = '/register'; 
-  label = 'Register';
-
   state = {
     email:'',
     firstName:'',
@@ -86,7 +83,7 @@ class Home extends Component {
     amount:'',
     step1: '',
 
-    url:'/register',
+    url: '/register',
     label: 'Register',
 
     open: false,
@@ -95,18 +92,20 @@ class Home extends Component {
 
   getUser = async () => {
     const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
-    
-    if(response.step1 === false) {
-      this.setState({
-        url: '/register',
-        label: 'Register',
-      });
+    console.log(response);
+    if(response){
+      if(response.step1 === true) {
+        this.setState({
+          url: '/dashboard',
+          label: 'Dashboard',
+        });
 
-    } else {
-      this.setState({
-        url: '/dashboard',
-        label: 'Dashboard',
-      });
+      } else {
+        this.setState({
+          url: '/register',
+          label: 'Register',
+        });
+      }
     }
   } 
   

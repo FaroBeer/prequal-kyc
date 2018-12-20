@@ -78,7 +78,7 @@ function signOut(){
 function NavBar(props) {
   
   const { classes } = props;
-  let url = '/register'; let label = 'Register';
+  //let url = '/register'; let label = 'Register';
 
   
 

@@ -6,7 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from '@material-ui/core/Typography';
 //import axios from 'axios';
 //import './FileUpload.css'
-import { API } from 'aws-amplify';
+import { Auth, API } from 'aws-amplify';
 //import Amplify, { Auth, Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
 import Background from '../../shared/images/bg_kyc/14122018-03.JPG';
 
@@ -41,24 +41,65 @@ const styles = theme => ({
 });
 
 class Dashboard extends Component {
+
+  state = {
+    email:'',
+    firstName:'',
+    middleName:'',
+    surname:'',
+    address:'',
+    city:'',
+    zipCode:'',
+    regionState:'',  
+    countryCitizenship:'',
+    countryResidence:'',
+    dateBirth:'',
+    occupation:'',
+    amount:'',
+    step1: '',
+
+    url: '/register',
+    label: 'Register',
+
+    open: false,
+    buttonIsHovered: false,
+  };
+
   
   getUser = async () => {
     const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
     console.log (JSON.stringify(response));
 
-    this.state.email = response.email;
+    if(response.step1 === true && response.email !== '') {}
+    else window.location.href= '/';
+
+    /*this.state.email = response.email;
     this.state.firstName = response.firstName;
     this.state.middleName = response.middleName;
     this.state.surname = response.surname;
     this.state.amount = response.amount;
     this.state.occupation = response.occupation;
     this.state.phone = response.phone;
-    this.state.country = response.country;
+    this.state.country = response.country;*/
   } 
+
+  
 
   render() {
 
     const { classes } = this.props;
+    
+    Auth.currentAuthenticatedUser({
+      bypassCache: false  
+    }).then(user => {
+      
+      if(this.state.email !== user.attributes.email)
+        this.setState({
+          email: user.attributes.email
+        });
+      this.getUser();
+    })
+    .catch(err => console.log(err));
 
     return (
       <div className={classes.root}>
