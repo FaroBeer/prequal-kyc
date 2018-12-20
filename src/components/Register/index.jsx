@@ -848,13 +848,14 @@ post = async () => {
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                   >
-                    <DialogTitle id="alert-dialog-title">{"Accredited Investor"}</DialogTitle>
+                    <DialogTitle id="alert-dialog-title">{"Accredited Investor under US law parameters:"}</DialogTitle>
                     <DialogContent>
                       <DialogContentText id="alert-dialog-description">
-                        An accredited investor is meant as:<br />
-                        personal net worth over 1 million usd either alone or together with a spouse, excluding the value of the person's primary residence;<br />
+                        <ul>
+                          <li>personal net worth over 1 million usd either alone or together with a spouse, excluding the value of the person's primary residence;</li>
                         OR<br />
-                        earned income that exceeded 200,000 usd (or 300,000 usd with a spouse) in each of the prior two years
+                        <li>earned income that exceeded 200,000 usd (or 300,000 usd with a spouse) in each of the prior two years</li>
+                        </ul>
 
                       </DialogContentText>
                     </DialogContent>
