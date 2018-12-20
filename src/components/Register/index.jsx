@@ -58,14 +58,16 @@ const styles = theme => ({
   selectOp: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: '100%',
+    width: 500,
+    marginTop: theme.spacing.unit*2,
+    marginBottom: theme.spacing.unit
   },
   dense: {
     marginTop: 19
   },
   group:{
     margin: `${theme.spacing.unit}px 0`,
-    display: 'block',
+    display: 'flex',
   },
   investorDialog: {
     color: '#333',
@@ -76,6 +78,12 @@ const styles = theme => ({
     color: '#f00',
     fontWeight: 'bold',
     //fontSize: '110%',
+  },
+  radioboxLabel: {
+    marginTop: theme.spacing.unit*5,
+    marginBottom: theme.spacing.unit,
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
   }
 });
 
@@ -822,7 +830,7 @@ post = async () => {
                   />     
 
                   <br />
-                  <FormLabel component="legend">
+                  <FormLabel component="legend" className={classes.radioboxLabel}>
                     Are you an accredited investor 
                     <span 
                         onClick={this.handleClickOpen} 
@@ -865,7 +873,9 @@ post = async () => {
                   </RadioGroup>
                   
                   <br />
-                  <FormLabel component="legend">Please select the size of potential investment you are considering for Look Lateral STO:</FormLabel>
+                  <FormLabel component="legend" className={classes.radioboxLabel}>
+                    Please select the size of potential investment you are considering for Look Lateral STO:
+                  </FormLabel>
                   <br />
                   <RadioGroup
                     aria-label="accre"
