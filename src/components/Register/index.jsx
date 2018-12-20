@@ -48,17 +48,17 @@ const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: 500
+    width: 'calc(100% - 32px)',
   },
   Select: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: 500
+    width: 'calc(100% - 32px)',
   },
   selectOp: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: 500,
+    width: 'calc(100% - 32px)',
     marginTop: theme.spacing.unit*2,
     marginBottom: theme.spacing.unit
   },
@@ -72,18 +72,19 @@ const styles = theme => ({
   investorDialog: {
     color: '#333',
     fontWeight: 'bold',
-    //fontSize: '100%',
+    cursor: 'pointer',
   },
   investorDialogHover: {
     color: '#f00',
     fontWeight: 'bold',
-    //fontSize: '110%',
+    cursor: 'pointer',
   },
   radioboxLabel: {
     marginTop: theme.spacing.unit*5,
     marginBottom: theme.spacing.unit,
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
+    width: 'calc(100% - 32px)',
   }
 });
 
