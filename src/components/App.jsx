@@ -10,8 +10,8 @@ import Amplify, { Auth, API } from 'aws-amplify';
 Amplify.configure(aws_exports);
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor(props/*, context*/) {
+    super(props/*, context*/);
     this.state = {
       registered:false,
       approved:false,
@@ -82,17 +82,23 @@ class App extends React.Component {
       this.getUser();
     }
 
-    return (
-      <div className="App">
-        <Header userState={this.state} />
+    //if (this.props.authState == "signedIn") {
+      return (
+        
+        <div className="App">
+          <Header userState={this.state} />
 
-        <Content children={this.props.children} />
-          
-        <Footer  userState={this.state} />
-      </div>
-    );
+          <Content children={this.props.children} />
+            
+          <Footer  userState={this.state} />
+        </div>
+      );
+    //} else {
+      //return null;
+    //}
   }
 
 }
 
 export default withAuthenticator (App);
+//export default App;
