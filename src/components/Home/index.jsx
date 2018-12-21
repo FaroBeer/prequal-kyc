@@ -33,9 +33,10 @@ const styles = theme => ({
     width: '100%',
     marginLeft: 'auto',
     marginRight: 'auto',
+    maxWidth: 250,
   },
   title: {
-    fontSize: 25,
+    fontSize: 20,
     //marginBottom: 30,
     color: '#00f',
   },
@@ -154,7 +155,6 @@ class Home extends Component {
             height: document.documentElement.clientHeight
         }
       });
-      alert(this.state.viewport.width);
     }
 
     var displayTable, displayMobile;
@@ -206,7 +206,7 @@ class Home extends Component {
                 image={require("../../shared/images/logo_01.png")} 
                 title="Look Lateral KYC"
               />
-
+              <br />
               <Typography className={classes.title} gutterBottom>
               FIRST STEP<br />PRE-QUALIFICATION<br />PROCEDURE
               </Typography>
