@@ -8,7 +8,7 @@ import Home from './components/Home';
 import Error404 from './components/Error/404';
 import Register from './components/Register';
 import Dashboard from './components/Dashboard';
-import { Authenticator } from 'aws-amplify-react';
+import { Authenticator, Greetings, SignIn, ConfirmSignIn, RequireNewPassword, SignUp, ConfirmSignUp, VerifyContact, ForgotPassword, TOTPSetup } from 'aws-amplify-react';
 
 import { AmplifyTheme } from 'aws-amplify-react';
 import Background from './shared/images/bg_kyc/14122018-01.JPG';
@@ -31,15 +31,24 @@ const MyTheme = Object.assign( {}, AmplifyTheme, {
 });
 
 const AppRoutes = () => (
-  <Authenticator theme={MyTheme}>
-  <App>
-    <Switch>
-      <Route path="/" component={Home} exact />
-      <Route path="/register" component={Register} exact />
-      <Route path="/dashboard" component={Dashboard} exact />
-      <Route component={Error404} />
-    </Switch>
-  </App>
+  <Authenticator theme={MyTheme} hideDefault={true}>
+    <SignIn/>
+    <ConfirmSignIn/>
+    <RequireNewPassword/>
+    <SignUp/>
+    <ConfirmSignUp/>
+    <VerifyContact/>
+    <ForgotPassword/>
+    <TOTPSetup/>
+    
+    <App>
+      <Switch>
+        <Route path="/" component={Home} exact />
+        <Route path="/register" component={Register} exact />
+        <Route path="/dashboard" component={Dashboard} exact />
+        <Route component={Error404} />
+      </Switch>
+    </App>
   </Authenticator>
 );
 
