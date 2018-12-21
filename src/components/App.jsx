@@ -82,7 +82,7 @@ class App extends React.Component {
       this.getUser();
     }
 
-    //if (this.props.authState == "signedIn") {
+    if (this.props.authState == "signedIn") {
       return (
         
         <div className="App">
@@ -93,12 +93,12 @@ class App extends React.Component {
           <Footer  userState={this.state} />
         </div>
       );
-    //} else {
-      //return null;
-    //}
+    } else {
+      return null;
+    }
   }
 
 }
 
-export default withAuthenticator (App);
-//export default App;
+//export default withAuthenticator (App);
+export default App;
