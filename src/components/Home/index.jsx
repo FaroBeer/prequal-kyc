@@ -1,4 +1,3 @@
-//import React from 'react';
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -9,10 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import Amplify, { Auth, Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
+import { Auth, API } from 'aws-amplify';
 import Background from '../../shared/images/bg_kyc/14122018-01.JPG';
-//import LogoLL from '../../shared/images/Archivio/kyc_logo_01.png';
-//import LogoLL from '../../shared/images/logo_01.png';
 
 const styles = theme => ({
   root: {

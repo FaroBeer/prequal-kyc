@@ -8,7 +8,7 @@ import Home from './components/Home';
 import Error404 from './components/Error/404';
 import Register from './components/Register';
 import Dashboard from './components/Dashboard';
-import { Authenticator, Greetings, SignIn, ConfirmSignIn, RequireNewPassword, SignUp, ConfirmSignUp, VerifyContact, ForgotPassword, TOTPSetup } from 'aws-amplify-react';
+import { Authenticator, SignIn, ConfirmSignIn, RequireNewPassword, SignUp, ConfirmSignUp, VerifyContact, ForgotPassword, TOTPSetup } from 'aws-amplify-react';
 
 import { AmplifyTheme } from 'aws-amplify-react';
 import Background from './shared/images/bg_kyc/14122018-01.JPG';

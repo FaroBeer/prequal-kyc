@@ -212,33 +212,6 @@
 					"env": "dev"
 				}
 			}
-		},
-		"analyticsprequalkyc": {
-			"Type": "AWS::CloudFormation::Stack",
-			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/pre-kyc-20181213120006-deployment/amplify-cfn-templates/analytics/pinpoint-cloudformation-template.json",
-				"Parameters": {
-					"appName": "prequalkyc",
-					"roleName": "pinpointLambdaRole4652a914",
-					"cloudWatchPolicyName": "cloudWatchPolicy4652a914",
-					"pinpointPolicyName": "pinpointPolicy4652a914",
-					"authPolicyName": "pinpoint_amplify_4652a914",
-					"unauthPolicyName": "pinpoint_amplify_4652a914",
-					"authRoleName": {
-						"Ref": "AuthRoleName"
-					},
-					"unauthRoleName": {
-						"Ref": "UnauthRoleName"
-					},
-					"authRoleArn": {
-						"Fn::GetAtt": [
-							"AuthRole",
-							"Arn"
-						]
-					},
-					"env": "dev"
-				}
-			}
 		}
 	},
 	"Outputs": {

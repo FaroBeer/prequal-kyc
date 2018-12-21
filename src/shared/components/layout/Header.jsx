@@ -3,13 +3,9 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-//import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-//import IconButton from '@material-ui/core/IconButton';
-//import MenuIcon from '@material-ui/icons/Menu';
 import Logo from '../../images/Logo-Look-Lateral.png';
 import { Auth } from 'aws-amplify';
-//import Amplify, { Auth, Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
 
 const styles = {
   root: {
@@ -45,19 +41,6 @@ const styles = {
     marginLeft: 'auto',
     marginRight: 'auto',
   },
-  /*  registerButton: {
-    textDecoration: 'none',
-    position: 'relative',
-    right: 20
-  }, 
-  register: {
-    color: '#fff',
-    fontSize: 15,
-    borderStyle: 'solid',
-    borderColor: '#fff',
-    borderRadius: 4,
-    border: 2,
-  },*/
   signout: {
     color: '#fff',
     fontSize: 14,
@@ -84,17 +67,6 @@ function signOut(){
 function NavBar(props) {
   
   const { classes } = props;
-  //let url = '/register'; let label = 'Register';
-
-  
-
-/*  if(props.userState.step1 === false) {
-     url = '/register'; label = 'Register';
-  //} else if(props.userState.step1 === true && props.userState.step2 === false) {
-  //  url = '/investor'; label = 'Register'; 
-  } else {
-    url = '/dashboard'; label = 'Dashboard';
-  }*/
   
   return (
     <div className={classes.root}>
@@ -103,7 +75,7 @@ function NavBar(props) {
           
           <a href="https://www.looklateral.com/" className={classes.linkLogo}>
           <div className={classes.divlogo}>
-            <img src={Logo} className={classes.logo}></img> 
+            <img src={Logo} className={classes.logo} alt="LL Logo"></img> 
           </div>
           </a>
           <Button className={classes.signout} onClick={signOut}>Sign Out</Button>
