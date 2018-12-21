@@ -28,7 +28,24 @@ const styles = {
     opacity: 0.9,
     padding: 50,
   },
-/*  registerButton: {
+
+  linkLogo: {
+    width:'70vw',
+    paddingLeft: '15vw'
+  },
+  divlogo: {
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  logo: {
+    maxWidth: 530,
+    maxHeight: 150,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  /*  registerButton: {
     textDecoration: 'none',
     position: 'relative',
     right: 20
@@ -43,28 +60,17 @@ const styles = {
   },*/
   signout: {
     color: '#fff',
-    fontSize: 15,
+    fontSize: 14,
     borderStyle: 'solid',
     borderColor: '#fff',
     borderRadius: 4,
     border: 2,
-    marginLeft: 15,
+    //marginLeft: 15,
     position: 'relative',
-    right: 20,
+    right: -20,
     whiteSpace: 'nowrap'
   },
-  logo: {
-    width: 530,
-    height: 150,
-//    backgroundImage: `url(${Logo})`,
-    backgroundSize: 'contain',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-  linkLogo: {
-    width:'70%',
-    paddingLeft: '15%'
-  }
+
 };
 
 function signOut(){
@@ -96,8 +102,8 @@ function NavBar(props) {
         <Toolbar>
           
           <a href="https://www.looklateral.com/" className={classes.linkLogo}>
-          <div className={classes.logo}>
-            <img src={Logo} width='530' height='150'></img> 
+          <div className={classes.divlogo}>
+            <img src={Logo} className={classes.logo}></img> 
           </div>
           </a>
           <Button className={classes.signout} onClick={signOut}>Sign Out</Button>
