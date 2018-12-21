@@ -30,12 +30,12 @@ const styles = theme => ({
     color: theme.palette.text.secondary,
   },
   imageLL: {
-    width: 250,
+    width: '100%',
     marginLeft: 'auto',
     marginRight: 'auto',
   },
   title: {
-    fontSize: 28,
+    fontSize: 25,
     //marginBottom: 30,
     color: '#00f',
   },
@@ -74,7 +74,9 @@ const styles = theme => ({
     paddingLeft: 10,
     textAlign: 'left',
     verticalAlign: 'center',
-  }
+  },
+  displayNone: { display:'none'},
+  displayBlock: { display:'block'},
 });
 
 //function Home(props) {
@@ -101,6 +103,11 @@ class Home extends Component {
 
     open: false,
     buttonIsHovered: false,
+
+    viewport: {
+      width: 0,
+      height: 0,
+    },
   };
 
   getUser = async () => {
@@ -139,47 +146,83 @@ class Home extends Component {
   
     const { classes } = this.props;
 
+
+    if(this.state.viewport.width !== document.documentElement.clientWidth){
+      this.setState({
+        viewport: {
+            width: document.documentElement.clientWidth,
+            height: document.documentElement.clientHeight
+        }
+      });
+      alert(this.state.viewport.width);
+    }
+
+    var displayTable, displayMobile;
+    if(this.state.viewport.width > 900){
+      displayTable =  classes.tableHome;
+      displayMobile = classes.displayNone;
+    } else {
+      displayTable =  classes.displayNone;
+      displayMobile = classes.displayBlock;
+    }
+
+
     return (
       <div className={classes.root}>
       <Grid container spacing={24}>
       <Grid item xs></Grid>
       <Grid item xs={6}>
-      <Card className={classes.card}>
-            
-      <CardContent>
-      
-        <Typography className={classes.subtitle}>
-        WELCOME TO THE LOOK LATERAL SECURITY TOKEN OFFERING
-        </Typography>
+      <Card className={classes.card}>           
+        <CardContent>
         
-        <table className={classes.tableHome}>
-          <tr>
-            <td className={classes.tdImage}>
+          <Typography className={classes.subtitle}>
+          WELCOME TO THE LOOK LATERAL SECURITY TOKEN OFFERING
+          </Typography>
+          
+          <table className={displayTable}>
+          <tbody>
+            <tr>
+              <td className={classes.tdImage}>
+                <CardMedia
+                  className={classes.imageLL}
+                  component='img' 
+                  image={require("../../shared/images/logo_01.png")} 
+                  title="Look Lateral KYC"
+                />
+              </td>
+              <td className={classes.tdText}>
+                <Typography className={classes.title} gutterBottom>
+                FIRST STEP<br />PRE-QUALIFICATION<br />PROCEDURE
+                </Typography>
+              </td>
+            </tr>
+          </tbody>
+          </table>
+
+          <div className={displayMobile}>
               <CardMedia
                 className={classes.imageLL}
                 component='img' 
                 image={require("../../shared/images/logo_01.png")} 
                 title="Look Lateral KYC"
               />
-            </td>
-            <td className={classes.tdText}>
+
               <Typography className={classes.title} gutterBottom>
               FIRST STEP<br />PRE-QUALIFICATION<br />PROCEDURE
               </Typography>
-            </td>
-          </tr>
-        </table>
-        
-        <Typography className={classes.pos}>
-        This procedure is necessary to verify that you are qualified to purchase the Look security token, issued under Reg D and Reg S exemptions.<br /><br />
-        Once you receive our approval you will have access to the full private placement memorandum, the complete white paper and the STO terms and conditions.
-        </Typography>
-        
-        <Link className={classes.registerButton} to={this.state.url}>
-          <Button className={classes.register}>{this.state.label}</Button>
-        </Link>
-        
-      </CardContent>
+          
+          </div>
+          
+          <Typography className={classes.pos}>
+          This procedure is necessary to verify that you are qualified to purchase the Look security token, issued under Reg D and Reg S exemptions.<br /><br />
+          Once you receive our approval you will have access to the full private placement memorandum, the complete white paper and the STO terms and conditions.
+          </Typography>
+          
+          <Link className={classes.registerButton} to={this.state.url}>
+            <Button className={classes.register}>{this.state.label}</Button>
+          </Link>
+          
+        </CardContent>
       </Card>
       </Grid>
       <Grid item xs></Grid>
