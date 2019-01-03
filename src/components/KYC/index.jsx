@@ -349,7 +349,6 @@ post = async () => {
     
     this.getUser();}
 
-    const { activeStep } = this.state.activeStep;
     const steps = getSteps();
     const connector = (
       <StepConnector
@@ -372,7 +371,7 @@ post = async () => {
               <CardContent>
   
           <div className={classes.stepper}>
-            <Stepper activeStep={activeStep} connector={connector}>
+            <Stepper activeStep={this.state.activeStep} connector={connector}>
               {steps.map(label => (
                 <Step key={label}>
                   <StepLabel>{label}</StepLabel>
@@ -381,7 +380,7 @@ post = async () => {
             </Stepper>
 
             <div>
-              {activeStep === steps.length ? (
+              {this.state.activeStep === steps.length ? (
                 <div>
                   <Typography className={classes.instructions}>
                     All steps completed - you&apos;re finished
@@ -399,7 +398,7 @@ post = async () => {
                   }</Typography>
                   <div>
                     <Button
-                      disabled={activeStep === 0}
+                      disabled={this.state.activeStep === 0}
                       onClick={this.handleBackStep}
                       className={classes.button}
                     >
@@ -411,7 +410,7 @@ post = async () => {
                       onClick={this.handleNextStep}
                       className={classes.button}
                     >
-                      {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                      {this.state.activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                     </Button>
                   </div>
                 </div>
