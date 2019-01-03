@@ -33,6 +33,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid";
+import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
 //import axios from 'axios';
 //import './FileUpload.css'
 import { Auth, API } from 'aws-amplify';
@@ -92,6 +94,17 @@ const styles = theme => ({
     fontSize: 20,
     color: 'rgb(0,0,256,0.54)',
   },
+  kycbutton: {
+    color: '#000',
+    fontSize: 15,
+    borderStyle: 'solid',
+    borderColor: '#000',
+    borderRadius: 4,
+    border: 2,
+    marginTop:40,
+  },
+  classShow: {display:'flex', textDecoration: 'none',},
+  classHide: {display:'none'}
 });
 
 class Dashboard extends Component {
@@ -119,8 +132,9 @@ class Dashboard extends Component {
     amount:'',
     accreditedInvestor: false,
 
-    url: '/register',
-    label: 'Register',
+    url: '',
+    label: '',
+    classKYCbutton: this.props.classHide,
 
     open: false,
     buttonIsHovered: false,
@@ -130,6 +144,15 @@ class Dashboard extends Component {
   getUser = async () => {
     const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
     console.log (JSON.stringify(response));
+
+    if(response.approved === true && response.prekyc === true && this.state.label === ''  && this.state.url === ''){
+      
+      this.setState({
+        classKYCbutton: this.props.classShow,
+        label: 'Complete the KYC',
+        url: '/complete'  
+      });
+    }
 
     if(response.prekyc === true && response.email !== '') {}
     else window.location.href= '/';
@@ -153,6 +176,8 @@ class Dashboard extends Component {
       this.getUser();
     })
     .catch(err => console.log(err));
+
+    
 
     return (
       <div className={classes.root}>
@@ -181,6 +206,10 @@ class Dashboard extends Component {
                 <Typography className={classes.text} gutterBottom>
                 We will review your information as soon as possible and we will let you know if you are qualified to proceed to the second step of the KYC.
                 </Typography>
+
+                <Link className={this.state.classKYCbutton} to={this.state.url}>
+                  <Button className={classes.kycbutton}>{this.state.label}</Button>
+                </Link>
 
               </td>
             </tr>
