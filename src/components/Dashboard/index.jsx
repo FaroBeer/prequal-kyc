@@ -1,3 +1,31 @@
+/*
+
+  STATE  =  USER RECORD
+
+  registrationDatePreKYC: new Date(),
+  registrationDateKYC: new Date(),
+  registered:false,                                                                     //end of the process
+  approved:false,                                                                       //elegible for KYC  
+  waiting: false,                                                                        //for typo2 states  
+  prekyc:false,                                                                         //pre kyc done
+  step1:false, step2:false, step3:false, step4:false, step5:false, activeStep: 0,       //for the KYC
+  email:'',
+  firstName:'',
+  middleName:'',
+  surname:'',
+  address:'',
+  city:'',
+  zipCode:'',
+  regionState:'',  
+  countryCitizenship:'',
+  countryResidence:'',
+  dateBirth:'',
+  occupation:'',
+  amount:'',
+  accreditedInvestor: false,
+
+*/
+
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Card from '@material-ui/core/Card';
@@ -69,6 +97,13 @@ const styles = theme => ({
 class Dashboard extends Component {
 
   state = {
+    registrationDatePreKYC: false,
+    registrationDateKYC: false,
+    registered:false,                                                                     
+    approved:false,     
+    waiting: false,                                                                  
+    prekyc:false,                                                                         
+    step1:false, step2:false, step3:false, step4:false, step5:false, activeStep: 0,       
     email:'',
     firstName:'',
     middleName:'',
@@ -82,7 +117,7 @@ class Dashboard extends Component {
     dateBirth:'',
     occupation:'',
     amount:'',
-    step1: '',
+    accreditedInvestor: false,
 
     url: '/register',
     label: 'Register',
@@ -96,17 +131,9 @@ class Dashboard extends Component {
     const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
     console.log (JSON.stringify(response));
 
-    if(response.step1 === true && response.email !== '') {}
+    if(response.prekyc === true && response.email !== '') {}
     else window.location.href= '/';
 
-    /*this.state.email = response.email;
-    this.state.firstName = response.firstName;
-    this.state.middleName = response.middleName;
-    this.state.surname = response.surname;
-    this.state.amount = response.amount;
-    this.state.occupation = response.occupation;
-    this.state.phone = response.phone;
-    this.state.country = response.country;*/
   } 
 
   
@@ -154,6 +181,7 @@ class Dashboard extends Component {
                 <Typography className={classes.text} gutterBottom>
                 We will review your information as soon as possible and we will let you know if you are qualified to proceed to the second step of the KYC.
                 </Typography>
+
               </td>
             </tr>
           </table>

@@ -1,3 +1,31 @@
+/*
+
+  STATE  =  USER RECORD
+
+  registrationDatePreKYC: new Date(),
+  registrationDateKYC: new Date(),
+  registered:false,                                                                     //end of the process
+  approved:false,                                                                       //elegible for KYC  
+  waiting: false,                                                                        //for typo2 states  
+  prekyc:false,                                                                         //pre kyc done
+  step1:false, step2:false, step3:false, step4:false, step5:false, activeStep: 0,       //for the KYC
+  email:'',
+  firstName:'',
+  middleName:'',
+  surname:'',
+  address:'',
+  city:'',
+  zipCode:'',
+  regionState:'',  
+  countryCitizenship:'',
+  countryResidence:'',
+  dateBirth:'',
+  occupation:'',
+  amount:'',
+  accreditedInvestor: false,
+
+*/
+
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
@@ -88,6 +116,8 @@ const styles = theme => ({
   }
 });
 
+const typo2State = ['Japan', 'Australia', 'South Africa', 'Canada'];
+
 class TextFields extends Component {
 
   _handleSubmit(e) {
@@ -96,7 +126,15 @@ class TextFields extends Component {
     console.log('posting');
   }
 
+  
+
   state = {
+    registrationDatePreKYC: false,
+    registrationDateKYC: false,
+    registered:false,
+    approved:false,
+    prekyc:false,
+    step1:false, step2:false, step3:false, step4:false, step5:false, activeStep: 0,   //for the KYC
     email:'',
     firstName:'',
     middleName:'',
@@ -110,6 +148,7 @@ class TextFields extends Component {
     dateBirth:'',
     occupation:'',
     amount:'',
+    accreditedInvestor: false,
 
     open: false,
     buttonIsHovered: false,
@@ -146,15 +185,23 @@ post = async () => {
           return false;
   
     } else {
+      
+      // logic for different user lists
+      let checkWaiting = (typo2State.indexOf(this.state.countryResidence) > -1) && this.state.accreditedInvestor === false;
+      let checkApproved = (this.state.countryResidence === "United States" && this.state.accreditedInvestor === false) || checkWaiting === true ? false : true;
 
-      let middleName = this.state.middleName !== '' ? this.state.middleName : null;
       const response = await API.post('preKYCapi', '/items', {
         body: {
-          registrationDate: new Date(),
-          step1:true,
+          registrationDatePreKYC: new Date(),
+          registrationDateKYC: false,
+          registered:false,
+          approved:checkApproved,   // if us not accredited or waiting
+          waiting: checkWaiting,   // if in state typo2 and not accredited   
+          prekyc:true,
+          step1:false, step2:false, step3:false, step4:false, step5:false, activeStep: 0,   //for the KYC
           email:this.state.email,
           firstName:this.state.firstName,
-          middleName:middleName,
+          middleName:this.state.middleName || '',
           surname:this.state.surname,          
           address:this.state.address,
           city:this.state.city,
@@ -168,7 +215,7 @@ post = async () => {
           accreditedInvestor:this.state.accreditedInvestor,       
         }
       });
-      if(response) console.log(response);
+      //if(response) console.log(response);
 
       window.location.href='/dashboard';
   }
@@ -196,7 +243,7 @@ post = async () => {
 
     //if(response.step1 === true && response.step2 === true) window.location.href='/';
     //else 
-      if(response.step1 === true) window.location.href='/';
+      if(response.prekyc === true) window.location.href='/';
     
 
     } 

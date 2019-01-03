@@ -1,3 +1,32 @@
+/*
+
+  STATE  =  USER RECORD
+
+  registrationDatePreKYC: new Date(),
+  registrationDateKYC: new Date(),
+  registered:false,                                                                     //end of the process
+  approved:false,                                                                       //elegible for KYC  
+  waiting: false,                                                                        //for typo2 states  
+  prekyc:false,                                                                         //pre kyc done
+  step1:false, step2:false, step3:false, step4:false, step5:false, activeStep: 0,       //for the KYC
+  email:'',
+  firstName:'',
+  middleName:'',
+  surname:'',
+  address:'',
+  city:'',
+  zipCode:'',
+  regionState:'',  
+  countryCitizenship:'',
+  countryResidence:'',
+  dateBirth:'',
+  occupation:'',
+  amount:'',
+  accreditedInvestor: false,
+
+*/
+
+
 import React from 'react';
 import Header from '../shared/components/layout/Header';
 import Content from '../shared/components/layout/Content';
@@ -9,13 +38,16 @@ import Amplify, { Auth, API } from 'aws-amplify';
 Amplify.configure(aws_exports);
 
 class App extends React.Component {
-  constructor(props/*, context*/) {
-    super(props/*, context*/);
+  constructor(props) {
+    super(props);
     this.state = {
-      registered:false,
-      approved:false,
-      step1:false,
-      step2:false,
+      registrationDatePreKYC: false,
+      registrationDateKYC: false,
+      registered:false,                                                                    
+      approved:false,                                                             
+      waiting: false,                                                             
+      prekyc:false,                                                               
+      step1:false, step2:false, step3:false, step4:false, step5:false, activeStep: 0,  
       email:'',
       firstName:'',
       middleName:'',
@@ -35,12 +67,13 @@ class App extends React.Component {
 
   getUser = async () => {
     const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
-    //if(response) console.log (JSON.stringify(response));
 
     //check if registered
     if(response.firstName && response.surname && this.state.firstName !== response.firstName && this.state.surname !== response.surname) { //enough to say step1 done
       this.setState({    // we don't need to set all the state!!      
-        step1:true,
+        approved:response.approved || false,
+        prekyc:response.prekyc || false,
+        step1:false, step2:false, step3:false, step4:false, step5:false, activeStep: 0,   //for the KYC
         firstName:response.firstName,
         middleName:response.middleName,
         surname:response.surname,

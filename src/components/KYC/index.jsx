@@ -1,32 +1,47 @@
+/*
+
+  STATE  =  USER RECORD
+
+  registrationDatePreKYC: new Date(),
+  registrationDateKYC: new Date(),
+  registered:false,                                                                     //end of the process
+  approved:false,                                                                       //elegible for KYC  
+  waiting: false,                                                                        //for typo2 states  
+  prekyc:false,                                                                         //pre kyc done
+  step1:false, step2:false, step3:false, step4:false, step5:false, activeStep: 0,       //for the KYC
+  email:'',
+  firstName:'',
+  middleName:'',
+  surname:'',
+  address:'',
+  city:'',
+  zipCode:'',
+  regionState:'',  
+  countryCitizenship:'',
+  countryResidence:'',
+  dateBirth:'',
+  occupation:'',
+  amount:'',
+  accreditedInvestor: false,
+
+*/
+
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-//import TextField from "@material-ui/core/TextField";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-/*import Select from '@material-ui/core/Select';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import {  FormControlLabel } from "@material-ui/core";
-import FormLabel from '@material-ui/core/FormLabel';
 
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-*/
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import StepConnector from '@material-ui/core/StepConnector';
 import Typography from '@material-ui/core/Typography';
 
-//import Filter1 from '@material-ui/icons/Filter1';
 import './FileUpload.css'
 import { Auth, API } from 'aws-amplify';
-//import { FormControl, InputLabel } from "@material-ui/core";
 import Background from '../../shared/images/bg_kyc/14122018-02.JPG';
 
 import Step1UpdateData from './Step1UpdateData';
@@ -133,10 +148,13 @@ class TextFields extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      registered:false,
-      approved:false,
-      prekyc:false,
-      step1:false,   step2:false,   step3:false,
+      registrationDatePreKYC: new Date(),
+      registrationDateKYC: new Date(),
+      registered:false,                                                                     
+      approved:false,                                                                      
+      waiting: false,                                                                       
+      prekyc:false,                                                                  
+      step1:false, step2:false, step3:false, step4:false, step5:false, activeStep: 0,   
       email:'',
       firstName:'',
       middleName:'',
@@ -153,7 +171,6 @@ class TextFields extends Component {
       amount:'',
       open: false,
       buttonIsHovered: false,
-      activeStep: 0,  
     };
     this.handleChange = this.handleChange.bind(this);
     this._handleSubmit = this._handleSubmit.bind(this);
@@ -164,30 +181,6 @@ class TextFields extends Component {
     this.post();
     console.log('posting');
   }
-
-/*  state = {
-    registered:false,
-    approved:false,
-    prekyc:false,
-    step1:false,   step2:false,   step3:false,
-    email:'',
-    firstName:'',
-    middleName:'',
-    surname:'',
-    address:'',
-    city:'',
-    zipCode:'',
-    regionState:'',
-    occupation:'',
-    countryCitizenship:'',
-    countryResidence:'',
-    dateBirth:'',
-    accreditedInvestor: false,
-    amount:'',
-    open: false,
-    buttonIsHovered: false,
-    activeStep: 0,
-  }; */
 
   handleChange = name => event => {
     this.setState({
@@ -287,22 +280,7 @@ post = async () => {
   }
 }
 
-  /*get = async () => {
-    console.log('calling api');
-    const response = await API.get('preKYCapi', '/items/object/1');
-    alert(JSON.stringify(response, null, 2));
-    return response;
-  }
-  list = async () => {
-    console.log('calling api');
-    const response = await API.get('preKYCapi', '/items/1');
-    alert(JSON.stringify(response, null, 2));
-  }
-  user = async () => {
-    console.log('calling api');
-    const response = Auth.currentAuthenticatedUser();
-    alert(JSON.stringify(response, null, 2));
-  }*/
+
   getUser = async () => {
     const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
     if(response) console.log ('user:\n' + JSON.stringify(response));
@@ -311,9 +289,7 @@ post = async () => {
     //if(response.step1 === true && response.step2 === true) window.location.href='/';
     //else 
     //  if(response.step1 === true) window.location.href='/';
-    
-
-    }
+  }
     
   
 

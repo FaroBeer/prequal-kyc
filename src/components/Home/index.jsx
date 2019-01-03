@@ -1,3 +1,31 @@
+/*
+
+  STATE  =  USER RECORD
+
+  registrationDatePreKYC: new Date(),
+  registrationDateKYC: new Date(),
+  registered:false,                                                                     //end of the process
+  approved:false,                                                                       //elegible for KYC  
+  waiting: false,                                                                        //for typo2 states  
+  prekyc:false,                                                                         //pre kyc done
+  step1:false, step2:false, step3:false, step4:false, step5:false, activeStep: 0,       //for the KYC
+  email:'',
+  firstName:'',
+  middleName:'',
+  surname:'',
+  address:'',
+  city:'',
+  zipCode:'',
+  regionState:'',  
+  countryCitizenship:'',
+  countryResidence:'',
+  dateBirth:'',
+  occupation:'',
+  amount:'',
+  accreditedInvestor: false,
+
+*/
+
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -77,10 +105,16 @@ const styles = theme => ({
   displayBlock: { display:'block'},
 });
 
-//function Home(props) {
 class Home extends Component {
 
   state = {
+    registrationDatePreKYC: new Date(),
+    registrationDateKYC: false,
+    registered:false,  
+    waiting: false,      
+    approved:false,   
+    prekyc:false,      
+    step1:false, step2:false, step3:false, step4:false, step5:false, activeStep: 0,   //for the KYC
     email:'',
     firstName:'',
     middleName:'',
@@ -94,13 +128,12 @@ class Home extends Component {
     dateBirth:'',
     occupation:'',
     amount:'',
-    step1: '',
+    accreditedInvestor: false,
 
-    url: '/register',
-    label: 'Register',
-
-    open: false,
-    buttonIsHovered: false,
+    url: '/register',         //for redirect
+    label: 'Register',        //for redirect
+    open: false,              //for popup accreditation
+    buttonIsHovered: false,   //for popup accreditation
 
     viewport: {
       width: 0,
@@ -112,7 +145,7 @@ class Home extends Component {
     const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
     //console.log(response);
     if(response){
-      if(response.step1 === true) {
+      if(response.prekyc === true) {
         this.setState({
           url: '/dashboard',
           label: 'Dashboard',
