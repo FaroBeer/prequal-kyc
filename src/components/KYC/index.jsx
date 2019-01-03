@@ -128,21 +128,6 @@ function getSteps() {
   return ['Insert your data', 'Upload ID', 'Upload address', 'Payment'];
 }
 
-/*function getStepContent(step, state, classes) {
-  switch (step) {
-    case 0:
-      return <Step1UpdateData userState={state} classes={classes}  />
-    case 1:
-      return 'Upload your ID';
-    case 2:
-      return 'Upload your address';
-    case 3:
-      return 'payment page';
-    default:
-      return 'Unknown step';
-  }
-}*/
-
 class TextFields extends Component {
 
   constructor(props) {
@@ -388,14 +373,7 @@ post = async () => {
                 </div>
               ) : (
                 <div>
-                  <Typography className={classes.instructions}>{
-                    
-                            this.getStepContent()
-                            
-
-
-                            
-                  }</Typography>
+                  <div className={classes.instructions}>{this.getStepContent()}</div>
                   <div>
                     <Button
                       disabled={this.state.activeStep === 0}
@@ -407,6 +385,7 @@ post = async () => {
                     <Button
                       variant="contained"
                       color="primary"
+                      disabled={this.state.step1 === 0 || this.state.prekyc === 0}
                       onClick={this.handleNextStep}
                       className={classes.button}
                     >
