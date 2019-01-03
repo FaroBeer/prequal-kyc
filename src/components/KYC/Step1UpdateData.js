@@ -85,7 +85,7 @@ class Step1UpdateData extends Component {
                     id="last-name"
                     label="Surname"
                     className={classes.textField}
-                    value={userState.lastName}
+                    value={userState.surname}
                     onChange={handleChange("surname")}
                     margin="normal"
                   />    

@@ -256,9 +256,9 @@ class TextFields extends Component {
     }
   };
   handleBackStep = () => {
-    this.setState(state => ({
+    (this.state.activeStep>0) ? this.setState(state => ({
       activeStep: state.activeStep - 1,
-    }));
+    })) : this.setState(state => ({activeStep: 0}))
   };
 
   
@@ -321,7 +321,7 @@ post = async () => {
   getUser = async () => {
     const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
     if(response) console.log ('user:\n' + JSON.stringify(response));
-      this.setState(response); alert();
+      this.setState(response);
     console.log('state:\n'+ JSON.stringify(this.state));
     //if(response.step1 === true && response.step2 === true) window.location.href='/';
     //else 
