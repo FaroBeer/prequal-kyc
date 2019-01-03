@@ -126,13 +126,12 @@ class TextFields extends Component {
     console.log('posting');
   }
 
-  
-
   state = {
     registrationDatePreKYC: false,
     registrationDateKYC: false,
     registered:false,
     approved:false,
+    waiting:false,
     prekyc:false,
     step1:false, step2:false, step3:false, step4:false, step5:false, activeStep: 0,   //for the KYC
     email:'',
@@ -187,7 +186,7 @@ post = async () => {
     } else {
       
       // logic for different user lists
-      let checkWaiting = (typo2State.indexOf(this.state.countryResidence) > -1) && this.state.accreditedInvestor === false;
+      let checkWaiting = (typo2State.indexOf(this.state.countryResidence) > -1) && this.state.accreditedInvestor === false ? true : false;
       let checkApproved = (this.state.countryResidence === "United States" && this.state.accreditedInvestor === false) || checkWaiting === true ? false : true;
 
       const response = await API.post('preKYCapi', '/items', {
@@ -201,7 +200,7 @@ post = async () => {
           step1:false, step2:false, step3:false, step4:false, step5:false, activeStep: 0,   //for the KYC
           email:this.state.email,
           firstName:this.state.firstName,
-          middleName:this.state.middleName || '',
+          middleName:this.state.middleName || null,
           surname:this.state.surname,          
           address:this.state.address,
           city:this.state.city,
@@ -216,6 +215,8 @@ post = async () => {
         }
       });
       //if(response) console.log(response);
+      
+      // BE CAREFULL : check if response.error 
 
       window.location.href='/dashboard';
   }

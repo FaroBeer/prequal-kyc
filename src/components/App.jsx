@@ -72,6 +72,7 @@ class App extends React.Component {
     if(response.firstName && response.surname && this.state.firstName !== response.firstName && this.state.surname !== response.surname) { //enough to say step1 done
       this.setState({    // we don't need to set all the state!!      
         approved:response.approved || false,
+        waiting:response.waiting || false,
         prekyc:response.prekyc || false,
         step1:false, step2:false, step3:false, step4:false, step5:false, activeStep: 0,   //for the KYC
         firstName:response.firstName,
