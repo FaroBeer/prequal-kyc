@@ -45,10 +45,10 @@ class Step1UpdateData extends Component {
     
 
     render() {
-        
+
         const userState = this.props.userState;
         const classes = this.props.classes;
-        const handleChange = this.props.handleChangeFields
+        const handleChange = this.props.handleChangeFields;
 
         return (
             
@@ -729,7 +729,7 @@ class Step1UpdateData extends Component {
                 <Button className="submitButton" 
                   variant="contained"
                   component="span"
-                  onClick={(e)=>this._handleSubmit(e)}>
+                  onClick={(e)=>this.props._handleSubmit(e)}>
                   SUBMIT
                 </Button>
               </CardContent>

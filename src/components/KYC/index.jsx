@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-/*import TextField from "@material-ui/core/TextField";
+//import TextField from "@material-ui/core/TextField";
 import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";*/
+import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 /*import Select from '@material-ui/core/Select';
@@ -145,13 +145,42 @@ function getSteps() {
 
 class TextFields extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      registered:false,
+      approved:false,
+      prekyc:false,
+      step1:false,   step2:false,   step3:false,
+      email:'',
+      firstName:'',
+      middleName:'',
+      surname:'',
+      address:'',
+      city:'',
+      zipCode:'',
+      regionState:'',
+      occupation:'',
+      countryCitizenship:'',
+      countryResidence:'',
+      dateBirth:'',
+      accreditedInvestor: false,
+      amount:'',
+      open: false,
+      buttonIsHovered: false,
+      activeStep: 0,  
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this._handleSubmit = this._handleSubmit.bind(this);
+  }
+
   _handleSubmit(e) {
     e.preventDefault();
     this.post();
     console.log('posting');
   }
 
-  state = {
+/*  state = {
     registered:false,
     approved:false,
     prekyc:false,
@@ -173,7 +202,7 @@ class TextFields extends Component {
     open: false,
     buttonIsHovered: false,
     activeStep: 0,
-  };
+  }; */
 
   handleChange = name => event => {
     this.setState({
@@ -196,7 +225,7 @@ class TextFields extends Component {
   getStepContent() {
     switch (this.state.activeStep) {
       case 0:
-        return <Step1UpdateData userState={this.state} classes={this.props.classes} handleChangeField={ this.handleChange }  />
+        return <Step1UpdateData userState={this.state} classes={this.props.classes} handleChangeFields={ this.handleChange } _handleSubmit ={this._handleSubmit} />
       case 1:
         return 'Upload your ID';
       case 2:
@@ -207,6 +236,30 @@ class TextFields extends Component {
         return 'Unknown step';
     }
   }
+  handleNextStep = () => {
+    switch (this.state.activeStep) {
+      case 0:
+      this.state.step1 ? this.setState (state => ({
+        activeStep: state.activeStep + 1
+      })) : alert('Step1 not completed')
+      break;
+      case 1:
+      this.state.step2 ? this.setState (state => ({
+        activeStep: state.activeStep + 1
+      })) : alert('Step2 not completed')
+      break;
+      case 2:
+      this.state.step3 ? this.setState(state => ({
+        activeStep: state.activeStep + 1
+      })) : alert('Step3 not completed')
+      break;
+    }
+  };
+  handleBackStep = () => {
+    this.setState(state => ({
+      activeStep: state.activeStep - 1,
+    }));
+  };
 
   
   
@@ -244,9 +297,8 @@ post = async () => {
           accreditedInvestor:this.state.accreditedInvestor,       
         }
       });
-      if(response) console.log(response);
+      this.state.step1=true;
 
-      window.location.href='/dashboard';
   }
 }
 
@@ -268,11 +320,12 @@ post = async () => {
   }*/
   getUser = async () => {
     const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
-    //if(response) console.log (JSON.stringify(response));
-
+    if(response) console.log ('user:\n' + JSON.stringify(response));
+      this.setState(response); alert();
+    console.log('state:\n'+ JSON.stringify(this.state));
     //if(response.step1 === true && response.step2 === true) window.location.href='/';
     //else 
-      if(response.step1 === true) window.location.href='/';
+    //  if(response.step1 === true) window.location.href='/';
     
 
     }
@@ -282,7 +335,7 @@ post = async () => {
   render() {
 
     const { classes } = this.props;
-
+    if (this.state.step1 === false) {
     Auth.currentAuthenticatedUser({
         bypassCache: false  
     }).then(user => {
@@ -291,9 +344,10 @@ post = async () => {
         this.setState({
           email: user.attributes.email
         });
-      this.getUser();
     })
     .catch(err => console.log(err));
+    
+    this.getUser();}
 
     const { activeStep } = this.state.activeStep;
     const steps = getSteps();
@@ -306,6 +360,7 @@ post = async () => {
           line: classes.connectorLine,
         }}
       />
+
     );
 
     return (
@@ -313,7 +368,9 @@ post = async () => {
         <Grid container spacing={24}>
           <Grid item xs />
           <Grid item xs={6}>
-            
+          <Card className={classes.card}>
+              <CardContent>
+  
           <div className={classes.stepper}>
             <Stepper activeStep={activeStep} connector={connector}>
               {steps.map(label => (
@@ -322,13 +379,7 @@ post = async () => {
                 </Step>
               ))}
             </Stepper>
-            <Stepper alternativeLabel activeStep={activeStep} connector={connector}>
-              {steps.map(label => (
-                <Step key={label}>
-                  <StepLabel>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
+
             <div>
               {activeStep === steps.length ? (
                 <div>
@@ -349,7 +400,7 @@ post = async () => {
                   <div>
                     <Button
                       disabled={activeStep === 0}
-                      onClick={this.handleBack}
+                      onClick={this.handleBackStep}
                       className={classes.button}
                     >
                       Back
@@ -357,7 +408,7 @@ post = async () => {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={this.handleNext}
+                      onClick={this.handleNextStep}
                       className={classes.button}
                     >
                       {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
@@ -368,7 +419,8 @@ post = async () => {
             </div>
           </div>
 
-
+          </CardContent>
+          </Card>
           </Grid>
           <Grid item xs />
         </Grid>
