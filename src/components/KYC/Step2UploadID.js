@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Form.css';
 
-class Step1UpdateData extends Component {
+class Step2UploadID extends Component {
 
     render() {
         return (

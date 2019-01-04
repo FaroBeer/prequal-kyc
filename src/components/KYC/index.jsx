@@ -45,6 +45,7 @@ import { Auth, API } from 'aws-amplify';
 import Background from '../../shared/images/bg_kyc/14122018-02.JPG';
 
 import Step1UpdateData from './Step1UpdateData';
+import Error404 from "../Error/404";
 
 const styles = theme => ({
   root: {
@@ -203,15 +204,25 @@ class TextFields extends Component {
   getStepContent() {
     switch (this.state.activeStep) {
       case 0:
-        return <Step1UpdateData userState={this.state} classes={this.props.classes} handleChangeFields={ this.handleChange } _handleSubmit ={this._handleSubmit} />
+        return <Step1UpdateData 
+                                userState={this.state} 
+                                classes={this.props.classes} 
+                                handleChangeFields={ this.handleChange } 
+                                _handleSubmit ={this._handleSubmit} />
       case 1:
-        return 'Upload your ID';
+        return 'upload id';/*<Step2UploadID 
+                              userStater={this.state} 
+                              classes={this.props.classes} />;
       case 2:
-        return 'Upload your address';
+        return <Step3UploadAddress
+                              userStater={this.state} 
+                              classes={this.props.classes} />;
       case 3:
-        return 'payment page';
+        return <Step4UploadAccreditation 
+                              userStater={this.state} 
+                              classes={this.props.classes} />;*/
       default:
-        return 'Unknown step';
+        return <Error404 />;
     }
   }
   handleNextStep = () => {

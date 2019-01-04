@@ -38,11 +38,23 @@ class Step1UpdateData extends Component {
             mobile: "",
             dateOfBirth: "",
             occupation: "",
-            investAmount: ""
+            investAmount: "",
+            open: false,
+            buttonIsHovered: false
         }
     }
 
-    
+    handleClickOpen = () => {
+      this.setState({ open: true });
+    };
+  
+    handleClose = () => {
+      this.setState({ open: false });
+    };
+  
+    setButtonHovered = (value) => {
+      this.setState({ buttonIsHovered: value});
+    };
 
     render() {
 
@@ -667,13 +679,13 @@ class Step1UpdateData extends Component {
                         onClick={this.handleClickOpen} 
                         onMouseEnter={() => this.setButtonHovered(true)} 
                         onMouseLeave={() => this.setButtonHovered(false)}
-                        className={userState.buttonIsHovered ? classes.investorDialogHover : classes.investorDialog}
+                        className={this.state.buttonIsHovered ? classes.investorDialogHover : classes.investorDialog}
                         > (under US law parameters * ) </span> ?
                     
                     </FormLabel>
                   
                   <Dialog
-                    open={userState.open}
+                    open={this.state.open}
                     onClose={this.handleClose}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
