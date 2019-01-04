@@ -297,6 +297,11 @@ post = async () => {
     if(response) console.log ('user:\n' + JSON.stringify(response));
       this.setState(response);
     console.log('state:\n'+ JSON.stringify(this.state));
+
+    (this.state.approved === false || this.state.waiting) ? window.location.href = "/dashboard" : 
+    this.state.prekyc===false ? window.location.href = "/" : console.log('approved') 
+
+ 
     //if(response.step1 === true && response.step2 === true) window.location.href='/';
     //else 
     //  if(response.step1 === true) window.location.href='/';
@@ -313,9 +318,10 @@ post = async () => {
           });
           this.getUser();
           console.log(JSON.stringify(this.state));
+          
       })
       .catch(err => console.log(err));
-      
+  
     }
 
   render() {
