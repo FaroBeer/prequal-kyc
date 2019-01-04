@@ -303,11 +303,25 @@ post = async () => {
   }
     
   
+  componentDidMount() {
+    Auth.currentAuthenticatedUser({
+      bypassCache: false  
+    }).then(user => {
+           if(this.state.email !== user.attributes.email)
+            this.setState({
+            email: user.attributes.email
+          });
+          this.getUser();
+          console.log(JSON.stringify(this.state));
+      })
+      .catch(err => console.log(err));
+      
+    }
 
   render() {
 
     const { classes } = this.props;
-    if (this.state.step1 === false) {
+/*    if (this.state.step1 === false) {
     Auth.currentAuthenticatedUser({
         bypassCache: false  
     }).then(user => {
@@ -319,7 +333,7 @@ post = async () => {
     })
     .catch(err => console.log(err));
     
-    this.getUser();}
+    this.getUser();}*/ 
 
     const steps = getSteps();
     const connector = (
