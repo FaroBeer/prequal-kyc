@@ -149,13 +149,14 @@ class TextFields extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      registrationDatePreKYC: new Date(),
-      registrationDateKYC: new Date(),
+      registrationDatePreKYC: false,
+      registrationDateKYC: false,
       registered:false,                                                                     
       approved:false,                                                                      
       waiting: false,                                                                       
       prekyc:false,                                                                  
-      step1:false, step2:false, step3:false, step4:false, step5:false, activeStep: 0,   
+      step1:false, step2:false, step3:false, step4:false, step5:false, 
+      activeStep: 0,   
       email:'',
       firstName:'',
       middleName:'',
@@ -170,8 +171,8 @@ class TextFields extends Component {
       dateBirth:'',
       accreditedInvestor: false,
       amount:'',
-      //open: false,
-      //buttonIsHovered: false,
+
+      btnSubmitDisabled : true,
     };
     this.handleChange = this.handleChange.bind(this);
     this._handleSubmit = this._handleSubmit.bind(this);
@@ -188,18 +189,6 @@ class TextFields extends Component {
       [name]: event.target.value
     });
   };
-
-  /*handleClickOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-
-  setButtonHovered = (value) => {
-    this.setState({ buttonIsHovered: value});
-  };*/
 
   getStepContent() {
     switch (this.state.activeStep) {
@@ -228,19 +217,40 @@ class TextFields extends Component {
   handleNextStep = () => {
     switch (this.state.activeStep) {
       case 0:
-      this.state.step1 ? this.setState (state => ({
-        activeStep: state.activeStep + 1
-      })) : alert('Step1 not completed')
-      break;
-      case 1:
+        console.log('handle next step:\n'+JSON.stringify(this.state));
+        this.state.step1 
+            ? 
+            this.setState (state => ({ activeStep: state.activeStep + 1 }))
+            : 
+            alert('Step1 not completed');
+        this.setState (state => ({
+          btnSubmitDisabled: !state.step2,
+        }))
+        break;
+      
+     case 1:
       this.state.step2 ? this.setState (state => ({
         activeStep: state.activeStep + 1
-      })) : alert('Step2 not completed')
+      })) : alert('Step2 not completed');
+      this.setState (state => ({
+        btnSubmitDisabled: !state.step3,
+      }))
       break;
-      case 2:
+    case 2:
       this.state.step3 ? this.setState(state => ({
         activeStep: state.activeStep + 1
-      })) : alert('Step3 not completed')
+      })) : alert('Step3 not completed');
+      this.setState (state => ({
+        btnSubmitDisabled: !state.step4,
+      }))
+      break;
+    case 3:
+      this.state.step4 ? this.setState(state => ({
+        activeStep: state.activeStep + 1
+      })) : alert('Step4 not completed');
+      this.setState (state => ({
+        btnSubmitDisabled: !state.step5,
+      }))
       break;
     }
   };
@@ -293,7 +303,13 @@ post = async () => {
           accreditedInvestor:this.state.accreditedInvestor,       
         }
       });
-      this.state.step1=true;
+
+      console.log('state after submit:\n'+ JSON.stringify(this.state));
+
+      this.setState({
+        btnSubmitDisabled: false,
+        step1: true,
+      });
 
   }
 }
@@ -305,13 +321,21 @@ post = async () => {
       this.setState(response);
     console.log('state:\n'+ JSON.stringify(this.state));
 
-    (this.state.approved === false || this.state.waiting) ? window.location.href = "/dashboard" : 
-    this.state.prekyc===false ? window.location.href = "/" : console.log('approved') 
+    this.state.approved === false || this.state.waiting ? 
+        window.location.href = "/dashboard" : 
+        this.state.prekyc===false ? 
+            window.location.href = "/" : 
+            console.log('approved') 
+    
+    if((this.state.step1 === true && this.state.activeStep === 0) ||
+        (this.state.step2 === true && this.state.activeStep === 1) ||
+        (this.state.step3 === true && this.state.activeStep === 2) ||
+        (this.state.step4 === true && this.state.activeStep === 3) ||
+        (this.state.step5 === true && this.state.activeStep === 4) )
+      this.setState({
+        btnSubmitDisabled: false
+      });
 
- 
-    //if(response.step1 === true && response.step2 === true) window.location.href='/';
-    //else 
-    //  if(response.step1 === true) window.location.href='/';
   }
     
   
@@ -334,20 +358,6 @@ post = async () => {
   render() {
 
     const { classes } = this.props;
-/*    if (this.state.step1 === false) {
-    Auth.currentAuthenticatedUser({
-        bypassCache: false  
-    }).then(user => {
-      
-      if(this.state.email !== user.attributes.email)
-        this.setState({
-          email: user.attributes.email
-        });
-    })
-    .catch(err => console.log(err));
-    
-    this.getUser();}*/ 
-
     const steps = getSteps();
     const connector = (
       <StepConnector
@@ -399,7 +409,7 @@ post = async () => {
                     <Button
                       variant="contained"
                       color="primary"
-                      //disabled={this.state.step1 === false || this.state.prekyc === false}
+                      disabled={this.state.btnSubmitDisabled}
                       onClick={this.handleNextStep}
                       className={classes.button}
                     >
