@@ -197,7 +197,7 @@ post = async () => {
           approved:checkApproved,   // if us not accredited or waiting
           waiting: checkWaiting,   // if in state typo2 and not accredited   
           prekyc:true,
-          step1:false, step2:false, step3:false, step4:false, step5:false, activeStep: 0,   //for the KYC
+          step1:false, step2:false, step3:false, step4:false, step5:false, //for the KYC
           email:this.state.email,
           firstName:this.state.firstName,
           middleName:this.state.middleName || null,

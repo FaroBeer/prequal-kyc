@@ -170,8 +170,8 @@ class TextFields extends Component {
       dateBirth:'',
       accreditedInvestor: false,
       amount:'',
-      open: false,
-      buttonIsHovered: false,
+      //open: false,
+      //buttonIsHovered: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this._handleSubmit = this._handleSubmit.bind(this);
@@ -189,7 +189,7 @@ class TextFields extends Component {
     });
   };
 
-  handleClickOpen = () => {
+  /*handleClickOpen = () => {
     this.setState({ open: true });
   };
 
@@ -199,7 +199,7 @@ class TextFields extends Component {
 
   setButtonHovered = (value) => {
     this.setState({ buttonIsHovered: value});
-  };
+  };*/
 
   getStepContent() {
     switch (this.state.activeStep) {
@@ -268,8 +268,15 @@ post = async () => {
       let middleName = this.state.middleName !== '' ? this.state.middleName : null;
       const response = await API.post('preKYCapi', '/items', {
         body: {
-          registrationDate: new Date(),
-          step1:true,
+
+          registrationDatePreKYC: this.state.registrationDatePreKYC,
+          registrationDateKYC: new Date(),
+          registered:this.state.registered,                                                                     
+          approved:this.state.approved,                                                                      
+          waiting: this.state.waiting,                                                                       
+          prekyc:this.state.prekyc,                                                                  
+          step1:true, 
+          step2:this.state.step2, step3:this.state.step3, step4:this.state.step4, step5:this.state.step5, 
           email:this.state.email,
           firstName:this.state.firstName,
           middleName:middleName,
@@ -392,7 +399,7 @@ post = async () => {
                     <Button
                       variant="contained"
                       color="primary"
-                      disabled={this.state.step1 === 0 || this.state.prekyc === 0}
+                      //disabled={this.state.step1 === false || this.state.prekyc === false}
                       onClick={this.handleNextStep}
                       className={classes.button}
                     >
