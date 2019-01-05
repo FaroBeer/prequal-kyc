@@ -15,6 +15,10 @@
 		"preKYCusers": {
 			"service": "DynamoDB",
 			"providerPlugin": "awscloudformation"
+		},
+		"dataBucket": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation"
 		}
 	},
 	"function": {
@@ -32,6 +36,12 @@
 					]
 				}
 			]
+		},
+		"manageUser": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true,
+			"dependsOn": []
 		}
 	},
 	"api": {

@@ -45,6 +45,7 @@ import { Auth, API } from 'aws-amplify';
 import Background from '../../shared/images/bg_kyc/14122018-02.JPG';
 
 import Step1UpdateData from './Step1UpdateData';
+import Step2UploadID from './Step2UploadID';
 import Error404 from "../Error/404";
 
 const styles = theme => ({
@@ -199,9 +200,9 @@ class TextFields extends Component {
                                 handleChangeFields={ this.handleChange } 
                                 _handleSubmit ={this._handleSubmit} />
       case 1:
-        return 'upload id';/*<Step2UploadID 
-                              userStater={this.state} 
-                              classes={this.props.classes} />;
+        return <Step2UploadID 
+                              userState={this.state} 
+                              classes={this.props.classes} />;/*
       case 2:
         return <Step3UploadAddress
                               userStater={this.state} 

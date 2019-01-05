@@ -1,19 +1,37 @@
 import React, { Component } from 'react';
-import './Form.css';
+import { Storage } from 'aws-amplify';
+import Button from "@material-ui/core/Button";
+
+//import './FileUpload.css';
+
 
 class Step2UploadID extends Component {
-
+state = {
+    file: ''
+}
+    onChange(e) {
+        this.setState({file : e.target.files[0]})
+    }
+    onSubmit() {
+        const user = this.props.userState.firstName + this.props.userState.surname;
+        Storage.vault.put(user + '.png', this.state.file, {
+            contentType: 'image/png'
+        })
+        .then (result => console.log(result))
+        .catch(err => console.log(err));
+    }
+  
     render() {
         return (
-            <div className="card">
-                <form>
-                    <label for="fileupload"> Select a file to upload</label>
-                    <input type="file" />
-
-                </form>
-            </div>
+            <form>
+                <input
+                    type="file" accept='image/png'
+                    onChange={(e)=> this.onChange(e)}
+                />
+                <Button onClick={(e) => this.onSubmit(e)}>Submit</Button>
+            </form>
         )
     }
 }
 
-export default Step1UpdateData;
+export default Step2UploadID;

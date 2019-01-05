@@ -165,6 +165,26 @@
 				}
 			}
 		},
+		"storagedataBucket": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/pre-kyc-20181213120006-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
+				"Parameters": {
+					"bucketName": "data-bucket-kyc-ll",
+					"authPolicyName": "s3_amplify_f316adb0",
+					"unauthPolicyName": "s3_amplify_f316adb0",
+					"authRoleName": {
+						"Ref": "AuthRoleName"
+					},
+					"unauthRoleName": {
+						"Ref": "UnauthRoleName"
+					},
+					"authPermissions": "rw",
+					"unauthPermissions": "",
+					"env": "dev"
+				}
+			}
+		},
 		"functionpreKYClambda": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
@@ -182,6 +202,15 @@
 							"Outputs.Arn"
 						]
 					},
+					"env": "dev"
+				}
+			}
+		},
+		"functionmanageUser": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/pre-kyc-20181213120006-deployment/amplify-cfn-templates/function/manageUser-cloudformation-template.json",
+				"Parameters": {
 					"env": "dev"
 				}
 			}

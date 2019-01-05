@@ -1,0 +1,13 @@
+{
+    "bucketName": "data-bucket-kyc-ll",
+    "authPolicyName": "s3_amplify_f316adb0",
+    "unauthPolicyName": "s3_amplify_f316adb0",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authPermissions": "rw",
+    "unauthPermissions": ""
+}
