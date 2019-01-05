@@ -13,7 +13,7 @@ state = {
         this.setState({file : e.target.files[0]})
     }
     onSubmit() {
-        const user = this.props.userState.firstName + this.props.userState.surname;
+        const user = this.props.userState.email;
         Storage.vault.put(user + '.png', this.state.file, {
             contentType: 'image/png'
         })

@@ -206,15 +206,6 @@
 				}
 			}
 		},
-		"functionmanageUser": {
-			"Type": "AWS::CloudFormation::Stack",
-			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/pre-kyc-20181213120006-deployment/amplify-cfn-templates/function/manageUser-cloudformation-template.json",
-				"Parameters": {
-					"env": "dev"
-				}
-			}
-		},
 		"apipreKYCapi": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
