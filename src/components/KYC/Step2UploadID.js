@@ -14,16 +14,19 @@ import { S3Image } from 'aws-amplify-react';
 
 
 class Step2UploadID extends Component {
-    state = {
-        step: 2,
-        file1: '', file1name: '', file1uploaded: false, 
-        file2: '', file2name: '', file2uploaded: false, 
+    constructor(props) {
+        super(props);
+        this.state = {
+            step: 2,
+            file1: '', file1name: '', file1uploaded: false, 
+            file2: '', file2name: '', file2uploaded: false, 
+        }
     }
-    
+
     onChange(e, what) {
-        if(what === 'id1') this.setState({file1 : e.target.files[0]})
-        else if(what === 'id2') this.setState({file2 : e.target.files[0]})
-        console.log('selecting file...\n'+ JSON.stringify(e.target.files[0]));
+        if(what === 'id1') this.setState({file1 : e.target.files[0]});
+        else if(what === 'id2') this.setState({file2 : e.target.files[0]});
+        console.log('selecting file...\n'+ JSON.stringify(this.state));
     }
 
     onSubmitPassport() {      
@@ -37,6 +40,9 @@ class Step2UploadID extends Component {
         })
         .then (result => console.log(result))
         .catch(err => console.log(err));
+
+        this.props._handleSubmitSingolUpload(this.state);
+
     }
 
     onSubmitFront() {
@@ -107,7 +113,7 @@ class Step2UploadID extends Component {
                         <div> 
                             <input
                                 type="file" accept='image/png'
-                                onChange={(e, what)=> this.onChange(e, 'id1')}
+                                onChange={(e)=> this.onChange(e, 'id1')}
                             />
                             <Button onClick={(e) => this.onSubmitPassport(e)}>Upload passport</Button> 
                         </div>
@@ -116,7 +122,7 @@ class Step2UploadID extends Component {
                         <div>
                             <input
                                 type="file" accept='image/png'
-                                onChange={(e, what)=> this.onChange(e, 'id1')}
+                                onChange={(e)=> this.onChange(e, 'id1')}
                             />
                             <Button onClick={(e) => this.onSubmitFront(e)}>Upload front ID</Button> 
 
@@ -124,7 +130,7 @@ class Step2UploadID extends Component {
                             type="file" accept='image/png'
                             onChange={(e)=> this.onChange(e, 'id2')}
                             />
-                            <Button onClick={(e, what) => this.onSubmitBack(e)}>Upload back ID</Button>
+                            <Button onClick={(e) => this.onSubmitBack(e)}>Upload back ID</Button>
                         </div>
                     )}    
                     </div>    

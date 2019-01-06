@@ -198,8 +198,7 @@ class TextFields extends Component {
     }
   }
 
-  _handleSubmitSingolUpload(e, info) {
-    e.preventDefault(); 
+  _handleSubmitSingolUpload(info) {
     
       if(info.step === 2) {
          this.setState({ 
