@@ -1,20 +1,58 @@
 import React, { Component } from 'react';
 import { Storage } from 'aws-amplify';
 import Button from "@material-ui/core/Button";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import {  FormControlLabel } from "@material-ui/core";
 
 //import './FileUpload.css';
 
 
 class Step2UploadID extends Component {
-state = {
-    file: ''
-}
-    onChange(e) {
-        this.setState({file : e.target.files[0]})
+    state = {
+        step: 2,
+        file1: '', file1name: '', file1uploaded: false, 
+        file2: '', file2name: '', file2uploaded: false, 
     }
-    onSubmit() {
-        const user = this.props.userState.email;
-        Storage.vault.put(user + '.png', this.state.file, {
+    
+    onChange(e, what) {
+        if(what === 'id1') this.setState({file1 : e.target.files[0]})
+        else if(what === 'id2') this.setState({file2 : e.target.files[0]})
+    }
+
+    onSubmitPassport() {
+        
+        this.setState({
+            file1name : 'id1-' + this.props.userState.email + '.png', 
+            file1uploaded:true
+        });
+        Storage.vault.put('id1-' + this.props.userState.email + '.png', this.state.file1, {
+            contentType: 'image/png'
+        })
+        .then (result => console.log(result))
+        .catch(err => console.log(err));
+    }
+
+    onSubmitFront() {
+        this.setState({
+            file1name : 'id1-' + this.props.userState.email + '.png', 
+            file1uploaded:true
+        });
+        Storage.vault.put('id1-' + this.props.userState.email + '.png', this.state.file1, {
+            contentType: 'image/png'
+        })
+        .then (result => console.log(result))
+        .catch(err => console.log(err));
+    }
+
+    onSubmitBack() {
+        this.setState({
+            file2name : 'id1-' + this.props.userState.email + '.png', 
+            file2uploaded:true
+        });
+        Storage.vault.put('id2-' + this.props.userState.email + '.png', this.state.file2, {
             contentType: 'image/png'
         })
         .then (result => console.log(result))
@@ -22,14 +60,76 @@ state = {
     }
   
     render() {
+
+        const userState = this.props.userState;
+        const classes = this.props.classes;
+
         return (
-            <form>
-                <input
-                    type="file" accept='image/png'
-                    onChange={(e)=> this.onChange(e)}
-                />
-                <Button onClick={(e) => this.onSubmit(e)}>Submit</Button>
-            </form>
+            
+            <Card className={classes.card}>
+                <CardContent>    
+                 
+                 
+                    <form>
+                        
+                    <RadioGroup
+                        aria-label="typeOfID"
+                        name="typeOfID"
+                        placeholder="Which document do you prefer to upload?"
+                        className={classes.group}
+                        value={userState.typeOfID}
+                        onChange={this.props.handleChange("typeOfID")}
+                    >
+                        <FormControlLabel value="passport" control={<Radio />} label="Passport" />
+                        <FormControlLabel value="id" control={<Radio />} label="ID" />
+                    </RadioGroup>
+                    
+                    <br />
+                    <div>   
+                    {userState.typeOfID === 'passport' ? (
+                        <div> 
+                            <input
+                                type="file" accept='image/png'
+                                onChange={(e)=> this.onChange(e, 'id1')}
+                            />
+                            <Button onClick={(e) => this.onSubmitPassport(e)}>Upload passport</Button> 
+                        </div>
+
+                    ) : (
+                        <div>
+                            <input
+                                type="file" accept='image/png'
+                                onChange={(e)=> this.onChange(e, 'id1')}
+                            />
+                            <Button onClick={(e) => this.onSubmitFront(e)}>Upload front ID</Button> 
+
+                            <input
+                            type="file" accept='image/png'
+                            onChange={(e)=> this.onChange(e, 'id2')}
+                            />
+                            <Button onClick={(e) => this.onSubmitBack(e)}>Upload back ID</Button>
+                        </div>
+                    )}    
+                    </div>    
+  
+                    </form>
+
+
+        
+                    <Button className="submitButton" 
+                        variant="contained"
+                        component="span"
+                        onClick={(e)=>this.props._handleSubmitSingolUpload(e, this.state)}>
+                        SUBMIT
+                    </Button>
+                </CardContent>
+            </Card>
+
+
+
+
+
+
         )
     }
 }

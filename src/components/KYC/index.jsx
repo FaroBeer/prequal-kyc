@@ -166,7 +166,7 @@ class TextFields extends Component {
       accreditedInvestor: false,
       amount:'',
 
-      typeOfID: '',
+      typeOfID: 'passport',
       id1Doc: { name:'', date:'', uploaded: false, approved: false},
       id2Doc: { name:'', date:'', uploaded: false, approved: false},
       picDoc: { name:'', date:'', uploaded: false, approved: false},
@@ -175,8 +175,9 @@ class TextFields extends Component {
 
       btnSubmitDisabled : true,
     };
-    this.handleChangeStep1 = this.handleChangeStep1.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this._handleSubmitStep1 = this._handleSubmitStep1.bind(this);
+    this._handleSubmitSingolUpload = this._handleSubmitSingolUpload.bind(this);
   }
 
   _handleSubmitStep1(e) {
@@ -197,7 +198,22 @@ class TextFields extends Component {
     }
   }
 
-  handleChangeStep1 = name => event => {
+  _handleSubmitSingolUpload(e, info) {
+    e.preventDefault(); 
+    
+      if(info.step === 2) {
+         this.setState({ 
+           step2: true,
+           id1Doc: { name: info.file1name, date: new Date(), uploaded: info.file1uploaded },
+           id2Doc: { name: info.file2name, date: new Date(), uploaded: info.file2uploaded }
+          })
+      }
+      this.post();
+      console.log('posting');
+    
+  }
+
+  handleChange = name => event => {
     this.setState({
       [name]: event.target.value
     });
@@ -209,12 +225,14 @@ class TextFields extends Component {
         return <Step1UpdateData 
                               userState={this.state} 
                               classes={this.props.classes} 
-                              handleChangeStep1={ this.handleChangeStep1 } 
+                              handleChange={ this.handleChange } 
                               _handleSubmitStep1 ={this._handleSubmitStep1} />
       case 1:
         return <Step2UploadID 
                               userState={this.state} 
-                              classes={this.props.classes} />;/*
+                              classes={this.props.classes} 
+                              handleChange={ this.handleChange } 
+                              _handleSubmitSingolUpload ={this._handleSubmitSingolUpload}/>;/*
       case 2:
         return <Step3UploadAddress
                               userStater={this.state} 
