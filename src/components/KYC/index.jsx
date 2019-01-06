@@ -150,42 +150,54 @@ class TextFields extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      registrationDatePreKYC: false,
-      registrationDateKYC: false,
-      registered:false,                                                                     
-      approved:false,                                                                      
-      waiting: false,                                                                       
-      prekyc:false,                                                                  
+
+      cognitoUser: '', cognitoRegion: '', cognitoID: '',
+      registrationDatePreKYC: false, registrationDateKYC: false,
+      prekyc:false, approved:false, waiting: false, registered:false,                                                                     
       step1:false, step2:false, step3:false, step4:false, step5:false, 
       activeStep: 0,   
+      
       email:'',
-      firstName:'',
-      middleName:'',
-      surname:'',
-      address:'',
-      city:'',
-      zipCode:'',
-      regionState:'',
+      firstName:'', middleName:'', surname:'',
+      address:'', city:'', zipCode:'', regionState:'',
       occupation:'',
-      countryCitizenship:'',
-      countryResidence:'',
+      countryCitizenship:'', countryResidence:'',
       dateBirth:'',
       accreditedInvestor: false,
       amount:'',
 
+      typeOfID: '',
+      id1Doc: { name:'', date:'', uploaded: false, approved: false},
+      id2Doc: { name:'', date:'', uploaded: false, approved: false},
+      picDoc: { name:'', date:'', uploaded: false, approved: false},
+      addrDoc: { name:'', date:'', uploaded: false, approved: false},
+      accrDoc: { name:'', date:'', uploaded: false, approved: false},
+
       btnSubmitDisabled : true,
     };
-    this.handleChange = this.handleChange.bind(this);
-    this._handleSubmit = this._handleSubmit.bind(this);
+    this.handleChangeStep1 = this.handleChangeStep1.bind(this);
+    this._handleSubmitStep1 = this._handleSubmitStep1.bind(this);
   }
 
-  _handleSubmit(e) {
-    e.preventDefault();
-    this.post();
-    console.log('posting');
+  _handleSubmitStep1(e) {
+    e.preventDefault(); 
+    
+    if(this.state.firstName==='' || this.state.surname==='' || 
+        this.state.address==='' || this.state.city==='' || this.state.zipCode==='' || this.state.regionState==='' || 
+        this.state.countryCitizenship==='' || this.state.countryResidence==='' || 
+        this.state.dateBirth==='' || this.state.occupation==='' || 
+        this.state.amount==='' || this.state.accreditedInvestor===''){
+          alert('Please complete all required fields'); 
+          return false;
+    
+     } else {
+      this.setState({ step1: true });  
+      this.post();
+      console.log('posting');
+    }
   }
 
-  handleChange = name => event => {
+  handleChangeStep1 = name => event => {
     this.setState({
       [name]: event.target.value
     });
@@ -195,10 +207,10 @@ class TextFields extends Component {
     switch (this.state.activeStep) {
       case 0:
         return <Step1UpdateData 
-                                userState={this.state} 
-                                classes={this.props.classes} 
-                                handleChangeFields={ this.handleChange } 
-                                _handleSubmit ={this._handleSubmit} />
+                              userState={this.state} 
+                              classes={this.props.classes} 
+                              handleChangeStep1={ this.handleChangeStep1 } 
+                              _handleSubmitStep1 ={this._handleSubmitStep1} />
       case 1:
         return <Step2UploadID 
                               userState={this.state} 
@@ -264,63 +276,48 @@ class TextFields extends Component {
   
   
 post = async () => {
-    console.log('calling api');
+    console.log('calling post for step '+ this.state.activeStep);
 
-    if(this.state.firstName==='' || this.state.surname==='' || 
-        this.state.address==='' || this.state.city==='' || this.state.zipCode==='' || this.state.regionState==='' || 
-        this.state.countryCitizenship==='' || this.state.countryResidence==='' || 
-        this.state.dateBirth==='' || this.state.occupation==='' || 
-        this.state.amount==='' || this.state.accreditedInvestor===''){
-          alert('Please complete all required fields'); 
-          return false;
-  
-    } else {
-
-      let middleName = this.state.middleName !== '' ? this.state.middleName : null;
-      const response = await API.post('preKYCapi', '/items', {
-        body: {
-
-          registrationDatePreKYC: this.state.registrationDatePreKYC,
-          registrationDateKYC: new Date(),
-          registered:this.state.registered,                                                                     
-          approved:this.state.approved,                                                                      
-          waiting: this.state.waiting,                                                                       
-          prekyc:this.state.prekyc,                                                                  
-          step1:true, 
-          step2:this.state.step2, step3:this.state.step3, step4:this.state.step4, step5:this.state.step5, 
-          email:this.state.email,
-          firstName:this.state.firstName,
-          middleName:middleName,
-          surname:this.state.surname,          
-          address:this.state.address,
-          city:this.state.city,
-          zipCode:this.state.zipCode,
-          regionState:this.state.regionState,
-          countryCitizenship:this.state.countryCitizenship,
-          countryResidence:this.state.countryResidence,
-          dateBirth:this.state.dateBirth,
-          occupation:this.state.occupation,  
-          amount:this.state.amount,  
-          accreditedInvestor:this.state.accreditedInvestor,       
-        }
-      });
-
-      console.log('state after submit:\n'+ JSON.stringify(this.state));
-
-      this.setState({
-        btnSubmitDisabled: false,
-        step1: true,
-      });
-
-  }
+    let middleName = this.state.middleName !== '' ? this.state.middleName : null;
+    const response = await API.post('preKYCapi', '/items', {
+      body: {
+        
+        registrationDatePreKYC: this.state.registrationDatePreKYC, registrationDateKYC: new Date(),         
+        
+        // boolean utilities
+        prekyc:this.state.prekyc, approved:this.state.approved, waiting: this.state.waiting, registered:this.state.registered,                                                                                                                                                
+        step1:this.state.step1, step2:this.state.step2, step3:this.state.step3, step4:this.state.step4, step5:this.state.step5,         
+        
+        //step 1
+        email:this.state.email,
+        firstName:this.state.firstName, middleName:middleName, surname:this.state.surname,          
+        address:this.state.address, city:this.state.city, zipCode:this.state.zipCode, regionState:this.state.regionState,
+        countryCitizenship:this.state.countryCitizenship, countryResidence:this.state.countryResidence,        
+        dateBirth:this.state.dateBirth,
+        occupation:this.state.occupation,  
+        amount:this.state.amount,  
+        accreditedInvestor:this.state.accreditedInvestor,         
+        
+        // upload steps
+        typeOfID: this.state.typeOfID,
+        id1Doc: { name:this.state.id1Doc.name, date:this.state.id1Doc.date, uploaded: this.state.id1Doc.uploaded, approved: this.state.id1Doc.approved},
+        id2Doc: { name:this.state.id2Doc.name, date:this.state.id2Doc.date, uploaded: this.state.id2Doc.uploaded, approved: this.state.id2Doc.approved},
+        picDoc: { name:this.state.picDoc.name, date:this.state.picDoc.date, uploaded: this.state.picDoc.uploaded, approved: this.state.picDoc.approved},
+        addrDoc: { name:this.state.addrDoc.name, date:this.state.addrDoc.date, uploaded: this.state.addrDoc.uploaded, approved: this.state.addrDoc.approved},
+        accrDoc: { name:this.state.accrDoc.name, date:this.state.accrDoc.date, uploaded: this.state.accrDoc.uploaded, approved: this.state.accrDoc.approved},
+        
+      }
+    });
+    this.setState({ btnSubmitDisabled: false });  
+    console.log('state after submit:\n'+ JSON.stringify(this.state))
 }
 
 
   getUser = async () => {
     const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
-    if(response) console.log ('user:\n' + JSON.stringify(response));
-      this.setState(response);
-    console.log('state:\n'+ JSON.stringify(this.state));
+    //if(response) console.log ('user:\n' + JSON.stringify(response));
+    this.setState(response);
+    //console.log('state:\n'+ JSON.stringify(this.state));
 
     this.state.approved === false || this.state.waiting ? 
         window.location.href = "/dashboard" : 
@@ -344,13 +341,34 @@ post = async () => {
     Auth.currentAuthenticatedUser({
       bypassCache: false  
     }).then(user => {
-           if(this.state.email !== user.attributes.email)
-            this.setState({
-            email: user.attributes.email
-          });
-          this.getUser();
-          console.log(JSON.stringify(this.state));
           
+      const searchingBucketName = 'aws.cognito.identity-id.' + Auth._config.identityPoolId;
+      let bucketName;
+      
+      for (var key in user) {
+        if (!user.hasOwnProperty(key)) continue;
+    
+        var obj = user[key];
+        for (var prop in obj) {
+            if(!obj.hasOwnProperty(prop)) continue;
+            if(prop === searchingBucketName) bucketName = obj[prop];
+        }
+      } 
+      
+      if(this.state.email !== user.attributes.email)
+        this.setState({
+          //cognitoUser: user,         
+          bucketName: bucketName, 
+          cognitoRegion: Auth._config.region, 
+          identityPoolId: Auth._config.identityPoolId,
+          email: user.attributes.email,
+      });
+      this.getUser();
+      console.log('componentDidMount:\n'+ JSON.stringify(this.state));
+      //console.log('final:\n'+ JSON.stringify(this.state.cognitoUser));
+          
+          
+                    
       })
       .catch(err => console.log(err));
   

@@ -60,7 +60,7 @@ class Step1UpdateData extends Component {
 
         const userState = this.props.userState;
         const classes = this.props.classes;
-        const handleChange = this.props.handleChangeFields;
+        const handleChangeStep1 = this.props.handleChangeStep1;
 
         return (
             
@@ -79,7 +79,7 @@ class Step1UpdateData extends Component {
                     label="Given Name"
                     className={classes.textField}
                     value={userState.firstName}
-                    onChange={handleChange("firstName")}
+                    onChange={handleChangeStep1("firstName")}
                     margin="normal"
                   />
                   <TextField
@@ -88,7 +88,7 @@ class Step1UpdateData extends Component {
                     label="Middle Name"
                     className={classes.textField}
                     value={userState.middleName || ''}
-                    onChange={handleChange("middleName")}
+                    onChange={handleChangeStep1("middleName")}
                     margin="normal"
                   />
                   <TextField
@@ -98,7 +98,7 @@ class Step1UpdateData extends Component {
                     label="Surname"
                     className={classes.textField}
                     value={userState.surname}
-                    onChange={handleChange("surname")}
+                    onChange={handleChangeStep1("surname")}
                     margin="normal"
                   />    
                   <TextField
@@ -108,7 +108,7 @@ class Step1UpdateData extends Component {
                     label="Address"
                     className={classes.textField}
                     value={userState.address}
-                    onChange={handleChange("address")}
+                    onChange={handleChangeStep1("address")}
                     margin="normal"
                   />    
                   <TextField
@@ -118,7 +118,7 @@ class Step1UpdateData extends Component {
                     label="City"
                     className={classes.textField}
                     value={userState.city}
-                    onChange={handleChange("city")}
+                    onChange={handleChangeStep1("city")}
                     margin="normal"
                   />    
                   <TextField
@@ -128,7 +128,7 @@ class Step1UpdateData extends Component {
                     label="Zip Code"
                     className={classes.textField}
                     value={userState.zipCode}
-                    onChange={handleChange("zipCode")}
+                    onChange={handleChangeStep1("zipCode")}
                     margin="normal"
                   />    
                   <TextField
@@ -138,7 +138,7 @@ class Step1UpdateData extends Component {
                     label="Region or State"
                     className={classes.textField}
                     value={userState.regionState}
-                    onChange={handleChange("regionState")}
+                    onChange={handleChangeStep1("regionState")}
                     margin="normal"
                   />    
                   <FormControl required className={classes.selectOp}><InputLabel>Country of Residence</InputLabel>
@@ -146,7 +146,7 @@ class Step1UpdateData extends Component {
                     required
                     native
                     value={userState.countryResidence}
-                    onChange={handleChange('countryResidence')}
+                    onChange={handleChangeStep1('countryResidence')}
                     inputProps={{
                       name: 'countryResidence',
                       id: 'countryResidence',
@@ -399,7 +399,7 @@ class Step1UpdateData extends Component {
                     required
                     native
                     value={userState.countryCitizenship}
-                    onChange={handleChange('countryCitizenship')}
+                    onChange={handleChangeStep1('countryCitizenship')}
                     inputProps={{
                       name: 'countryCitizenship',
                       id: 'countryCitizenship',
@@ -655,7 +655,7 @@ class Step1UpdateData extends Component {
                     label="Date of Birth"
                     className={classes.textField}
                     value={userState.dateBirth}
-                    onChange={handleChange("dateBirth")}
+                    onChange={handleChangeStep1("dateBirth")}
                     InputLabelProps={{
                       shrink: true,
                     }}
@@ -668,7 +668,7 @@ class Step1UpdateData extends Component {
                     label="Occupation"
                     className={classes.textField}
                     value={userState.occupation}
-                    onChange={handleChange("occupation")}
+                    onChange={handleChangeStep1("occupation")}
                     margin="normal"
                   />     
 
@@ -710,7 +710,7 @@ class Step1UpdateData extends Component {
                     placeholder="Are you an accredited investor (under US law parameters *) ?"
                     className={classes.group}
                     value={userState.accreditedInvestor}
-                    onChange={handleChange("accreditedInvestor")}
+                    onChange={handleChangeStep1("accreditedInvestor")}
                   >
                     <FormControlLabel value="true" control={<Radio />} label="Yes" />
                     <FormControlLabel value="false" control={<Radio />} label="No" />
@@ -726,7 +726,7 @@ class Step1UpdateData extends Component {
                     name="amount"
                     className={classes.group}
                     value={userState.amount}
-                    onChange={handleChange("amount")}
+                    onChange={handleChangeStep1("amount")}
                   >
                     <FormControlLabel value="less than 5,000 usd" control={<Radio />} label="less than 5,000 usd" />
                     <FormControlLabel value="5,000 - 49,999 usd" control={<Radio />} label="5,000 - 49,999 usd" />
@@ -741,7 +741,7 @@ class Step1UpdateData extends Component {
                 <Button className="submitButton" 
                   variant="contained"
                   component="span"
-                  onClick={(e)=>this.props._handleSubmit(e)}>
+                  onClick={(e)=>this.props._handleSubmitStep1(e)}>
                   SUBMIT
                 </Button>
               </CardContent>
