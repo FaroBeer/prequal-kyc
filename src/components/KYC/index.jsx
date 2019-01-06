@@ -293,7 +293,7 @@ class TextFields extends Component {
 
   
   
-post = async () => {
+post = async () => {    // general - for all steps!!!
     console.log('calling post for step '+ this.state.activeStep);
 
     let middleName = this.state.middleName !== '' ? this.state.middleName : null;
@@ -306,7 +306,7 @@ post = async () => {
         prekyc:this.state.prekyc, approved:this.state.approved, waiting: this.state.waiting, registered:this.state.registered,                                                                                                                                                
         step1:this.state.step1, step2:this.state.step2, step3:this.state.step3, step4:this.state.step4, step5:this.state.step5,         
         
-        //step 1
+        //step 1 - prekyc
         email:this.state.email,
         firstName:this.state.firstName, middleName:middleName, surname:this.state.surname,          
         address:this.state.address, city:this.state.city, zipCode:this.state.zipCode, regionState:this.state.regionState,
@@ -318,14 +318,40 @@ post = async () => {
         
         // upload steps
         typeOfID: this.state.typeOfID,
-        id1Doc: { name:this.state.id1Doc.name, date:this.state.id1Doc.date, uploaded: this.state.id1Doc.uploaded, approved: this.state.id1Doc.approved},
-        id2Doc: { name:this.state.id2Doc.name, date:this.state.id2Doc.date, uploaded: this.state.id2Doc.uploaded, approved: this.state.id2Doc.approved},
-        picDoc: { name:this.state.picDoc.name, date:this.state.picDoc.date, uploaded: this.state.picDoc.uploaded, approved: this.state.picDoc.approved},
-        addrDoc: { name:this.state.addrDoc.name, date:this.state.addrDoc.date, uploaded: this.state.addrDoc.uploaded, approved: this.state.addrDoc.approved},
-        accrDoc: { name:this.state.accrDoc.name, date:this.state.accrDoc.date, uploaded: this.state.accrDoc.uploaded, approved: this.state.accrDoc.approved},
+        id1Doc: { 
+          name:this.state.id1Doc.name ? this.state.id1Doc.name : null, 
+          date:this.state.id1Doc.date ? this.state.id1Doc.date : null,  
+          uploaded: this.state.id1Doc.uploaded, 
+          approved: this.state.id1Doc.approved
+        },
+        id2Doc: { 
+          name:this.state.id2Doc.name ? this.state.id2Doc.name : null, 
+          date:this.state.id2Doc.date ? this.state.id2Doc.date : null, 
+          uploaded: this.state.id2Doc.uploaded, 
+          approved: this.state.id2Doc.approved
+        },
+        picDoc: { 
+          name:this.state.picDoc.name ? this.state.picDoc.name : null, 
+          date:this.state.picDoc.date ? this.state.picDoc.date : null, 
+          uploaded: this.state.picDoc.uploaded, 
+          approved: this.state.picDoc.approved
+        },
+        addrDoc: { 
+          name:this.state.addrDoc.name ? this.state.addrDoc.name : null, 
+          date:this.state.addrDoc.date ? this.state.addrDoc.date : null, 
+          uploaded: this.state.addrDoc.uploaded, 
+          approved: this.state.addrDoc.approved
+        },
+        accrDoc: { 
+          name:this.state.accrDoc.name ? this.state.accrDoc.name : null, 
+          date:this.state.accrDoc.date ? this.state.accrDoc.date : null,
+          uploaded: this.state.accrDoc.uploaded, 
+          approved: this.state.accrDoc.approved
+        },
         
       }
     });
+    console.log('response post:\n'+ JSON.stringify(response))
     this.setState({ btnSubmitDisabled: false });  
     console.log('state after submit:\n'+ JSON.stringify(this.state))
 }
@@ -335,7 +361,30 @@ post = async () => {
     const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
     //if(response) console.log ('user:\n' + JSON.stringify(response));
     this.setState(response);
-    //console.log('state:\n'+ JSON.stringify(this.state));
+
+    /*this.setState({
+      registrationDatePreKYC: response.registrationDatePreKYC, registrationDateKYC: response.registrationDateKYC,         
+      prekyc:response.prekyc, approved:response.approved, waiting: response.waiting, registered:response.registered,                                                                                                                                                
+      step1:response.step1, step2:response.step2, step3:response.step3, step4:response.step4, step5:response.step5,          
+      email:response.email,
+      firstName:response.firstName, middleName:response.middleName, surname:response.surname,          
+      address:response.address, city:response.city, zipCode:response.zipCode, regionState:response.regionState,
+      countryCitizenship:response.countryCitizenship, countryResidence:response.countryResidence,        
+      dateBirth:response.dateBirth,
+      occupation:response.occupation,  
+      amount:response.amount,  
+      accreditedInvestor:response.accreditedInvestor,         
+      typeOfID: response.typeOfID,
+      id1Doc: { name:response.id1Doc.name, date:response.id1Doc.date, uploaded: response.id1Doc.uploaded, approved: response.id1Doc.approved},
+      id2Doc: { name:response.id2Doc.name, date:response.id2Doc.date, uploaded: response.id2Doc.uploaded, approved: response.id2Doc.approved},
+      picDoc: { name:response.picDoc.name, date:response.picDoc.date, uploaded: response.picDoc.uploaded, approved: response.picDoc.approved},
+      addrDoc: { name:response.addrDoc.name, date:response.addrDoc.date, uploaded: response.addrDoc.uploaded, approved: response.addrDoc.approved},
+      accrDoc: { name:response.accrDoc.name, date:response.accrDoc.date, uploaded: response.accrDoc.uploaded, approved: response.accrDoc.approved},
+      
+    });*/
+    //console.log('response getUser:\n'+ JSON.stringify(response))
+    
+    console.log('state getUser:\n'+ JSON.stringify(this.state));
 
     this.state.approved === false || this.state.waiting ? 
         window.location.href = "/dashboard" : 
