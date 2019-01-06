@@ -13,6 +13,9 @@ import { S3Image } from 'aws-amplify-react';
 //import './FileUpload.css';
 
 
+
+// cazzoooo!! non si setta lo stato qui! perchè l'immagine viene caricata..
+
 class Step2UploadID extends Component {
     constructor(props) {
         super(props);
@@ -73,11 +76,15 @@ class Step2UploadID extends Component {
 
     
     componentDidMount() {
-        Storage.get(this.state.file1name, {level: 'private'} )
+        
+
+        Storage.get(this.props.userState.id1Doc.name, {level: 'private'} )
             .then(result => console.log(result))
             .catch(err => console.log(err))
-                          
-        console.log('file 1 in CompDidMount\n'+ JSON.stringify(this.state));
+        
+        // check as soon as it is possible to save in the state    
+
+        //console.log('file 1 in CompDidMount\n'+ JSON.stringify(this.state));
       
     }
   

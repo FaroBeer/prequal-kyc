@@ -247,7 +247,7 @@ class TextFields extends Component {
   handleNextStep = () => {
     switch (this.state.activeStep) {
       case 0:
-        console.log('handle next step:\n'+JSON.stringify(this.state));
+        //console.log('handle next step:\n'+JSON.stringify(this.state));
         this.state.step1 
             ? 
             this.setState (state => ({ activeStep: state.activeStep + 1 }))
@@ -430,7 +430,7 @@ post = async () => {    // general - for all steps!!!
           email: user.attributes.email,
       });
       this.getUser();
-      console.log('componentDidMount:\n'+ JSON.stringify(this.state));
+      //console.log('componentDidMount:\n'+ JSON.stringify(this.state));
       //console.log('final:\n'+ JSON.stringify(this.state.cognitoUser));
           
           
