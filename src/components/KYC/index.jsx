@@ -46,7 +46,10 @@ import Background from '../../shared/images/bg_kyc/14122018-02.JPG';
 
 import Step1UpdateData from './Step1UpdateData';
 import Step2UploadID from './Step2UploadID';
-import Error404 from "../Error/404";
+import Step3UploadPicture from './Step3UploadPicture';
+import Step4UploadAddress from './Step4UploadAddress';
+import Step5UploadAccreditation from './Step5UploadAccreditation';
+//import Error404 from "../Error/404";
 
 const styles = theme => ({
   root: {
@@ -153,7 +156,6 @@ class TextFields extends Component {
            
       identityPoolId: '', cognitoRegion: '', bucketName: '',
       //cognitoUser: '', cognitoRegion: '', cognitoID: '',
-
       registrationDatePreKYC: false, registrationDateKYC: false,
       prekyc:false, approved:false, waiting: false, registered:false,                                                                     
       step1:false, step2:false, step3:false, step4:false, step5:false, 
@@ -181,6 +183,9 @@ class TextFields extends Component {
     this._handleSubmitStep1 = this._handleSubmitStep1.bind(this);
     this.handleSubmitFile = this.handleSubmitFile.bind(this);
     this._handleSubmitStep2 = this._handleSubmitStep2.bind(this);
+    this._handleSubmitStep3 = this._handleSubmitStep3.bind(this);
+    this._handleSubmitStep4 = this._handleSubmitStep4.bind(this);
+    this._handleSubmitStep5 = this._handleSubmitStep4.bind(this);
   }
 
   _handleSubmitStep1(e) {
@@ -197,50 +202,76 @@ class TextFields extends Component {
      } else {
       this.setState({ step1: true });  
       this.post();
-      console.log('posting');
     }
   }
 
   _handleSubmitStep2(e) {
-    e.preventDefault(); 
-    
+    e.preventDefault();   
     if((this.state.typeOfID==='passport' && this.state.id1Doc.uploaded===false) || 
         this.state.typeOfID==='id' && (this.state.id1Doc.uploaded===false || this.state.id2Doc.uploaded===false)){
           alert('Please complete all required fields'); 
-          return false;
-    
+          return false; 
      } else {
       this.setState({ step2: true });  
       this.post();
-      console.log('posting');
+    }
+  }
+
+  _handleSubmitStep3(e) {
+    e.preventDefault();   
+    if(this.state.picDoc.uploaded===false) {
+          alert('Please complete all required fields'); 
+          return false; 
+     } else {
+      this.setState({ step3: true });  
+      this.post();
+    }
+  }
+
+  _handleSubmitStep4(e) {
+    e.preventDefault();   
+    if(this.state.addrDoc.uploaded===false) {
+          alert('Please complete all required fields'); 
+          return false; 
+     } else {
+      this.setState({ step4: true });  
+      this.post();
+    }
+  }
+  
+  _handleSubmitStep5(e) {
+    e.preventDefault();   
+    if(this.state.accrDoc.uploaded===false) {
+          alert('Please complete all required fields'); 
+          return false; 
+     } else {
+      this.setState({ step5: true });  
+      this.post();
     }
   }
 
   handleSubmitFile = info => {
-  //_handleSubmitFile(e, info) {
-      //e.preventDefault(); 
-      //console.log('info in submit file\n'+ JSON.stringify(info));
-      alert('this.state.activeStep ' + this.state.activeStep);
-      if(this.state.activeStep === 1) {
 
-        /*let id1Doc = Object.assign({}, this.state.id1Doc); 
-        let id2Doc = Object.assign({}, this.state.id2Doc);   
-        id1Doc.name = info.file1name; 
-        id1Doc.date = new Date(); 
-        id1Doc.uploaded = info.file1uploaded; 
-        id2Doc.name = info.file2name; 
-        id2Doc.date = new Date(); 
-        id2Doc.uploaded = info.file2uploaded; 
-        console.log('id1Doc\n'+ JSON.stringify(id1Doc));
-        this.setState({ id1Doc: id1Doc, id2Doc: id2Doc });*/
-
+      if(this.state.activeStep === 1) {  // upload id
          this.setState({ 
-           //step2: true,
            id1Doc: { name: info.file1name, date: new Date(), uploaded: info.file1uploaded },
            id2Doc: { name: info.file2name, date: new Date(), uploaded: info.file2uploaded }
           });
+      
+      } else if(this.state.activeStep === 2) {  // upload picture
+        this.setState({ 
+          picDoc: { name: info.file1name, date: new Date(), uploaded: info.file1uploaded },
+        });
+      } else if(this.state.activeStep === 3) {  // upload address
+        this.setState({ 
+          addrDoc: { name: info.file1name, date: new Date(), uploaded: info.file1uploaded },
+        });
+      } else if(this.state.activeStep === 4) {  // upload accreditation
+        this.setState({ 
+          accrDoc: { name: info.file1name, date: new Date(), uploaded: info.file1uploaded },
+        });
       }
-      console.log('state in submit file\n'+ JSON.stringify(this.state));
+
       this.post();
       console.log('posting');
     
@@ -266,17 +297,32 @@ class TextFields extends Component {
                               classes={this.props.classes} 
                               handleChange={ this.handleChange } 
                               handleSubmitFile ={this.handleSubmitFile }
-                              _handleSubmitStep2 ={this._handleSubmitStep2}/>;/*
+                              _handleSubmitStep2 ={this._handleSubmitStep2}/>;
       case 2:
-        return <Step3UploadAddress
-                              userStater={this.state} 
-                              classes={this.props.classes} />;
+        return <Step3UploadPicture 
+                            userState={this.state} 
+                            classes={this.props.classes} 
+                            handleChange={ this.handleChange } 
+                            handleSubmitFile ={this.handleSubmitFile }
+                            _handleSubmitStep3 ={this._handleSubmitStep3}/>;
       case 3:
-        return <Step4UploadAccreditation 
-                              userStater={this.state} 
-                              classes={this.props.classes} />;*/
+        return <Step4UploadAddress
+                            userStater={this.state} 
+                            classes={this.props.classes}
+                            handleSubmitFile ={this.handleSubmitFile }
+                            _handleSubmitStep4 ={this._handleSubmitStep4} />;
+      case 4:
+        return <Step5UploadAccreditation 
+                            userStater={this.state} 
+                            classes={this.props.classes}
+                            handleSubmitFile ={this.handleSubmitFile }
+                            _handleSubmitStep5 ={this._handleSubmitStep5} />;
       default:
-        return <Error404 />;
+        return <Step1UpdateData 
+                            userState={this.state} 
+                            classes={this.props.classes} 
+                            handleChange={ this.handleChange } 
+                            _handleSubmitStep1 ={this._handleSubmitStep1} />
     }
   }
   handleNextStep = () => {
