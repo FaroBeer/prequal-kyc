@@ -144,7 +144,7 @@ class Step2UploadID extends Component {
                     <Button className="submitButton" 
                         variant="contained"
                         component="span"
-                        onClick={(e) => this.props._handleSubmitSingleUpload(e, this.state)}>
+                        onClick={(e) => this.props._handleSubmitStep2(e, this.state)}>
                         SUBMIT
                     </Button>
                 </CardContent>

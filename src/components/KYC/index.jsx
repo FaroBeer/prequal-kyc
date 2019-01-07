@@ -180,6 +180,7 @@ class TextFields extends Component {
     this.handleChange = this.handleChange.bind(this);
     this._handleSubmitStep1 = this._handleSubmitStep1.bind(this);
     this._handleSubmitFile = this._handleSubmitFile.bind(this);
+    this._handleSubmitStep2 = this._handleSubmitStep2.bind(this);
   }
 
   _handleSubmitStep1(e) {
@@ -200,12 +201,27 @@ class TextFields extends Component {
     }
   }
 
+  _handleSubmitStep2(e) {
+    e.preventDefault(); 
+    
+    if((this.state.typeOfID==='passport' && this.state.id1Doc.uploaded===false) || 
+        this.state.typeOfID==='id' && (this.state.id1Doc.uploaded===false || this.state.id2Doc.uploaded===false)){
+          alert('Please complete all required fields'); 
+          return false;
+    
+     } else {
+      this.setState({ step2: true });  
+      this.post();
+      console.log('posting');
+    }
+  }
+
   _handleSubmitFile(e, info) {
       //e.preventDefault(); 
-      console.log(JSON.stringify( info));
+      console.log(JSON.stringify('info in submit file\n'+ info));
       if(this.state.activeStep === 2) {
          this.setState({ 
-           step2: true,
+           //step2: true,
            id1Doc: { name: info.file1name, date: new Date(), uploaded: info.file1uploaded },
            id2Doc: { name: info.file2name, date: new Date(), uploaded: info.file2uploaded }
           })
@@ -234,7 +250,8 @@ class TextFields extends Component {
                               userState={this.state} 
                               classes={this.props.classes} 
                               handleChange={ this.handleChange } 
-                              _handleSubmitFile ={this._handleSubmitFile}/>;/*
+                              _handleSubmitFile ={this._handleSubmitFile }
+                              _handleSubmitStep2 ={this._handleSubmitStep2}/>;/*
       case 2:
         return <Step3UploadAddress
                               userStater={this.state} 
@@ -351,7 +368,7 @@ post = async () => {    // general - for all steps!!!
         
       }
     });
-    console.log('response post:\n'+ JSON.stringify(response))
+    //console.log('response post:\n'+ JSON.stringify(response))
     this.setState({ btnSubmitDisabled: false });  
     console.log('state after submit:\n'+ JSON.stringify(this.state))
 }
