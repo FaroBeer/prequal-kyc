@@ -150,8 +150,10 @@ class TextFields extends Component {
   constructor(props) {
     super(props);
     this.state = {
+           
+      identityPoolId: '', cognitoRegion: '', bucketName: '',
+      //cognitoUser: '', cognitoRegion: '', cognitoID: '',
 
-      cognitoUser: '', cognitoRegion: '', cognitoID: '',
       registrationDatePreKYC: false, registrationDateKYC: false,
       prekyc:false, approved:false, waiting: false, registered:false,                                                                     
       step1:false, step2:false, step3:false, step4:false, step5:false, 
@@ -198,8 +200,9 @@ class TextFields extends Component {
     }
   }
 
-  _handleSubmitSingolUpload(info) {
-    
+  _handleSubmitSingleUpload(e, info) {
+      
+      console.log(JSON.stringify( info));
       if(info.step === 2) {
          this.setState({ 
            step2: true,
@@ -248,10 +251,8 @@ class TextFields extends Component {
     switch (this.state.activeStep) {
       case 0:
         //console.log('handle next step:\n'+JSON.stringify(this.state));
-        this.state.step1 
-            ? 
-            this.setState (state => ({ activeStep: state.activeStep + 1 }))
-            : 
+        this.state.step1 ? 
+            this.setState (state => ({ activeStep: state.activeStep + 1 })) : 
             alert('Step1 not completed');
         this.setState (state => ({
           btnSubmitDisabled: !state.step2,
@@ -412,8 +413,7 @@ post = async () => {    // general - for all steps!!!
       let bucketName;
       
       for (var key in user) {
-        if (!user.hasOwnProperty(key)) continue;
-    
+        if (!user.hasOwnProperty(key)) continue;  
         var obj = user[key];
         for (var prop in obj) {
             if(!obj.hasOwnProperty(prop)) continue;
