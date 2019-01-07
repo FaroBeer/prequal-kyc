@@ -29,7 +29,7 @@ class Step2UploadID extends Component {
     onChange(e, what) {
         if(what === 'id1') this.setState({file1 : e.target.files[0]});
         else if(what === 'id2') this.setState({file2 : e.target.files[0]});
-        console.log('selecting file...\n'+ JSON.stringify(this.state));
+        //console.log('selecting file...\n'+ JSON.stringify(this.state));
     }
 
     onSubmitFile1() {          
@@ -43,8 +43,8 @@ class Step2UploadID extends Component {
                 file1name : 'id1-' + this.props.userState.email + '.png', 
                 file1uploaded:true
             });
-            console.log('submit file1\n'+ JSON.stringify(this.state));
-            this.props._handleSubmitFile(this.state);
+            //console.log('submit file1\n'+ JSON.stringify(this.state));
+            this.props.handleSubmitFile(this.state);
         })
         .catch(err => console.log(err));
     }
@@ -60,8 +60,8 @@ class Step2UploadID extends Component {
                 file2name : 'id2-' + this.props.userState.email + '.png', 
                 file2uploaded:true
             });
-            console.log('submit file2\n'+ JSON.stringify(this.state));
-            this.props._handleSubmitFile(this.state);
+            //console.log('submit file2\n'+ JSON.stringify(this.state));
+            this.props.handleSubmitFile(this.state);
         })
         .catch(err => console.log(err));  
     }
@@ -144,7 +144,7 @@ class Step2UploadID extends Component {
                     <Button className="submitButton" 
                         variant="contained"
                         component="span"
-                        onClick={(e) => this.props._handleSubmitStep2(e, this.state)}>
+                        onClick={(e) => this.props._handleSubmitStep2(e)}>
                         SUBMIT
                     </Button>
                 </CardContent>

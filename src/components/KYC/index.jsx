@@ -179,7 +179,7 @@ class TextFields extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this._handleSubmitStep1 = this._handleSubmitStep1.bind(this);
-    this._handleSubmitFile = this._handleSubmitFile.bind(this);
+    this.handleSubmitFile = this.handleSubmitFile.bind(this);
     this._handleSubmitStep2 = this._handleSubmitStep2.bind(this);
   }
 
@@ -216,16 +216,31 @@ class TextFields extends Component {
     }
   }
 
-  _handleSubmitFile(e, info) {
+  handleSubmitFile = info => {
+  //_handleSubmitFile(e, info) {
       //e.preventDefault(); 
-      console.log(JSON.stringify('info in submit file\n'+ info));
-      if(this.state.activeStep === 2) {
+      //console.log('info in submit file\n'+ JSON.stringify(info));
+      alert('this.state.activeStep ' + this.state.activeStep);
+      if(this.state.activeStep === 1) {
+
+        /*let id1Doc = Object.assign({}, this.state.id1Doc); 
+        let id2Doc = Object.assign({}, this.state.id2Doc);   
+        id1Doc.name = info.file1name; 
+        id1Doc.date = new Date(); 
+        id1Doc.uploaded = info.file1uploaded; 
+        id2Doc.name = info.file2name; 
+        id2Doc.date = new Date(); 
+        id2Doc.uploaded = info.file2uploaded; 
+        console.log('id1Doc\n'+ JSON.stringify(id1Doc));
+        this.setState({ id1Doc: id1Doc, id2Doc: id2Doc });*/
+
          this.setState({ 
            //step2: true,
            id1Doc: { name: info.file1name, date: new Date(), uploaded: info.file1uploaded },
            id2Doc: { name: info.file2name, date: new Date(), uploaded: info.file2uploaded }
-          })
+          });
       }
+      console.log('state in submit file\n'+ JSON.stringify(this.state));
       this.post();
       console.log('posting');
     
@@ -250,7 +265,7 @@ class TextFields extends Component {
                               userState={this.state} 
                               classes={this.props.classes} 
                               handleChange={ this.handleChange } 
-                              _handleSubmitFile ={this._handleSubmitFile }
+                              handleSubmitFile ={this.handleSubmitFile }
                               _handleSubmitStep2 ={this._handleSubmitStep2}/>;/*
       case 2:
         return <Step3UploadAddress
