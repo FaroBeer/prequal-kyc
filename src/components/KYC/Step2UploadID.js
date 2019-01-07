@@ -69,24 +69,37 @@ class Step2UploadID extends Component {
         .catch(err => console.log(err));  
     }
 
-    deleteFile(fileName, fileObj) {          
+    deleteFile(what, fileName, fileObj) {          
         Storage.vault.remove(fileName, fileObj, {
                             level: 'protected'})
         .then (result => console.log(result))
         .catch(err => console.log(err));
 
-        this.props.handleDeleteFile(this.state);
+        this.props.handleDeleteFile(this.state, what);
     }
 
     removeFile(e, what){
-        if(what === 'id1') this.deleteFile(this.state.file1name, this.state.file1);
-        else if(what === 'id2') this.deleteFile(this.state.file2name, this.state.file2);
+        if(what === 'id1'){ 
+            this.deleteFile(what, this.state.file1name, this.state.file1);
+            this.setState({
+                file1: null,
+                file1name : '', 
+                file1uploaded:false,
+            });
+        } else if(what === 'id2'){ 
+            this.deleteFile(what, this.state.file2name, this.state.file2);
+            this.setState({
+                file2: null,
+                file2name : '', 
+                file2uploaded:false,
+            });
+        }
     }
 
     
     componentDidMount() {
         
-        Storage.get(this.props.userState.id1Doc.name, {level: 'private'} )
+        /*Storage.get(this.props.userState.id1Doc.name, {level: 'private'} )
             .then(result => {
                 console.log(result);
                 this.setState({
@@ -97,7 +110,14 @@ class Step2UploadID extends Component {
                 });
                 console.log('step 2 CompDidMount\n'+ JSON.stringify(this.state));
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log(err))*/
+        this.setState({
+            file1name : this.props.userState.id1Doc.name, 
+            file1uploaded: this.props.userState.id1Doc.uploaded,
+            file2name : this.props.userState.id2Doc.name,
+            file2uploaded: this.props.userState.id2Doc.uploaded,
+        });
+        console.log('step 2 CompDidMount\n'+ JSON.stringify(this.state));
     }
   
     render() {
@@ -135,15 +155,19 @@ class Step2UploadID extends Component {
                             
                             <div>PASSPORT</div>
                             <br />
-                            <S3Image level='private' 
-                                imgKey={this.state.file1name} 
-                                path={this.props.userState.bucketName}
-                                theme={{ photoImg: { 
-                                            width: '300px' },
-                                        
-                                    }}
-                                onClick={(e) => this.removeFile(e, 'id1')}
-                                />
+                            <div>
+                                { this.state.file1uploaded ? (
+                                    <S3Image level='private' 
+                                        imgKey={this.state.file1name} 
+                                        path={this.props.userState.bucketName}
+                                        theme={{ photoImg: { 
+                                                    width: '300px' },
+                                                
+                                            }}
+                                        onClick={(e) => this.removeFile(e, 'id1')}
+                                        />
+                                ) : null }
+                            </div>
                             <br />                    
                             <input
                                 type="file" accept='image/png'
@@ -158,15 +182,19 @@ class Step2UploadID extends Component {
 
                             <div>FRONT ID</div>
                             <br />
-                            <S3Image level='private' 
-                                imgKey={this.state.file1name} 
-                                path={this.props.userState.bucketName}
-                                theme={{ photoImg: { 
-                                            width: '300px' },
-                                        
-                                    }}
-                                onClick={(e) => this.removeFile(e, 'id1')}
-                                />
+                            <div>
+                                { this.state.file1uploaded ? (
+                                    <S3Image level='private' 
+                                        imgKey={this.state.file1name} 
+                                        path={this.props.userState.bucketName}
+                                        theme={{ photoImg: { 
+                                                    width: '300px' },
+                                                
+                                            }}
+                                        onClick={(e) => this.removeFile(e, 'id1')}
+                                        />
+                                ) : null }
+                            </div>
                             <br />
                             <input
                                 type="file" accept='image/png'
@@ -180,15 +208,19 @@ class Step2UploadID extends Component {
                             <br /><br /><br />
                             <div>BACK ID</div>
                             <br />
-                            <S3Image level='private' 
-                                imgKey={this.state.file2name} 
-                                path={this.props.userState.bucketName}
-                                theme={{ photoImg: { 
-                                            width: '300px' },
-                                        
-                                    }}
-                                onClick={(e) => this.removeFile(e, 'id2')}
-                                />
+                            <div>
+                                { this.state.file2uploaded ? (
+                                    <S3Image level='private' 
+                                        imgKey={this.state.file2name} 
+                                        path={this.props.userState.bucketName}
+                                        theme={{ photoImg: { 
+                                                    width: '300px' },
+                                                
+                                            }}
+                                        onClick={(e) => this.removeFile(e, 'id2')}
+                                        />
+                                ) : null }
+                            </div>
                             <br />
                             <input
                             type="file" accept='image/png'

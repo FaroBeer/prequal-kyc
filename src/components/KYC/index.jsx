@@ -275,24 +275,34 @@ class TextFields extends Component {
       this.post();    
   }
 
-  handleDeleteFile = info => {
+  handleDeleteFile = (info, what) => {
+    console.log('deleting obj in bucket\n' + JSON.stringify(info));
     if(this.state.activeStep === 1) {  // upload id
-       this.setState({ 
+      if(what === 'id2')
+        this.setState({ 
+          id2Doc: { name: null, date: null, uploaded: false },
+          step2: false
+        });
+      else
+        this.setState({ 
          id1Doc: { name: null, date: null, uploaded: false },
-         id2Doc: { name: null, date: null, uploaded: false }
+         step2: false
         });
     
     } else if(this.state.activeStep === 2) {  // upload picture
       this.setState({ 
         picDoc: { name: null, date: null, uploaded: false },
+        step3: false
       });
     } else if(this.state.activeStep === 3) {  // upload address
       this.setState({ 
         addrDoc: { name: null, date: null, uploaded: false },
+        step4: false
       });
     } else if(this.state.activeStep === 4) {  // upload accreditation
       this.setState({ 
         accrDoc: { name: null, date: null, uploaded: false },
+        step5: false
       });
     }
     this.post();    
