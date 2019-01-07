@@ -74,6 +74,8 @@ class Step2UploadID extends Component {
                             level: 'protected'})
         .then (result => console.log(result))
         .catch(err => console.log(err));
+
+        this.props.handleDeleteFile(this.state);
     }
 
     removeFile(e, what){

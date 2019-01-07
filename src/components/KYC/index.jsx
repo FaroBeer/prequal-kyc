@@ -182,6 +182,7 @@ class TextFields extends Component {
     this.handleChange = this.handleChange.bind(this);
     this._handleSubmitStep1 = this._handleSubmitStep1.bind(this);
     this.handleSubmitFile = this.handleSubmitFile.bind(this);
+    this.handleDeleteFile = this.handleDeleteFile.bind(this);
     this._handleSubmitStep2 = this._handleSubmitStep2.bind(this);
     this._handleSubmitStep3 = this._handleSubmitStep3.bind(this);
     this._handleSubmitStep4 = this._handleSubmitStep4.bind(this);
@@ -274,6 +275,29 @@ class TextFields extends Component {
       this.post();    
   }
 
+  handleDeleteFile = info => {
+    if(this.state.activeStep === 1) {  // upload id
+       this.setState({ 
+         id1Doc: { name: null, date: null, uploaded: false },
+         id2Doc: { name: null, date: null, uploaded: false }
+        });
+    
+    } else if(this.state.activeStep === 2) {  // upload picture
+      this.setState({ 
+        picDoc: { name: null, date: null, uploaded: false },
+      });
+    } else if(this.state.activeStep === 3) {  // upload address
+      this.setState({ 
+        addrDoc: { name: null, date: null, uploaded: false },
+      });
+    } else if(this.state.activeStep === 4) {  // upload accreditation
+      this.setState({ 
+        accrDoc: { name: null, date: null, uploaded: false },
+      });
+    }
+    this.post();    
+}
+
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value
@@ -294,6 +318,7 @@ class TextFields extends Component {
                               classes={this.props.classes} 
                               handleChange={ this.handleChange } 
                               handleSubmitFile ={this.handleSubmitFile }
+                              handleDeleteFile={this.handleDeleteFile}
                               _handleSubmitStep2 ={this._handleSubmitStep2}/>;
       case 2:
         return <Step3UploadPicture 
