@@ -6,8 +6,8 @@ import CardContent from "@material-ui/core/CardContent";
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import {  FormControlLabel } from "@material-ui/core";
-import { PhotoPicker } from 'aws-amplify-react';
 import { S3Image } from 'aws-amplify-react';
+
 
 //import './FileUpload.css';
 
@@ -69,7 +69,7 @@ class Step2UploadID extends Component {
     
     componentDidMount() {
         
-        Storage./*vault.*/get(this.props.userState.id1Doc.name, {level: 'private'} )
+        Storage.get(this.props.userState.id1Doc.name, {level: 'private'} )
             .then(result => {
                 console.log(result);
                 this.setState({
@@ -88,31 +88,87 @@ class Step2UploadID extends Component {
         const userState = this.props.userState;
         const classes = this.props.classes;
 
+        const NavBarCustom = {
+            position: 'relative',
+            border: '1px solid ',
+            borderColor: '#d447e7'
+            }
+        const containerCustom = {
+            fontFamily: `-apple-system,
+                        BlinkMacSystemFont,
+                        "Segoe UI",
+                        Roboto,
+                        "Helvetica Neue",
+                        Arial,
+                        sans-serif,
+                        "Apple Color Emoji",
+                        "Segoe UI Emoji",
+                        "Segoe UI Symbol"`,
+            fontWeight: '100',
+            lineHeight: '1.5',
+            color: '#11111',
+            textAlign: 'right',
+            paddingLeft: '15px',
+            paddingRight: '0px'
+        }
+        const inputCustom = {
+            display: 'block',
+            width: '100%',
+            height: '34px',
+            padding: '6px 12px',
+            fontSize: '20px',
+            lineHeight: '1.42857143',
+            color: '#555',
+            backgroundColor: '#1111',
+            backgroundImage: 'none',
+            border: '1px solid #ccc',
+            borderRadius: '4px',
+            boxShadow: 'inset 0 1px 1px rgba(0,0,0,.075)',
+            boxSizing: 'border-box',
+            transition: 'border-color ease-in-out .15s,box-shadow ease-in-out .15s'
+        };
+
         return (
             
             <Card className={classes.card}>
                 <CardContent>    
-
-                    <img src={userState.id1Doc.file1} />
                  
                     <form>
                         
-                    <RadioGroup
-                        aria-label="typeOfID"
-                        name="typeOfID"
-                        placeholder="Which document do you prefer to upload?"
-                        className={classes.group}
-                        value={userState.typeOfID}
-                        onChange={this.props.handleChange("typeOfID")}
-                    >
-                        <FormControlLabel value="passport" control={<Radio />} label="Passport" />
-                        <FormControlLabel value="id" control={<Radio />} label="ID" />
-                    </RadioGroup>
+                        <div>Which document do you prefer to upload?</div>
+
+                        <RadioGroup
+                            aria-label="typeOfID"
+                            name="typeOfID"
+                            placeholder="Which document do you prefer to upload?"
+                            className={classes.group}
+                            value={userState.typeOfID}
+                            onChange={this.props.handleChange("typeOfID")}
+                        >
+                            <FormControlLabel value="passport" control={<Radio />} label="Passport" />
+                            <FormControlLabel value="id" control={<Radio />} label="ID" />
+                        </RadioGroup>
                     
+                    <br />
+                    <hr />
                     <br />
                     <div>   
                     {userState.typeOfID === 'passport' ? (
                         <div> 
+                            
+                            <div>PASSPORT</div>
+                            <br />
+                            <S3Image level='private' 
+                                imgKey={'id1-'+ this.props.userState.email+'.png'} 
+                                path={this.props.userState.bucketName}
+                                theme={{ photoImg: { 
+                                            width: '300px' },
+                                        container: containerCustom,
+                                        input: inputCustom,
+                                        
+                                    }}
+                                />
+                            <br />                    
                             <input
                                 type="file" accept='image/png'
                                 onChange={(e)=> this.onChange(e, 'id1')}
@@ -122,16 +178,48 @@ class Step2UploadID extends Component {
 
                     ) : (
                         <div>
+
+                            <div>FRONT ID</div>
+                            <br />
+                            <S3Image level='private' 
+                                imgKey={'id1-'+ this.props.userState.email+'.png'} 
+                                path={this.props.userState.bucketName}
+                                theme={{ photoImg: { 
+                                            width: '300px' },
+                                        container: containerCustom,
+                                        input: inputCustom,
+                                        
+                                    }}
+                                />
+                            <br />
                             <input
                                 type="file" accept='image/png'
                                 onChange={(e)=> this.onChange(e, 'id1')}
                             />
+
+                            <br /><br />
                             <Button onClick={(e) => this.onSubmitFile1(e)}>Upload front ID</Button> 
 
+
+                            <br /><br /><br />
+                            <div>BACK ID</div>
+                            <br />
+                            <S3Image level='private' 
+                                imgKey={'id2-'+ this.props.userState.email+'.png'} 
+                                path={this.props.userState.bucketName}
+                                theme={{ photoImg: { 
+                                            width: '300px' },
+                                        container: containerCustom,
+                                        input: inputCustom,
+                                        
+                                    }}
+                                />
+                            <br />
                             <input
                             type="file" accept='image/png'
                             onChange={(e)=> this.onChange(e, 'id2')}
                             />
+                            <br /><br />
                             <Button onClick={(e) => this.onSubmitFile2(e)}>Upload back ID</Button>
                         </div>
                     )}    
@@ -139,7 +227,7 @@ class Step2UploadID extends Component {
   
                     </form>
 
-
+                    <br /><br /><br /><br />
         
                     <Button className="submitButton" 
                         variant="contained"

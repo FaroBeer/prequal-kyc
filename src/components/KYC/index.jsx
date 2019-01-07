@@ -271,10 +271,7 @@ class TextFields extends Component {
           accrDoc: { name: info.file1name, date: new Date(), uploaded: info.file1uploaded },
         });
       }
-
-      this.post();
-      console.log('posting');
-    
+      this.post();    
   }
 
   handleChange = name => event => {
