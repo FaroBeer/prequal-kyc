@@ -13,7 +13,6 @@ import { S3Image } from 'aws-amplify-react';
 
 class Step2UploadID extends Component {
     state = {
-        step: 2,
         file1: '', file1name: '', file1uploaded: false, 
         file2: '', file2name: '', file2uploaded: false, 
     }
@@ -33,53 +32,55 @@ class Step2UploadID extends Component {
         console.log('selecting file...\n'+ JSON.stringify(this.state));
     }
 
-    onSubmitFile1() {      
-        this.setState({
-            //file1: this.state.file1,
-            file1name : 'id1-' + this.props.userState.email + '.png', 
-            file1uploaded:true
-        });
-        console.log('submit file1\n'+ JSON.stringify(this.state));
+    onSubmitFile1() {          
         Storage.vault.put('id1-' + this.props.userState.email + '.png', this.state.file1, {
             contentType: 'image/png'
         })
-        .then (result => console.log(result))
+        .then (result => {
+            console.log(result);
+            this.setState({
+                //file1: this.state.file1,
+                file1name : 'id1-' + this.props.userState.email + '.png', 
+                file1uploaded:true
+            });
+            console.log('submit file1\n'+ JSON.stringify(this.state));
+            this.props._handleSubmitFile(this.state);
+        })
         .catch(err => console.log(err));
-
-        this.props._handleSubmitSingolUpload(this.state);
-
     }
 
-    onSubmitFile2() {
-        this.setState({
-            file2: this.state.file2,
-            file2name : 'id1-' + this.props.userState.email + '.png', 
-            file2uploaded:true
-        });
-        console.log('submit file2\n'+ JSON.stringify(this.state));
+    onSubmitFile2() {             
         Storage.vault.put('id2-' + this.props.userState.email + '.png', this.state.file2, {
             contentType: 'image/png'
         })
-        .then (result => console.log(result))
-        .catch(err => console.log(err));
+        .then (result => {
+            console.log(result);
+            this.setState({
+                //file2: this.state.file2,
+                file2name : 'id2-' + this.props.userState.email + '.png', 
+                file2uploaded:true
+            });
+            console.log('submit file2\n'+ JSON.stringify(this.state));
+            this.props._handleSubmitFile(this.state);
+        })
+        .catch(err => console.log(err));  
     }
 
     
     componentDidMount() {
         
         Storage./*vault.*/get(this.props.userState.id1Doc.name, {level: 'private'} )
-            .then(result => console.log(result))
+            .then(result => {
+                console.log(result);
+                this.setState({
+                    file1name : this.props.userState.id1Doc.name, 
+                    file1uploaded: this.props.userState.id1Doc.uploaded,
+                    file2name : this.props.userState.id2Doc.name,
+                    file2uploaded: this.props.userState.id2Doc.uploaded,
+                });
+                console.log('step 2 CompDidMount\n'+ JSON.stringify(this.state));
+            })
             .catch(err => console.log(err))
-        
-        // check as soon as it is possible to save in the state    
-        this.setState({
-            file1name : this.props.userState.id1Doc.name, 
-            file1uploaded: this.props.userState.id1Doc.uploaded,
-            file2name : this.props.userState.id2Doc.name,
-            file2uploaded: this.props.userState.id2Doc.uploaded,
-        });
-
-        console.log('step 2 CompDidMount\n'+ JSON.stringify(this.state));
     }
   
     render() {

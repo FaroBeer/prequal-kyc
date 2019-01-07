@@ -179,7 +179,7 @@ class TextFields extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this._handleSubmitStep1 = this._handleSubmitStep1.bind(this);
-    this._handleSubmitSingolUpload = this._handleSubmitSingolUpload.bind(this);
+    this._handleSubmitFile = this._handleSubmitFile.bind(this);
   }
 
   _handleSubmitStep1(e) {
@@ -200,10 +200,10 @@ class TextFields extends Component {
     }
   }
 
-  _handleSubmitSingleUpload(e, info) {
-      
+  _handleSubmitFile(e, info) {
+      //e.preventDefault(); 
       console.log(JSON.stringify( info));
-      if(info.step === 2) {
+      if(this.state.activeStep === 2) {
          this.setState({ 
            step2: true,
            id1Doc: { name: info.file1name, date: new Date(), uploaded: info.file1uploaded },
@@ -234,7 +234,7 @@ class TextFields extends Component {
                               userState={this.state} 
                               classes={this.props.classes} 
                               handleChange={ this.handleChange } 
-                              _handleSubmitSingolUpload ={this._handleSubmitSingolUpload}/>;/*
+                              _handleSubmitFile ={this._handleSubmitFile}/>;/*
       case 2:
         return <Step3UploadAddress
                               userStater={this.state} 
@@ -390,7 +390,14 @@ post = async () => {    // general - for all steps!!!
         window.location.href = "/dashboard" : 
         this.state.prekyc===false ? 
             window.location.href = "/" : 
-            console.log('approved') 
+            console.log('approved'); 
+
+    let activeStep;
+    if(this.state.step1 === false) activeStep=0;
+    else if(this.state.step2 === false) activeStep=1;
+    else if(this.state.step3 === false) activeStep=2;
+    else if(this.state.step4 === false) activeStep=3;
+    else if(this.state.step5 === false) activeStep=4;
     
     if((this.state.step1 === true && this.state.activeStep === 0) ||
         (this.state.step2 === true && this.state.activeStep === 1) ||
@@ -398,7 +405,8 @@ post = async () => {    // general - for all steps!!!
         (this.state.step4 === true && this.state.activeStep === 3) ||
         (this.state.step5 === true && this.state.activeStep === 4) )
       this.setState({
-        btnSubmitDisabled: false
+        btnSubmitDisabled: false,
+        activeStep: activeStep
       });
 
   }
