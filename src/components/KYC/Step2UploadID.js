@@ -8,40 +8,39 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import {  FormControlLabel } from "@material-ui/core";
 import { S3Image } from 'aws-amplify-react';
 
-
 //import './FileUpload.css';
 
 class Step2UploadID extends Component {
-    state = {
-        file1: '', file1name: '', file1uploaded: false, 
-        file2: '', file2name: '', file2uploaded: false, 
-    }
-    /*constructor(props) {
+
+    constructor(props) {
         super(props);
         this.state = {
             step: 2,
             file1: '', file1name: '', file1uploaded: false, 
             file2: '', file2name: '', file2uploaded: false, 
         }
-    }*/
+    }
     
 
     onChange(e, what) {
         if(what === 'id1') this.setState({file1 : e.target.files[0]});
         else if(what === 'id2') this.setState({file2 : e.target.files[0]});
-        //console.log('selecting file...\n'+ JSON.stringify(this.state));
     }
 
-    onSubmitFile1() {          
-        Storage.vault.put('id1-' + this.props.userState.email + '.png', this.state.file1, {
+    onSubmitFile1() { 
+
+        this.deleteFile(this.state.file1name, this.state.file1);
+
+        let fileName = 'id1-' + Math.random().toString().replace('0.','') + '-' + this.props.userState.email + '.png';        
+        Storage.vault.put(fileName, this.state.file1, {
             contentType: 'image/png'
         })
         .then (result => {
             console.log(result);
             this.setState({
-                //file1: this.state.file1,
-                file1name : 'id1-' + this.props.userState.email + '.png', 
-                file1uploaded:true
+                file1: this.state.file1,
+                file1name : fileName, 
+                file1uploaded:true,
             });
             //console.log('submit file1\n'+ JSON.stringify(this.state));
             this.props.handleSubmitFile(this.state);
@@ -49,21 +48,37 @@ class Step2UploadID extends Component {
         .catch(err => console.log(err));
     }
 
-    onSubmitFile2() {             
-        Storage.vault.put('id2-' + this.props.userState.email + '.png', this.state.file2, {
+    onSubmitFile2() { 
+        
+        this.deleteFile(this.state.file2name, this.state.file2);
+
+        let fileName = 'id2-' + Math.random().toString().replace('0.','') + '-' + this.props.userState.email + '.png';    
+        Storage.vault.put(fileName, this.state.file2, {
             contentType: 'image/png'
         })
         .then (result => {
             console.log(result);
             this.setState({
-                //file2: this.state.file2,
-                file2name : 'id2-' + this.props.userState.email + '.png', 
-                file2uploaded:true
+                file2: this.state.file2,
+                file2name : fileName, 
+                file2uploaded:true,
             });
             //console.log('submit file2\n'+ JSON.stringify(this.state));
             this.props.handleSubmitFile(this.state);
         })
         .catch(err => console.log(err));  
+    }
+
+    deleteFile(fileName, fileObj) {          
+        Storage.vault.remove(fileName, fileObj, {
+                            level: 'protected'})
+        .then (result => console.log(result))
+        .catch(err => console.log(err));
+    }
+
+    removeFile(e, what){
+        if(what === 'id1') this.deleteFile(this.state.file1name, this.state.file1);
+        else if(what === 'id2') this.deleteFile(this.state.file2name, this.state.file2);
     }
 
     
@@ -87,46 +102,6 @@ class Step2UploadID extends Component {
 
         const userState = this.props.userState;
         const classes = this.props.classes;
-
-        const NavBarCustom = {
-            position: 'relative',
-            border: '1px solid ',
-            borderColor: '#d447e7'
-            }
-        const containerCustom = {
-            fontFamily: `-apple-system,
-                        BlinkMacSystemFont,
-                        "Segoe UI",
-                        Roboto,
-                        "Helvetica Neue",
-                        Arial,
-                        sans-serif,
-                        "Apple Color Emoji",
-                        "Segoe UI Emoji",
-                        "Segoe UI Symbol"`,
-            fontWeight: '100',
-            lineHeight: '1.5',
-            color: '#11111',
-            textAlign: 'right',
-            paddingLeft: '15px',
-            paddingRight: '0px'
-        }
-        const inputCustom = {
-            display: 'block',
-            width: '100%',
-            height: '34px',
-            padding: '6px 12px',
-            fontSize: '20px',
-            lineHeight: '1.42857143',
-            color: '#555',
-            backgroundColor: '#1111',
-            backgroundImage: 'none',
-            border: '1px solid #ccc',
-            borderRadius: '4px',
-            boxShadow: 'inset 0 1px 1px rgba(0,0,0,.075)',
-            boxSizing: 'border-box',
-            transition: 'border-color ease-in-out .15s,box-shadow ease-in-out .15s'
-        };
 
         return (
             
@@ -159,20 +134,20 @@ class Step2UploadID extends Component {
                             <div>PASSPORT</div>
                             <br />
                             <S3Image level='private' 
-                                imgKey={'id1-'+ this.props.userState.email+'.png'} 
+                                imgKey={this.state.file1name} 
                                 path={this.props.userState.bucketName}
                                 theme={{ photoImg: { 
                                             width: '300px' },
-                                        container: containerCustom,
-                                        input: inputCustom,
                                         
                                     }}
+                                onClick={(e) => this.removeFile(e, 'id1')}
                                 />
                             <br />                    
                             <input
                                 type="file" accept='image/png'
                                 onChange={(e)=> this.onChange(e, 'id1')}
                             />
+                            <br /><br />
                             <Button onClick={(e) => this.onSubmitFile1(e)}>Upload passport</Button> 
                         </div>
 
@@ -182,14 +157,13 @@ class Step2UploadID extends Component {
                             <div>FRONT ID</div>
                             <br />
                             <S3Image level='private' 
-                                imgKey={'id1-'+ this.props.userState.email+'.png'} 
+                                imgKey={this.state.file1name} 
                                 path={this.props.userState.bucketName}
                                 theme={{ photoImg: { 
                                             width: '300px' },
-                                        container: containerCustom,
-                                        input: inputCustom,
                                         
                                     }}
+                                onClick={(e) => this.removeFile(e, 'id1')}
                                 />
                             <br />
                             <input
@@ -205,14 +179,13 @@ class Step2UploadID extends Component {
                             <div>BACK ID</div>
                             <br />
                             <S3Image level='private' 
-                                imgKey={'id2-'+ this.props.userState.email+'.png'} 
+                                imgKey={this.state.file2name} 
                                 path={this.props.userState.bucketName}
                                 theme={{ photoImg: { 
                                             width: '300px' },
-                                        container: containerCustom,
-                                        input: inputCustom,
                                         
                                     }}
+                                onClick={(e) => this.removeFile(e, 'id2')}
                                 />
                             <br />
                             <input
@@ -237,12 +210,6 @@ class Step2UploadID extends Component {
                     </Button>
                 </CardContent>
             </Card>
-
-
-
-
-
-
         )
     }
 }

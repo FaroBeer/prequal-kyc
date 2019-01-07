@@ -64,6 +64,7 @@ class Step3UploadPicture extends Component {
                                     },
                           
                                 }}
+                            
                             />
                             <input
                                 type="file" accept='image/png'
