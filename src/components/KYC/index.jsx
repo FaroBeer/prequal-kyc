@@ -49,6 +49,7 @@ import Step2UploadID from './Step2UploadID';
 import Step3UploadPicture from './Step3UploadPicture';
 import Step4UploadAddress from './Step4UploadAddress';
 import Step5UploadAccreditation from './Step5UploadAccreditation';
+import Step6ConfirmAll from './Step6ConfirmAll';
 //import Error404 from "../Error/404";
 
 const styles = theme => ({
@@ -145,7 +146,7 @@ const styles = theme => ({
 });
 
 function getSteps() {
-  return ['Insert your data', 'Upload ID', 'Upload address', 'Payment'];
+  return ['Insert your data', 'Upload ID', 'Upload picture', 'Upload address', 'Upload accreditation', 'Confirm All'];
 }
 
 class TextFields extends Component {
@@ -158,7 +159,7 @@ class TextFields extends Component {
       //cognitoUser: '', cognitoRegion: '', cognitoID: '',
       registrationDatePreKYC: false, registrationDateKYC: false,
       prekyc:false, approved:false, waiting: false, registered:false,                                                                     
-      step1:false, step2:false, step3:false, step4:false, step5:false, 
+      step1:false, step2:false, step3:false, step4:false, step5:false, completedKyc:false,
       activeStep: 0,   
       
       email:'',
@@ -186,7 +187,8 @@ class TextFields extends Component {
     this._handleSubmitStep2 = this._handleSubmitStep2.bind(this);
     this._handleSubmitStep3 = this._handleSubmitStep3.bind(this);
     this._handleSubmitStep4 = this._handleSubmitStep4.bind(this);
-    this._handleSubmitStep5 = this._handleSubmitStep4.bind(this);
+    this._handleSubmitStep5 = this._handleSubmitStep5.bind(this);
+    this._handleSubmitStep6 = this._handleSubmitStep6.bind(this);
   }
 
   _handleSubmitStep1(e) {
@@ -251,6 +253,14 @@ class TextFields extends Component {
     }
   }
 
+  _handleSubmitStep6(e) {
+    e.preventDefault();   
+    
+    this.setState({ completedKyc: true });  
+    this.post().then(window.location.href='/registered');
+  
+  }
+
   handleSubmitFile = info => {
 
       if(this.state.activeStep === 1) {  // upload id
@@ -261,15 +271,15 @@ class TextFields extends Component {
       
       } else if(this.state.activeStep === 2) {  // upload picture
         this.setState({ 
-          picDoc: { name: info.file1name, date: new Date(), uploaded: info.file1uploaded },
+          picDoc: { name: info.file3name, date: new Date(), uploaded: info.file3uploaded },
         });
       } else if(this.state.activeStep === 3) {  // upload address
         this.setState({ 
-          addrDoc: { name: info.file1name, date: new Date(), uploaded: info.file1uploaded },
+          addrDoc: { name: info.file4name, date: new Date(), uploaded: info.file4uploaded },
         });
       } else if(this.state.activeStep === 4) {  // upload accreditation
         this.setState({ 
-          accrDoc: { name: info.file1name, date: new Date(), uploaded: info.file1uploaded },
+          accrDoc: { name: info.file5name, date: new Date(), uploaded: info.file5uploaded },
         });
       }
       this.post();    
@@ -336,19 +346,26 @@ class TextFields extends Component {
                             classes={this.props.classes} 
                             handleChange={ this.handleChange } 
                             handleSubmitFile ={this.handleSubmitFile }
+                            handleDeleteFile={this.handleDeleteFile}
                             _handleSubmitStep3 ={this._handleSubmitStep3}/>;
       case 3:
         return <Step4UploadAddress
-                            userStater={this.state} 
+                            userState={this.state} 
                             classes={this.props.classes}
                             handleSubmitFile ={this.handleSubmitFile }
+                            handleDeleteFile={this.handleDeleteFile}
                             _handleSubmitStep4 ={this._handleSubmitStep4} />;
       case 4:
         return <Step5UploadAccreditation 
-                            userStater={this.state} 
+                            userState={this.state} 
                             classes={this.props.classes}
                             handleSubmitFile ={this.handleSubmitFile }
+                            handleDeleteFile={this.handleDeleteFile}
                             _handleSubmitStep5 ={this._handleSubmitStep5} />;
+      case 5:
+        return <Step6ConfirmAll 
+                            classes={this.props.classes}
+                            _handleSubmitStep6 ={this._handleSubmitStep6} />;
       default:
         return <Step1UpdateData 
                             userState={this.state} 
@@ -393,12 +410,31 @@ class TextFields extends Component {
         btnSubmitDisabled: !state.step5,
       }))
       break;
+    case 4:
+      this.state.step5 ? this.setState(state => ({
+        activeStep: state.activeStep + 1
+      })) : alert('Step5 not completed');
+      this.setState (state => ({
+        btnSubmitDisabled: !state.step6,
+      }))
+      break;
+    case 5:
+      this.state.completedKyc ? this.setState(state => ({
+        activeStep: state.activeStep + 1
+      })) : alert('Confirm all info');
+      //this.setState (state => ({
+      //  btnSubmitDisabled: !state.step6,
+      //}))
+      break;
     }
   };
   handleBackStep = () => {
     (this.state.activeStep>0) ? this.setState(state => ({
       activeStep: state.activeStep - 1,
-    })) : this.setState(state => ({activeStep: 0}))
+    })) : this.setState(state => ({activeStep: 0}));
+    this.setState (state => ({
+      btnSubmitDisabled: false,
+    }))
   };
 
   
@@ -414,7 +450,7 @@ post = async () => {    // general - for all steps!!!
         
         // boolean utilities
         prekyc:this.state.prekyc, approved:this.state.approved, waiting: this.state.waiting, registered:this.state.registered,                                                                                                                                                
-        step1:this.state.step1, step2:this.state.step2, step3:this.state.step3, step4:this.state.step4, step5:this.state.step5,         
+        step1:this.state.step1, step2:this.state.step2, step3:this.state.step3, step4:this.state.step4, step5:this.state.step5, completedKyc:this.state.completedKyc,        
         
         //step 1 - prekyc
         email:this.state.email,
@@ -463,37 +499,15 @@ post = async () => {    // general - for all steps!!!
     });
     //console.log('response post:\n'+ JSON.stringify(response))
     this.setState({ btnSubmitDisabled: false });  
-    console.log('state after submit:\n'+ JSON.stringify(this.state))
+    console.log('state after submit:\n'+ JSON.stringify(this.state));
+    return true;
 }
 
 
   getUser = async () => {
     const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
     //if(response) console.log ('user:\n' + JSON.stringify(response));
-    this.setState(response);
-
-    /*this.setState({
-      registrationDatePreKYC: response.registrationDatePreKYC, registrationDateKYC: response.registrationDateKYC,         
-      prekyc:response.prekyc, approved:response.approved, waiting: response.waiting, registered:response.registered,                                                                                                                                                
-      step1:response.step1, step2:response.step2, step3:response.step3, step4:response.step4, step5:response.step5,          
-      email:response.email,
-      firstName:response.firstName, middleName:response.middleName, surname:response.surname,          
-      address:response.address, city:response.city, zipCode:response.zipCode, regionState:response.regionState,
-      countryCitizenship:response.countryCitizenship, countryResidence:response.countryResidence,        
-      dateBirth:response.dateBirth,
-      occupation:response.occupation,  
-      amount:response.amount,  
-      accreditedInvestor:response.accreditedInvestor,         
-      typeOfID: response.typeOfID,
-      id1Doc: { name:response.id1Doc.name, date:response.id1Doc.date, uploaded: response.id1Doc.uploaded, approved: response.id1Doc.approved},
-      id2Doc: { name:response.id2Doc.name, date:response.id2Doc.date, uploaded: response.id2Doc.uploaded, approved: response.id2Doc.approved},
-      picDoc: { name:response.picDoc.name, date:response.picDoc.date, uploaded: response.picDoc.uploaded, approved: response.picDoc.approved},
-      addrDoc: { name:response.addrDoc.name, date:response.addrDoc.date, uploaded: response.addrDoc.uploaded, approved: response.addrDoc.approved},
-      accrDoc: { name:response.accrDoc.name, date:response.accrDoc.date, uploaded: response.accrDoc.uploaded, approved: response.accrDoc.approved},
-      
-    });*/
-    //console.log('response getUser:\n'+ JSON.stringify(response))
-    
+    this.setState(response);   
     console.log('state getUser:\n'+ JSON.stringify(this.state));
 
     this.state.approved === false || this.state.waiting ? 
@@ -508,6 +522,7 @@ post = async () => {    // general - for all steps!!!
     else if(this.state.step3 === false) activeStep=2;
     else if(this.state.step4 === false) activeStep=3;
     else if(this.state.step5 === false) activeStep=4;
+    else activeStep=5;
     
     if((this.state.step1 === true && this.state.activeStep === 0) ||
         (this.state.step2 === true && this.state.activeStep === 1) ||

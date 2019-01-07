@@ -9,6 +9,7 @@
   waiting: false,                                                                        //for typo2 states  
   prekyc:false,                                                                         //pre kyc done
   step1:false, step2:false, step3:false, step4:false, step5:false, activeStep: 0,       //for the KYC
+  completedKyc
   email:'',
   firstName:'',
   middleName:'',
@@ -134,6 +135,7 @@ class TextFields extends Component {
     waiting:false,
     prekyc:false,
     step1:false, step2:false, step3:false, step4:false, step5:false, activeStep: 0,   //for the KYC
+    completedKyc: false,
     email:'',
     firstName:'',
     middleName:'',
@@ -198,6 +200,7 @@ post = async () => {
           waiting: checkWaiting,   // if in state typo2 and not accredited   
           prekyc:true,
           step1:false, step2:false, step3:false, step4:false, step5:false, //for the KYC
+          completedKyc: false,
           email:this.state.email,
           firstName:this.state.firstName,
           middleName:this.state.middleName || null,

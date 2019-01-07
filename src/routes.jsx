@@ -9,6 +9,7 @@ import Error404 from './components/Error/404';
 import Register from './components/Register';
 import Dashboard from './components/Dashboard';
 import KYC from './components/KYC';
+import Registered from './components/Registered'
 import { Authenticator, SignIn, ConfirmSignIn, RequireNewPassword, SignUp, ConfirmSignUp, VerifyContact, ForgotPassword, TOTPSetup } from 'aws-amplify-react';
 
 import { AmplifyTheme } from 'aws-amplify-react';
@@ -45,6 +46,7 @@ const AppRoutes = () => (
         <Route path="/register" component={Register} exact />
         <Route path="/dashboard" component={Dashboard} exact />
         <Route path="/complete" component={KYC} exact />
+        <Route path="/registered" component={Registered} exact />
         <Route component={Error404} />
       </Switch>
     </App>
