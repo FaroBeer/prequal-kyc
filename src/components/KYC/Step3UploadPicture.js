@@ -59,14 +59,7 @@ class Step3UploadPicture extends Component {
         });
     }
 
-    componentDidMount() {
-        this.setState({
-            file3name : this.props.userState.picDoc.name, 
-            file3uploaded: this.props.userState.picDoc.uploaded,
-        });
-        console.log('step 3 CompDidMount\n'+ JSON.stringify(this.state));
-    }
-  
+
     render() {
         const userState = this.props.userState;
         const classes = this.props.classes;
@@ -80,10 +73,10 @@ class Step3UploadPicture extends Component {
                             <div>PICTURE</div>
                             <br />
                             <div>
-                                { this.state.file3uploaded ? (
+                                { userState.picDoc.uploaded ? (
                                     <S3Image level='private' 
-                                        imgKey={this.state.file3name} 
-                                        path={this.props.userState.bucketName}
+                                        imgKey={userState.picDoc.name} 
+                                        path={userState.bucketName}
                                         theme={{ photoImg: { 
                                                     width: '300px' },
                                                 

@@ -35,7 +35,7 @@ class Step5UploadAccreditation extends Component {
                 file5name : fileName, 
                 file5uploaded:true,
             });
-            //console.log('submit file5\n'+ JSON.stringify(this.state));
+            console.log('submit file5\n'+ JSON.stringify(this.state));
             this.props.handleSubmitFile(this.state);
         })
         .catch(err => console.log(err));
@@ -59,14 +59,7 @@ class Step5UploadAccreditation extends Component {
         });
     }
 
-    componentDidMount() {
-        //this.setState({
-            //file5name : this.props.userState.accrDoc.name, 
-            //file5uploaded: this.props.userState.accrDoc.uploaded,
-        //});
-        console.log('step 5 CompDidMount\n'+ JSON.stringify(this.state));
-    }
-  
+ 
     render() {
         const userState = this.props.userState;
         const classes = this.props.classes;
@@ -80,21 +73,22 @@ class Step5UploadAccreditation extends Component {
                             <div>ACCREDITATION</div>
                             <br />
                             <div>
-                                { this.state.file5uploaded ? (
-                                    <S3Image level='private' 
-                                        imgKey={this.state.file5name} 
-                                        path={this.props.userState.bucketName}
+                                { userState.accrDoc.uploaded ? (
+                                    /*<S3Image level='private' 
+                                        imgKey={userState.accrDoc.name} 
+                                        path={userState.bucketName}
                                         theme={{ photoImg: { 
                                                     width: '300px' },
                                                 
                                             }}
                                         onClick={(e) => this.removeFile(e, 'accr')}
-                                        />
+                                        />*/
+                                        <div>UPLOADED</div>
                                 ) : null }
                             </div>
                             <br />                    
                             <input
-                                type="file" accept='image/png'
+                                type="file" accept='text/pdf'
                                 onChange={(e)=> this.onChange(e, 'accr')}
                             />
                             <br /><br />

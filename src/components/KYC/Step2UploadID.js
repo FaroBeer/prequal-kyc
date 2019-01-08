@@ -50,7 +50,7 @@ class Step2UploadID extends Component {
 
     onSubmitFile2() { 
         
-        this.deleteFile(this.state.file2name, this.state.file2);
+        this.deleteFile('id2',this.props.userState.id2Doc.name, this.state.file2);
 
         let fileName = 'id2-' + Math.random().toString().replace('0.','') + '-' + this.props.userState.email + '.png';    
         Storage.vault.put(fileName, this.state.file2, {
@@ -97,28 +97,6 @@ class Step2UploadID extends Component {
     }
 
     
-    componentDidMount() {
-        
-        /*Storage.get(this.props.userState.id1Doc.name, {level: 'private'} )
-            .then(result => {
-                console.log(result);
-                this.setState({
-                    file1name : this.props.userState.id1Doc.name, 
-                    file1uploaded: this.props.userState.id1Doc.uploaded,
-                    file2name : this.props.userState.id2Doc.name,
-                    file2uploaded: this.props.userState.id2Doc.uploaded,
-                });
-                console.log('step 2 CompDidMount\n'+ JSON.stringify(this.state));
-            })
-            .catch(err => console.log(err))*/
-        this.setState({
-            file1name : this.props.userState.id1Doc.name, 
-            file1uploaded: this.props.userState.id1Doc.uploaded,
-            file2name : this.props.userState.id2Doc.name,
-            file2uploaded: this.props.userState.id2Doc.uploaded,
-        });
-        console.log('step 2 CompDidMount\n'+ JSON.stringify(this.state));
-    }
   
     render() {
 
@@ -156,10 +134,10 @@ class Step2UploadID extends Component {
                             <div>PASSPORT</div>
                             <br />
                             <div>
-                                { this.state.file1uploaded ? (
+                                { userState.id1Doc.uploaded ? (
                                     <S3Image level='private' 
-                                        imgKey={this.state.file1name} 
-                                        path={this.props.userState.bucketName}
+                                        imgKey={userState.id1Doc.name} 
+                                        path={userState.bucketName}
                                         theme={{ photoImg: { 
                                                     width: '300px' },
                                                 
@@ -170,7 +148,7 @@ class Step2UploadID extends Component {
                             </div>
                             <br />                    
                             <input
-                                type="file" accept='image/png'
+                                type="file" accept='image/png,image/jpeg'
                                 onChange={(e)=> this.onChange(e, 'id1')}
                             />
                             <br /><br />
@@ -183,10 +161,10 @@ class Step2UploadID extends Component {
                             <div>FRONT ID</div>
                             <br />
                             <div>
-                                { this.state.file1uploaded ? (
+                                { userState.id1Doc.uploaded ? (
                                     <S3Image level='private' 
-                                        imgKey={this.state.file1name} 
-                                        path={this.props.userState.bucketName}
+                                        imgKey={userState.id1Doc.name} 
+                                        path={userState.bucketName}
                                         theme={{ photoImg: { 
                                                     width: '300px' },
                                                 
@@ -209,10 +187,10 @@ class Step2UploadID extends Component {
                             <div>BACK ID</div>
                             <br />
                             <div>
-                                { this.state.file2uploaded ? (
+                                { userState.id2Doc.uploaded ? (
                                     <S3Image level='private' 
-                                        imgKey={this.state.file2name} 
-                                        path={this.props.userState.bucketName}
+                                        imgKey={userState.id2Doc.name} 
+                                        path={userState.bucketName}
                                         theme={{ photoImg: { 
                                                     width: '300px' },
                                                 

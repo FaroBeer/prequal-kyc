@@ -59,14 +59,7 @@ class Step4UploadAddress extends Component {
         });
     }
 
-    componentDidMount() {
-        //this.setState({
-            //file4name : this.props.userState.addrDoc.name, 
-            //file4uploaded: this.props.userState.addrDoc.uploaded,
-        //});
-        console.log('step 4 CompDidMount\n'+ JSON.stringify(this.state));
-    }
-  
+ 
     render() {
         const userState = this.props.userState;
         const classes = this.props.classes;
@@ -80,10 +73,10 @@ class Step4UploadAddress extends Component {
                             <div>ADDRESS</div>
                             <br />
                             <div>
-                                { this.state.file4uploaded ? (
+                                { userState.addrDoc.uploaded ? (
                                     <S3Image level='private' 
-                                        imgKey={this.state.file4name} 
-                                        path={this.props.userState.bucketName}
+                                        imgKey={userState.addrDoc.name} 
+                                        path={userState.bucketName}
                                         theme={{ photoImg: { 
                                                     width: '300px' },
                                                 

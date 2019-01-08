@@ -203,7 +203,7 @@ class TextFields extends Component {
           return false;
     
      } else {
-      this.setState({ step1: true });  
+      this.setState({ step1: true , btnSubmitDisabled: false}); 
       this.post();
     }
   }
@@ -215,7 +215,7 @@ class TextFields extends Component {
           alert('Please complete all required fields'); 
           return false; 
      } else {
-      this.setState({ step2: true });  
+      this.setState({ step2: true , btnSubmitDisabled: false});  
       this.post();
     }
   }
@@ -226,7 +226,7 @@ class TextFields extends Component {
           alert('Please complete all required fields'); 
           return false; 
      } else {
-      this.setState({ step3: true });  
+      this.setState({ step3: true , btnSubmitDisabled: false });  
       this.post();
     }
   }
@@ -237,7 +237,7 @@ class TextFields extends Component {
           alert('Please complete all required fields'); 
           return false; 
      } else {
-      this.setState({ step4: true });  
+      this.setState({ step4: true , btnSubmitDisabled: false });  
       this.post();
     }
   }
@@ -248,7 +248,7 @@ class TextFields extends Component {
           alert('Please complete all required fields'); 
           return false; 
      } else {
-      this.setState({ step5: true });  
+      this.setState({ step5: true , btnSubmitDisabled: false });  
       this.post();
     }
   }
@@ -364,6 +364,7 @@ class TextFields extends Component {
                             _handleSubmitStep5 ={this._handleSubmitStep5} />;
       case 5:
         return <Step6ConfirmAll 
+                            userState={this.state}
                             classes={this.props.classes}
                             _handleSubmitStep6 ={this._handleSubmitStep6} />;
       default:
@@ -415,7 +416,7 @@ class TextFields extends Component {
         activeStep: state.activeStep + 1
       })) : alert('Step5 not completed');
       this.setState (state => ({
-        btnSubmitDisabled: !state.step6,
+        btnSubmitDisabled: !state.completedKyc,
       }))
       break;
     case 5:
@@ -498,11 +499,13 @@ post = async () => {    // general - for all steps!!!
       }
     });
     //console.log('response post:\n'+ JSON.stringify(response))
-    this.setState({ btnSubmitDisabled: false });  
+    //this.setState({ btnSubmitDisabled: false });  
     console.log('state after submit:\n'+ JSON.stringify(this.state));
     return true;
 }
+isDisabled() {
 
+}
 
   getUser = async () => {
     const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
@@ -627,7 +630,7 @@ post = async () => {    // general - for all steps!!!
                     <Button
                       variant="contained"
                       color="primary"
-                      disabled={this.state.btnSubmitDisabled}
+                      disabled={this.isDisabled()}
                       onClick={this.handleNextStep}
                       className={classes.button}
                     >
