@@ -440,7 +440,7 @@ class TextFields extends Component {
   
   
 post = async () => {    // general - for all steps!!!
-    console.log('calling post for step '+ this.state.activeStep);
+    console.log('calling post for step '+ this.state.activeStep+1 );
 
     let middleName = this.state.middleName !== '' ? this.state.middleName : null;
     const response = await API.post('preKYCapi', '/items', {

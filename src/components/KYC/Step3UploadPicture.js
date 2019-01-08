@@ -60,10 +60,10 @@ class Step3UploadPicture extends Component {
     }
 
     componentDidMount() {
-        //this.setState({
-            //file3name : this.props.userState.picDoc.name, 
-            //file3uploaded: this.props.userState.picDoc.uploaded,
-        //});
+        this.setState({
+            file3name : this.props.userState.picDoc.name, 
+            file3uploaded: this.props.userState.picDoc.uploaded,
+        });
         console.log('step 3 CompDidMount\n'+ JSON.stringify(this.state));
     }
   

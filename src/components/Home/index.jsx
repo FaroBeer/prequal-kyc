@@ -146,11 +146,19 @@ class Home extends Component {
     //console.log(response);
     if(response){
       if(response.prekyc === true) {
-        this.setState({
-          url: '/dashboard',
-          label: 'Dashboard',
-        });
+        if(response.completedKyc === true) {
+          this.setState({
+            url: '/registered',
+            label: 'Dashboard',
+          });
+  
+        } else {
 
+          this.setState({
+            url: '/dashboard',
+            label: 'Dashboard',
+          });
+        }
       } else {
         this.setState({
           url: '/register',

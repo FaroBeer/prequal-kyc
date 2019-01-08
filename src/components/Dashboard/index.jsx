@@ -102,9 +102,10 @@ const styles = theme => ({
     borderRadius: 4,
     border: 2,
     marginTop:40,
+    
   },
-  classShow: {display:'flex', textDecoration: 'none',},
-  classHide: {display:'none'}
+  classShow: {display:'flex', textDecoration: 'none !important',},
+  classHide: {display:'none', textDecoration: 'none !important'}
 });
 
 class Dashboard extends Component {
