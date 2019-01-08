@@ -1,31 +1,3 @@
-/*
-
-  STATE  =  USER RECORD
-
-  registrationDatePreKYC: new Date(),
-  registrationDateKYC: new Date(),
-  registered:false,                                                                     //end of the process
-  approved:false,                                                                       //elegible for KYC  
-  waiting: false,                                                                        //for typo2 states  
-  prekyc:false,                                                                         //pre kyc done
-  step1:false, step2:false, step3:false, step4:false, step5:false, activeStep: 0,       //for the KYC
-  email:'',
-  firstName:'',
-  middleName:'',
-  surname:'',
-  address:'',
-  city:'',
-  zipCode:'',
-  regionState:'',  
-  countryCitizenship:'',
-  countryResidence:'',
-  dateBirth:'',
-  occupation:'',
-  amount:'',
-  accreditedInvestor: false,
-
-*/
-
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -108,27 +80,29 @@ const styles = theme => ({
 class Home extends Component {
 
   state = {
-    registrationDatePreKYC: new Date(),
-    registrationDateKYC: false,
-    registered:false,  
-    waiting: false,      
-    approved:false,   
-    prekyc:false,      
-    step1:false, step2:false, step3:false, step4:false, step5:false, activeStep: 0,   //for the KYC
-    email:'',
-    firstName:'',
-    middleName:'',
-    surname:'',
-    address:'',
-    city:'',
-    zipCode:'',
-    regionState:'',  
-    countryCitizenship:'',
-    countryResidence:'',
-    dateBirth:'',
-    occupation:'',
-    amount:'',
-    accreditedInvestor: false,
+      
+      identityPoolId: '', cognitoRegion: '', bucketName: '',
+
+      registrationDatePreKYC: false, registrationDateKYC: false, registrationUpdateKYC: false,
+      prekyc:false, approved:false, waiting: false, registered:false,                                                                     
+      step1:false, step2:false, step3:false, step4:false, step5:false, completedKyc:false,
+      activeStep: 0,   
+      
+      email:'',
+      firstName:'', middleName:'', surname:'',
+      address:'', city:'', zipCode:'', regionState:'',
+      occupation:'',
+      countryCitizenship:'', countryResidence:'',
+      dateBirth:'',
+      accreditedInvestor: false,
+      amount:'',
+
+      typeOfID: 'passport',
+      id1Doc: { name:'', date:'', uploaded: false, approved: false},
+      id2Doc: { name:'', date:'', uploaded: false, approved: false},
+      picDoc: { name:'', date:'', uploaded: false, approved: false},
+      addrDoc: { name:'', date:'', uploaded: false, approved: false},
+      accrDoc: { name:'', date:'', uploaded: false, approved: false},
 
     url: '/register',         //for redirect
     label: 'Register',        //for redirect
@@ -143,7 +117,6 @@ class Home extends Component {
 
   getUser = async () => {
     const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
-    //console.log(response);
     if(response){
       if(response.prekyc === true) {
         if(response.completedKyc === true) {

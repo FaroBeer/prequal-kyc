@@ -6,7 +6,6 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid";
-
 import { Auth, API } from 'aws-amplify';
 import Background from '../../shared/images/bg_kyc/14122018-03.JPG';
 
@@ -69,27 +68,30 @@ const styles = theme => ({
 class Registered extends Component {
 
   state = {
-    registrationDatePreKYC: false,
-    registrationDateKYC: false,
-    registered:false,                                                                     
-    approved:false,     
-    waiting: false,                                                                  
-    prekyc:false,                                                                         
-    step1:false, step2:false, step3:false, step4:false, step5:false, completedKyc:false, activeStep: 0,       
-    email:'',
-    firstName:'',
-    middleName:'',
-    surname:'',
-    address:'',
-    city:'',
-    zipCode:'',
-    regionState:'',  
-    countryCitizenship:'',
-    countryResidence:'',
-    dateBirth:'',
-    occupation:'',
-    amount:'',
-    accreditedInvestor: false,
+      
+      identityPoolId: '', cognitoRegion: '', bucketName: '',
+
+      registrationDatePreKYC: false, registrationDateKYC: false, registrationUpdateKYC: false,
+
+      prekyc:false, approved:false, waiting: false, registered:false,                                                                     
+      step1:false, step2:false, step3:false, step4:false, step5:false, completedKyc:false,
+      activeStep: 0,   
+      
+      email:'',
+      firstName:'', middleName:'', surname:'',
+      address:'', city:'', zipCode:'', regionState:'',
+      occupation:'',
+      countryCitizenship:'', countryResidence:'',
+      dateBirth:'',
+      accreditedInvestor: false,
+      amount:'',
+
+      typeOfID: 'passport',
+      id1Doc: { name:'', date:'', uploaded: false, approved: false},
+      id2Doc: { name:'', date:'', uploaded: false, approved: false},
+      picDoc: { name:'', date:'', uploaded: false, approved: false},
+      addrDoc: { name:'', date:'', uploaded: false, approved: false},
+      accrDoc: { name:'', date:'', uploaded: false, approved: false},
 
     url: '',
     label: '',
@@ -104,18 +106,10 @@ class Registered extends Component {
     const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
     console.log (JSON.stringify(response));
 
-    if(response.approved === true && response.prekyc === true && this.state.label === ''  && this.state.url === ''){
-      
-      this.setState({
-        classKYCbutton: this.props.classShow,
-        label: 'Complete the KYC',
-        url: '/complete'  
-      });
-    }
-
-    if(response.prekyc === true && response.email !== '') {}
-    else window.location.href= '/';
-
+    if(response.completedKyc === false ){
+      if(response.prekyc === false ) window.location.href= '/';
+      else window.location.href= '/complete';
+    } 
   } 
 
   

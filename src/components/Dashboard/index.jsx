@@ -1,31 +1,3 @@
-/*
-
-  STATE  =  USER RECORD
-
-  registrationDatePreKYC: new Date(),
-  registrationDateKYC: new Date(),
-  registered:false,                                                                     //end of the process
-  approved:false,                                                                       //elegible for KYC  
-  waiting: false,                                                                        //for typo2 states  
-  prekyc:false,                                                                         //pre kyc done
-  step1:false, step2:false, step3:false, step4:false, step5:false, activeStep: 0,       //for the KYC
-  email:'',
-  firstName:'',
-  middleName:'',
-  surname:'',
-  address:'',
-  city:'',
-  zipCode:'',
-  regionState:'',  
-  countryCitizenship:'',
-  countryResidence:'',
-  dateBirth:'',
-  occupation:'',
-  amount:'',
-  accreditedInvestor: false,
-
-*/
-
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Card from '@material-ui/core/Card';
@@ -35,10 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid";
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-//import axios from 'axios';
 //import './FileUpload.css'
 import { Auth, API } from 'aws-amplify';
-//import Amplify, { Auth, Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
 import Background from '../../shared/images/bg_kyc/14122018-03.JPG';
 
 
@@ -111,28 +81,29 @@ const styles = theme => ({
 class Dashboard extends Component {
 
   state = {
-    registrationDatePreKYC: false,
-    registrationDateKYC: false,
-    registered:false,                                                                     
-    approved:false,     
-    waiting: false,                                                                  
-    prekyc:false,                                                                         
-    step1:false, step2:false, step3:false, step4:false, step5:false, activeStep: 0,       
-    email:'',
-    firstName:'',
-    middleName:'',
-    surname:'',
-    address:'',
-    city:'',
-    zipCode:'',
-    regionState:'',  
-    countryCitizenship:'',
-    countryResidence:'',
-    dateBirth:'',
-    occupation:'',
-    amount:'',
-    accreditedInvestor: false,
+      
+      identityPoolId: '', cognitoRegion: '', bucketName: '',
+      registrationDatePreKYC: false, registrationDateKYC: false, registrationUpdateKYC: false,
+      prekyc:false, approved:false, waiting: false, registered:false,                                                                     
+      step1:false, step2:false, step3:false, step4:false, step5:false, completedKyc:false,
+      activeStep: 0,   
+      
+      email:'',
+      firstName:'', middleName:'', surname:'',
+      address:'', city:'', zipCode:'', regionState:'',
+      occupation:'',
+      countryCitizenship:'', countryResidence:'',
+      dateBirth:'',
+      accreditedInvestor: false,
+      amount:'',
 
+      typeOfID: 'passport',
+      id1Doc: { name:'', date:'', uploaded: false, approved: false},
+      id2Doc: { name:'', date:'', uploaded: false, approved: false},
+      picDoc: { name:'', date:'', uploaded: false, approved: false},
+      addrDoc: { name:'', date:'', uploaded: false, approved: false},
+      accrDoc: { name:'', date:'', uploaded: false, approved: false},
+    
     url: '',
     label: '',
     classKYCbutton: this.props.classHide,
@@ -146,6 +117,10 @@ class Dashboard extends Component {
     const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
     console.log (JSON.stringify(response));
 
+    if(response.completedKyc === true ) window.location.href= '/registered';
+
+    else
+    
     if(response.approved === true && response.prekyc === true && this.state.label === ''  && this.state.url === ''){
       
       this.setState({

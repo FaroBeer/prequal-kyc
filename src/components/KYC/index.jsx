@@ -1,31 +1,3 @@
-/*
-
-  STATE  =  USER RECORD
-
-  registrationDatePreKYC: new Date(),
-  registrationDateKYC: new Date(),
-  registered:false,                                                                     //end of the process
-  approved:false,                                                                       //elegible for KYC  
-  waiting: false,                                                                        //for typo2 states  
-  prekyc:false,                                                                         //pre kyc done
-  step1:false, step2:false, step3:false, step4:false, step5:false, activeStep: 0,       //for the KYC
-  email:'',
-  firstName:'',
-  middleName:'',
-  surname:'',
-  address:'',
-  city:'',
-  zipCode:'',
-  regionState:'',  
-  countryCitizenship:'',
-  countryResidence:'',
-  dateBirth:'',
-  occupation:'',
-  amount:'',
-  accreditedInvestor: false,
-
-*/
-
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
@@ -156,8 +128,9 @@ class TextFields extends Component {
     this.state = {
            
       identityPoolId: '', cognitoRegion: '', bucketName: '',
-      //cognitoUser: '', cognitoRegion: '', cognitoID: '',
-      registrationDatePreKYC: false, registrationDateKYC: false,
+
+      registrationDatePreKYC: false, registrationDateKYC: false, registrationUpdateKYC: false,
+
       prekyc:false, approved:false, waiting: false, registered:false,                                                                     
       step1:false, step2:false, step3:false, step4:false, step5:false, completedKyc:false,
       activeStep: 0,   
@@ -438,7 +411,7 @@ class TextFields extends Component {
     }))
   };
 
-  
+
   
 post = async () => {    // general - for all steps!!!
     console.log('calling post for step '+ this.state.activeStep+1 );
@@ -447,7 +420,7 @@ post = async () => {    // general - for all steps!!!
     const response = await API.post('preKYCapi', '/items', {
       body: {
         
-        registrationDatePreKYC: this.state.registrationDatePreKYC, registrationDateKYC: new Date(),         
+        registrationDatePreKYC: this.state.registrationDatePreKYC, registrationDateKYC: new Date(), registrationUpdateKYC: new Date(),         
         
         // boolean utilities
         prekyc:this.state.prekyc, approved:this.state.approved, waiting: this.state.waiting, registered:this.state.registered,                                                                                                                                                
@@ -498,45 +471,41 @@ post = async () => {    // general - for all steps!!!
         
       }
     });
-    //console.log('response post:\n'+ JSON.stringify(response))
-    //this.setState({ btnSubmitDisabled: false });  
     console.log('state after submit:\n'+ JSON.stringify(this.state));
     return true;
-}
-isDisabled() {
-
 }
 
   getUser = async () => {
     const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
-    //if(response) console.log ('user:\n' + JSON.stringify(response));
-    this.setState(response);   
-    console.log('state getUser:\n'+ JSON.stringify(this.state));
+    if(response){
+      this.setState(response);   
+      console.log('state getUser:\n'+ JSON.stringify(this.state));
 
-    this.state.approved === false || this.state.waiting ? 
-        window.location.href = "/dashboard" : 
-        this.state.prekyc===false ? 
-            window.location.href = "/" : 
-            console.log('approved'); 
+      this.state.approved === false || this.state.waiting ? 
+          window.location.href = "/dashboard" : 
+          this.state.prekyc===false ? 
+              window.location.href = "/" : 
+              console.log('approved'); 
 
-    let activeStep;
-    if(this.state.step1 === false) activeStep=0;
-    else if(this.state.step2 === false) activeStep=1;
-    else if(this.state.step3 === false) activeStep=2;
-    else if(this.state.step4 === false) activeStep=3;
-    else if(this.state.step5 === false) activeStep=4;
-    else activeStep=5;
-    
-    if((this.state.step1 === true && this.state.activeStep === 0) ||
-        (this.state.step2 === true && this.state.activeStep === 1) ||
-        (this.state.step3 === true && this.state.activeStep === 2) ||
-        (this.state.step4 === true && this.state.activeStep === 3) ||
-        (this.state.step5 === true && this.state.activeStep === 4) )
-      this.setState({
-        btnSubmitDisabled: false,
-        activeStep: activeStep
-      });
-
+      let activeStep;
+      if(this.state.step1 === false) activeStep=0;
+      else if(this.state.step2 === false) activeStep=1;
+      else if(this.state.step3 === false) activeStep=2;
+      else if(this.state.step4 === false) activeStep=3;
+      else if(this.state.step5 === false) activeStep=4;
+      else activeStep=5;
+      
+      if((this.state.step1 === true && this.state.activeStep === 0) ||
+          (this.state.step2 === true && this.state.activeStep === 1) ||
+          (this.state.step3 === true && this.state.activeStep === 2) ||
+          (this.state.step4 === true && this.state.activeStep === 3) ||
+          (this.state.step5 === true && this.state.activeStep === 4) )
+        this.setState({
+          btnSubmitDisabled: false,
+          activeStep: activeStep
+        });
+    }
+    else alert('error getUser:\n'+ JSON.stringify(this.state));
   }
     
   
@@ -559,20 +528,15 @@ isDisabled() {
       
       if(this.state.email !== user.attributes.email)
         this.setState({
-          //cognitoUser: user,         
           bucketName: bucketName, 
           cognitoRegion: Auth._config.region, 
           identityPoolId: Auth._config.identityPoolId,
           email: user.attributes.email,
       });
       this.getUser();
-      //console.log('componentDidMount:\n'+ JSON.stringify(this.state));
-      //console.log('final:\n'+ JSON.stringify(this.state.cognitoUser));
-          
-          
-                    
-      })
-      .catch(err => console.log(err));
+      //console.log('componentDidMount:\n'+ JSON.stringify(this.state));            
+    })
+    .catch(err => console.log(err));
   
     }
 
