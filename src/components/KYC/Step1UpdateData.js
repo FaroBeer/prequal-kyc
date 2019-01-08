@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import TextField from "@material-ui/core/TextField";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Select from '@material-ui/core/Select';
 import Radio from '@material-ui/core/Radio';
@@ -24,23 +23,32 @@ class Step1UpdateData extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            firstName: "",
-            lastName: "",
-            email: "",
-            primaryAddress: "",
-            secondaryAddress: "",
-            city: "",
-            region: "",
-            zipCode: "",
-            country: "",
-            idType: "",
-            homePhone: "",
-            mobile: "",
-            dateOfBirth: "",
-            occupation: "",
-            investAmount: "",
-            open: false,
-            buttonIsHovered: false
+          identityPoolId: '', cognitoRegion: '', bucketName: '',
+
+          registrationDatePreKYC: false, registrationDateKYC: false, registrationUpdateKYC: false,
+    
+          prekyc:false, approved:false, waiting: false, registered:false,                                                                     
+          step1:false, step2:false, step3:false, step4:false, step5:false, completedKyc:false,
+          activeStep: 0,   
+          
+          email:'',
+          firstName:'', middleName:'', surname:'',
+          address:'', city:'', zipCode:'', regionState:'',
+          occupation:'',
+          countryCitizenship:'', countryResidence:'',
+          dateBirth:'',
+          accreditedInvestor: false,
+          amount:'',
+    
+          typeOfID: 'passport',
+          id1Doc: { name:'', date:'', uploaded: false, approved: false},
+          id2Doc: { name:'', date:'', uploaded: false, approved: false},
+          picDoc: { name:'', date:'', uploaded: false, approved: false},
+          addrDoc: { name:'', date:'', uploaded: false, approved: false},
+          accrDoc: { name:'', date:'', uploaded: false, approved: false},
+
+          open: false,
+          buttonIsHovered: false
         }
     }
 

@@ -135,25 +135,25 @@ class Dashboard extends Component {
 
   } 
 
-  
-
-  render() {
-
-    const { classes } = this.props;
-    
+  componentDidMount() {
     Auth.currentAuthenticatedUser({
       bypassCache: false  
     }).then(user => {
       
       if(this.state.email !== user.attributes.email)
         this.setState({
-          email: user.attributes.email
-        });
+          email: user.attributes.email,
+      });
       this.getUser();
+      //console.log('componentDidMount:\n'+ JSON.stringify(this.state));            
     })
     .catch(err => console.log(err));
+  
+    }
 
-    
+  render() {
+
+    const { classes } = this.props;
 
     return (
       <div className={classes.root}>

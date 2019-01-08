@@ -126,7 +126,7 @@ class TextFields extends Component {
   constructor(props) {
     super(props);
     this.state = {
-           
+        
       identityPoolId: '', cognitoRegion: '', bucketName: '',
 
       registrationDatePreKYC: false, registrationDateKYC: false, registrationUpdateKYC: false,
@@ -230,7 +230,9 @@ class TextFields extends Component {
     e.preventDefault();   
     
     this.setState({ completedKyc: true });  
-    this.post().then(window.location.href='/registered');
+    this.post()/*.then(window.location.href='/registered')*/;
+    //if(this.state.completedKyc === true) window.location.href = '/registered';
+    setTimeout(window.location.href = '/registered', 1000);
   
   }
 
@@ -396,9 +398,12 @@ class TextFields extends Component {
       this.state.completedKyc ? this.setState(state => ({
         activeStep: state.activeStep + 1
       })) : alert('Confirm all info');
-      //this.setState (state => ({
-      //  btnSubmitDisabled: !state.step6,
-      //}))
+      this.setState (state => ({
+        btnSubmitDisabled: !state.completedKyc,
+      }))
+      break;
+    case 6:
+      this.state.completedKyc ? window.location.href = '/registered' : alert('eRRoR');
       break;
     }
   };
@@ -414,7 +419,7 @@ class TextFields extends Component {
 
   
 post = async () => {    // general - for all steps!!!
-    console.log('calling post for step '+ this.state.activeStep+1 );
+    console.log('calling post for step '+ this.state.activeStep);
 
     let middleName = this.state.middleName !== '' ? this.state.middleName : null;
     const response = await API.post('preKYCapi', '/items', {
@@ -467,12 +472,13 @@ post = async () => {    // general - for all steps!!!
           date:this.state.accrDoc.date ? this.state.accrDoc.date : null,
           uploaded: this.state.accrDoc.uploaded, 
           approved: this.state.accrDoc.approved
-        },
+        }
         
       }
     });
+    //setTimeout(this.getUser(), 1000);
     console.log('state after submit:\n'+ JSON.stringify(this.state));
-    return true;
+    //return response;
 }
 
   getUser = async () => {
@@ -481,11 +487,13 @@ post = async () => {    // general - for all steps!!!
       this.setState(response);   
       console.log('state getUser:\n'+ JSON.stringify(this.state));
 
-      this.state.approved === false || this.state.waiting ? 
-          window.location.href = "/dashboard" : 
-          this.state.prekyc===false ? 
-              window.location.href = "/" : 
-              console.log('approved'); 
+      this.state.completedKyc === true ? 
+        window.location.href = '/registered' :    
+        this.state.approved === false || this.state.waiting ? 
+            window.location.href = "/dashboard" : 
+            this.state.prekyc===false ? 
+                window.location.href = "/" : 
+                console.log('approved'); 
 
       let activeStep;
       if(this.state.step1 === false) activeStep=0;
@@ -499,7 +507,8 @@ post = async () => {    // general - for all steps!!!
           (this.state.step2 === true && this.state.activeStep === 1) ||
           (this.state.step3 === true && this.state.activeStep === 2) ||
           (this.state.step4 === true && this.state.activeStep === 3) ||
-          (this.state.step5 === true && this.state.activeStep === 4) )
+          (this.state.step5 === true && this.state.activeStep === 4) ||
+          (this.state.completedKyc === true && this.state.activeStep === 5) )
         this.setState({
           btnSubmitDisabled: false,
           activeStep: activeStep
@@ -594,7 +603,7 @@ post = async () => {    // general - for all steps!!!
                     <Button
                       variant="contained"
                       color="primary"
-                      disabled={this.isDisabled()}
+                      disabled={this.state.btnSubmitDisabled}
                       onClick={this.handleNextStep}
                       className={classes.button}
                     >

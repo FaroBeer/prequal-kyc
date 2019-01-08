@@ -7,7 +7,6 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import {  FormControlLabel } from "@material-ui/core";
 import { S3Image } from 'aws-amplify-react';
-
 //import './FileUpload.css';
 
 class Step2UploadID extends Component {
@@ -175,7 +174,7 @@ class Step2UploadID extends Component {
                             </div>
                             <br />
                             <input
-                                type="file" accept='image/png'
+                                type="file" accept='image/png,image/jpeg'
                                 onChange={(e)=> this.onChange(e, 'id1')}
                             />
 
@@ -201,7 +200,7 @@ class Step2UploadID extends Component {
                             </div>
                             <br />
                             <input
-                            type="file" accept='image/png'
+                            type="file" accept='image/png,image/jpeg'
                             onChange={(e)=> this.onChange(e, 'id2')}
                             />
                             <br /><br />

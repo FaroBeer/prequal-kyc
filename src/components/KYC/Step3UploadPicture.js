@@ -87,7 +87,7 @@ class Step3UploadPicture extends Component {
                             </div>
                             <br />                    
                             <input
-                                type="file" accept='image/png'
+                                type="file" accept='image/png,image/jpeg'
                                 onChange={(e)=> this.onChange(e, 'pic')}
                             />
                             <br /><br />

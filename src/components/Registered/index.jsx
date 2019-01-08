@@ -104,33 +104,55 @@ class Registered extends Component {
   
   getUser = async () => {
     const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
-    console.log (JSON.stringify(response));
+    if(response){
+      this.setState(response);   
+      if(response.ste1===false || response.ste2===false || response.ste3===false || response.ste4===false || response.ste5===false)
+        window.location.href = '/complete';
+      
+      console.log('state getUser:\n'+ JSON.stringify(this.state));
 
-    if(response.completedKyc === false ){
+    /*if(response.completedKyc === false ){
       if(response.prekyc === false ) window.location.href= '/';
       else window.location.href= '/complete';
-    } 
+    } */
+    }
   } 
 
+  componentDidMount() {
+    Auth.currentAuthenticatedUser({
+      bypassCache: false  
+    }).then(user => {
+          
+      const searchingBucketName = 'aws.cognito.identity-id.' + Auth._config.identityPoolId;
+      let bucketName;
+      
+      for (var key in user) {
+        if (!user.hasOwnProperty(key)) continue;  
+        var obj = user[key];
+        for (var prop in obj) {
+            if(!obj.hasOwnProperty(prop)) continue;
+            if(prop === searchingBucketName) bucketName = obj[prop];
+        }
+      } 
+      
+      if(this.state.email !== user.attributes.email)
+        this.setState({
+          bucketName: bucketName, 
+          cognitoRegion: Auth._config.region, 
+          identityPoolId: Auth._config.identityPoolId,
+          email: user.attributes.email,
+          completedKyc: true
+      });
+      this.getUser();
+      //console.log('componentDidMount:\n'+ JSON.stringify(this.state));            
+    })
+    .catch(err => console.log(err));
   
+  }
 
   render() {
 
     const { classes } = this.props;
-    
-    Auth.currentAuthenticatedUser({
-      bypassCache: false  
-    }).then(user => {
-      
-      if(this.state.email !== user.attributes.email)
-        this.setState({
-          email: user.attributes.email
-        });
-      this.getUser();
-    })
-    .catch(err => console.log(err));
-
-    
 
     return (
       <div className={classes.root}>
