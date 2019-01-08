@@ -574,7 +574,7 @@ post = async () => {    // general - for all steps!!!
               <CardContent>
   
           <div className={classes.stepper}>
-            <Stepper activeStep={this.state.activeStep} connector={connector}>
+            <Stepper alternativeLabel activeStep={this.state.activeStep} connector={connector}>
               {steps.map(label => (
                 <Step key={label}>
                   <StepLabel>{label}</StepLabel>
