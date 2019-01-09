@@ -101,6 +101,12 @@ class Registered extends Component {
     buttonIsHovered: false,
   };
 
+  handleLoad = () => {
+    this.getUser().then( () => {
+      this.post()      
+    })
+  }
+
   
   getUser = async () => {
     const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
@@ -108,6 +114,11 @@ class Registered extends Component {
       this.setState(response);   
       if(response.ste1===false || response.ste2===false || response.ste3===false || response.ste4===false || response.ste5===false)
         window.location.href = '/complete';
+      else {
+        console.log('registered - before post:\n'+ JSON.stringify(this.state));
+        this.post();
+
+      }
       
       console.log('state getUser:\n'+ JSON.stringify(this.state));
 
@@ -117,6 +128,68 @@ class Registered extends Component {
     } */
     }
   } 
+
+  post = async () => {    // general - for all steps!!!
+
+    const response = await API.post('preKYCapi', '/items', {
+      body: {
+        
+        registrationDatePreKYC: this.state.registrationDatePreKYC, registrationDateKYC: new Date(), registrationUpdateKYC: new Date(),         
+        
+        // boolean utilities
+        prekyc:this.state.prekyc, approved:this.state.approved, waiting: this.state.waiting, registered:this.state.registered,                                                                                                                                                
+        step1:this.state.step1, step2:this.state.step2, step3:this.state.step3, step4:this.state.step4, step5:this.state.step5, completedKyc:this.state.completedKyc,        
+        
+        //step 1 - prekyc
+        email:this.state.email,
+        firstName:this.state.firstName, middleName:this.state.middleName !== '' ? this.state.middleName : null, surname:this.state.surname,          
+        address:this.state.address, city:this.state.city, zipCode:this.state.zipCode, regionState:this.state.regionState,
+        countryCitizenship:this.state.countryCitizenship, countryResidence:this.state.countryResidence,        
+        dateBirth:this.state.dateBirth,
+        occupation:this.state.occupation,  
+        amount:this.state.amount,  
+        accreditedInvestor:this.state.accreditedInvestor,         
+        
+        // upload steps
+        typeOfID: this.state.typeOfID,
+        id1Doc: { 
+          name:this.state.id1Doc.name ? this.state.id1Doc.name : null, 
+          date:this.state.id1Doc.date ? this.state.id1Doc.date : null,  
+          uploaded: this.state.id1Doc.uploaded, 
+          approved: this.state.id1Doc.approved
+        },
+        id2Doc: { 
+          name:this.state.id2Doc.name ? this.state.id2Doc.name : null, 
+          date:this.state.id2Doc.date ? this.state.id2Doc.date : null, 
+          uploaded: this.state.id2Doc.uploaded, 
+          approved: this.state.id2Doc.approved
+        },
+        picDoc: { 
+          name:this.state.picDoc.name ? this.state.picDoc.name : null, 
+          date:this.state.picDoc.date ? this.state.picDoc.date : null, 
+          uploaded: this.state.picDoc.uploaded, 
+          approved: this.state.picDoc.approved
+        },
+        addrDoc: { 
+          name:this.state.addrDoc.name ? this.state.addrDoc.name : null, 
+          date:this.state.addrDoc.date ? this.state.addrDoc.date : null, 
+          uploaded: this.state.addrDoc.uploaded, 
+          approved: this.state.addrDoc.approved
+        },
+        accrDoc: { 
+          name:this.state.accrDoc.name ? this.state.accrDoc.name : null, 
+          date:this.state.accrDoc.date ? this.state.accrDoc.date : null,
+          uploaded: this.state.accrDoc.uploaded, 
+          approved: this.state.accrDoc.approved
+        }
+        
+      }
+    });
+    //setTimeout(this.getUser(), 1000);
+    console.log('post response:\n'+ JSON.stringify(response));
+    console.log('state after submit:\n'+ JSON.stringify(this.state));
+    //return response;
+  }
 
   componentDidMount() {
     Auth.currentAuthenticatedUser({
@@ -135,7 +208,7 @@ class Registered extends Component {
         }
       } 
       
-      if(this.state.email !== user.attributes.email)
+      //if(this.state.email !== user.attributes.email)
         this.setState({
           bucketName: bucketName, 
           cognitoRegion: Auth._config.region, 
@@ -143,8 +216,10 @@ class Registered extends Component {
           email: user.attributes.email,
           completedKyc: true
       });
-      this.getUser();
-      //console.log('componentDidMount:\n'+ JSON.stringify(this.state));            
+      
+      //this.getUser();
+      //console.log('componentDidMount:\n'+ JSON.stringify(this.state));   
+      this.handleLoad();         
     })
     .catch(err => console.log(err));
   

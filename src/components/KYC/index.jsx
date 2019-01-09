@@ -118,7 +118,8 @@ const styles = theme => ({
 });
 
 function getSteps() {
-  return ['Insert your data', 'Upload ID', 'Upload picture', 'Upload address', 'Upload accreditation', 'Confirm All'];
+  return ['Insert your data', 'Upload ID', 'Upload picture', 
+  'Upload address', 'Upload accreditation', 'Confirm All'];
 }
 
 class TextFields extends Component {
@@ -162,6 +163,7 @@ class TextFields extends Component {
     this._handleSubmitStep4 = this._handleSubmitStep4.bind(this);
     this._handleSubmitStep5 = this._handleSubmitStep5.bind(this);
     this._handleSubmitStep6 = this._handleSubmitStep6.bind(this);
+    this.handleRedirect = this.handleRedirect.bind(this);
   }
 
   _handleSubmitStep1(e) {
@@ -228,12 +230,20 @@ class TextFields extends Component {
 
   _handleSubmitStep6(e) {
     e.preventDefault();   
-    
-    this.setState({ completedKyc: true });  
-    this.post()/*.then(window.location.href='/registered')*/;
-    //if(this.state.completedKyc === true) window.location.href = '/registered';
-    setTimeout(window.location.href = '/registered', 1000);
   
+    this.setState({ completedKyc: true , btnSubmitDisabled: false });   
+    this.post();
+    //this.handleRedirect();
+    //this.post()/*.then(window.location.href='/registered')*/;
+    //if(this.state.completedKyc === true) window.location.href = '/registered';
+    //setTimeout(window.location.href = '/registered', 1000);
+  
+  }
+
+  handleRedirect = () => {
+    this.post().then( () => {
+      if(this.state.completedKyc === true) window.location.href = '/registered'       
+    })
   }
 
   handleSubmitFile = info => {
@@ -403,7 +413,10 @@ class TextFields extends Component {
       }))
       break;
     case 6:
-      this.state.completedKyc ? window.location.href = '/registered' : alert('eRRoR');
+      this.setState(state => ({
+        activeStep: state.activeStep + 1, completedKyc:true
+      }))
+      /*this.state.completedKyc ?*/ window.location.href = '/registered';// : alert('eRRoR');
       break;
     }
   };
@@ -501,7 +514,8 @@ post = async () => {    // general - for all steps!!!
       else if(this.state.step3 === false) activeStep=2;
       else if(this.state.step4 === false) activeStep=3;
       else if(this.state.step5 === false) activeStep=4;
-      else activeStep=5;
+      else if(this.state.completedKyc === false) activeStep=5;
+      else activeStep=6;
       
       if((this.state.step1 === true && this.state.activeStep === 0) ||
           (this.state.step2 === true && this.state.activeStep === 1) ||

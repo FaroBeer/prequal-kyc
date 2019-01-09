@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import { S3Image } from 'aws-amplify-react';
+//import PdfPreview from "react-pdf-preview";
 
 //import './FileUpload.css';
 
@@ -78,12 +79,13 @@ class Step5UploadAccreditation extends Component {
                                         imgKey={userState.accrDoc.name} 
                                         path={userState.bucketName}
                                         theme={{ photoImg: { 
-                                                    width: '300px' },
+                                                    width: '300px' },<PdfPreview src={userState.accrDoc.name} scale={1} />
                                                 
                                             }}
                                         onClick={(e) => this.removeFile(e, 'accr')}
                                         />*/
-                                        <div>UPLOADED</div>
+                                    <div>UPLOADED</div>    
+                                        
                                 ) : null }
                             </div>
                             <br />                    
