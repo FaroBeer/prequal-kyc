@@ -88,6 +88,8 @@ const styles = theme => ({
   }
 });
 
+const typo2State = ['Japan', 'Australia', 'South Africa', 'Canada'];
+
 class TextFields extends Component {
 
   _handleSubmit(e) {
@@ -97,19 +99,29 @@ class TextFields extends Component {
   }
 
   state = {
-    email:'',
-    firstName:'',
-    middleName:'',
-    surname:'',
-    address:'',
-    city:'',
-    zipCode:'',
-    regionState:'',  
-    countryCitizenship:'',
-    countryResidence:'',
-    dateBirth:'',
-    occupation:'',
-    amount:'',
+      identityPoolId: '', cognitoRegion: '', bucketName: '',
+
+      registrationDatePreKYC: false, registrationDateKYC: false, registrationUpdateKYC: false,
+
+      prekyc:false, approved:false, waiting: false, registered:false,                                                                     
+      step1:false, step2:false, step3:false, step4:false, step5:false, completedKyc:false,
+      activeStep: 0,   
+      
+      email:'',
+      firstName:'', middleName:'', surname:'',
+      address:'', city:'', zipCode:'', regionState:'',
+      occupation:'',
+      countryCitizenship:'', countryResidence:'',
+      dateBirth:'',
+      accreditedInvestor: false,
+      amount:'',
+
+      typeOfID: 'passport',
+      id1Doc: { name:'', date:'', uploaded: false, approved: false},
+      id2Doc: { name:'', date:'', uploaded: false, approved: false},
+      picDoc: { name:'', date:'', uploaded: false, approved: false},
+      addrDoc: { name:'', date:'', uploaded: false, approved: false},
+      accrDoc: { name:'', date:'', uploaded: false, approved: false},
 
     open: false,
     buttonIsHovered: false,
@@ -146,15 +158,24 @@ post = async () => {
           return false;
   
     } else {
+      
+      // logic for different user lists
+      let checkWaiting = (typo2State.indexOf(this.state.countryResidence) > -1) && this.state.accreditedInvestor === false ? true : false;
+      let checkApproved = (this.state.countryResidence === "United States" && this.state.accreditedInvestor === false) || checkWaiting === true ? false : true;
 
-      let middleName = this.state.middleName !== '' ? this.state.middleName : null;
       const response = await API.post('preKYCapi', '/items', {
         body: {
-          registrationDate: new Date(),
-          step1:true,
+          registrationDatePreKYC: new Date(),
+          registrationDateKYC: false, registrationUpdateKYC: false,
+          registered:false,
+          approved:checkApproved,   // if us not accredited or waiting
+          waiting: checkWaiting,   // if in state typo2 and not accredited   
+          prekyc:true,
+          step1:false, step2:false, step3:false, step4:false, step5:false, //for the KYC
+          completedKyc: false,
           email:this.state.email,
           firstName:this.state.firstName,
-          middleName:middleName,
+          middleName:this.state.middleName || null,
           surname:this.state.surname,          
           address:this.state.address,
           city:this.state.city,
@@ -165,41 +186,50 @@ post = async () => {
           dateBirth:this.state.dateBirth,
           occupation:this.state.occupation,  
           amount:this.state.amount,  
-          accreditedInvestor:this.state.accreditedInvestor,       
+          accreditedInvestor:this.state.accreditedInvestor,  
+          typeOfID: this.state.typeOfID,
+          id1Doc: { 
+            name:this.state.id1Doc.name ? this.state.id1Doc.name : null, 
+            date:this.state.id1Doc.date ? this.state.id1Doc.date : null,  
+            uploaded: this.state.id1Doc.uploaded, 
+            approved: this.state.id1Doc.approved
+          },
+          id2Doc: { 
+            name:this.state.id2Doc.name ? this.state.id2Doc.name : null, 
+            date:this.state.id2Doc.date ? this.state.id2Doc.date : null, 
+            uploaded: this.state.id2Doc.uploaded, 
+            approved: this.state.id2Doc.approved
+          },
+          picDoc: { 
+            name:this.state.picDoc.name ? this.state.picDoc.name : null, 
+            date:this.state.picDoc.date ? this.state.picDoc.date : null, 
+            uploaded: this.state.picDoc.uploaded, 
+            approved: this.state.picDoc.approved
+          },
+          addrDoc: { 
+            name:this.state.addrDoc.name ? this.state.addrDoc.name : null, 
+            date:this.state.addrDoc.date ? this.state.addrDoc.date : null, 
+            uploaded: this.state.addrDoc.uploaded, 
+            approved: this.state.addrDoc.approved
+          },
+          accrDoc: { 
+            name:this.state.accrDoc.name ? this.state.accrDoc.name : null, 
+            date:this.state.accrDoc.date ? this.state.accrDoc.date : null,
+            uploaded: this.state.accrDoc.uploaded, 
+            approved: this.state.accrDoc.approved
+          },    
         }
-      });
-      if(response) console.log(response);
+      });      
+      // BE CAREFULL : check if response.error 
 
       window.location.href='/dashboard';
   }
 }
 
-  /*get = async () => {
-    console.log('calling api');
-    const response = await API.get('preKYCapi', '/items/object/1');
-    alert(JSON.stringify(response, null, 2));
-    return response;
-  }
-  list = async () => {
-    console.log('calling api');
-    const response = await API.get('preKYCapi', '/items/1');
-    alert(JSON.stringify(response, null, 2));
-  }
-  user = async () => {
-    console.log('calling api');
-    const response = Auth.currentAuthenticatedUser();
-    alert(JSON.stringify(response, null, 2));
-  }*/
   getUser = async () => {
-    const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
-    //if(response) console.log (JSON.stringify(response));
-
-    //if(response.step1 === true && response.step2 === true) window.location.href='/';
-    //else 
-      if(response.step1 === true) window.location.href='/';
-    
-
-    } 
+    const response = await API.get('preKYCapi', '/items/object/' + this.state.email); 
+    if(response.prekyc === true) window.location.href='/';
+  } 
 
   render() {
 

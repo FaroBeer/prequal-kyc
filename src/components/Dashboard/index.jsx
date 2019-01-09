@@ -5,12 +5,11 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid";
-//import axios from 'axios';
+import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
 //import './FileUpload.css'
 import { Auth, API } from 'aws-amplify';
-//import Amplify, { Auth, Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
 import Background from '../../shared/images/bg_kyc/14122018-03.JPG';
-
 
 
 const styles = theme => ({
@@ -64,28 +63,51 @@ const styles = theme => ({
     fontSize: 20,
     color: 'rgb(0,0,256,0.54)',
   },
+  kycbutton: {
+    color: '#000',
+    fontSize: 15,
+    borderStyle: 'solid',
+    borderColor: '#000',
+    borderRadius: 4,
+    border: 2,
+    marginTop:40,
+    
+  },
+  classShow: {display:'flex', textDecoration: 'none !important',},
+  classHide: {display:'none', textDecoration: 'none !important'}
 });
 
 class Dashboard extends Component {
 
   state = {
-    email:'',
-    firstName:'',
-    middleName:'',
-    surname:'',
-    address:'',
-    city:'',
-    zipCode:'',
-    regionState:'',  
-    countryCitizenship:'',
-    countryResidence:'',
-    dateBirth:'',
-    occupation:'',
-    amount:'',
-    step1: '',
+      
+      identityPoolId: '', cognitoRegion: '', bucketName: '',
+      registrationDatePreKYC: false, registrationDateKYC: false, registrationUpdateKYC: false,
+      prekyc:false, approved:false, waiting: false, registered:false,                                                                     
+      step1:false, step2:false, step3:false, step4:false, step5:false, completedKyc:false,
+      activeStep: 0,   
+      
+      email:'',
+      firstName:'', middleName:'', surname:'',
+      address:'', city:'', zipCode:'', regionState:'',
+      occupation:'',
+      countryCitizenship:'', countryResidence:'',
+      dateBirth:'',
+      accreditedInvestor: false,
+      amount:'',
 
-    url: '/register',
-    label: 'Register',
+      typeOfID: 'passport',
+      id1Doc: { name:'', date:'', uploaded: false, approved: false},
+      id2Doc: { name:'', date:'', uploaded: false, approved: false},
+      picDoc: { name:'', date:'', uploaded: false, approved: false},
+      addrDoc: { name:'', date:'', uploaded: false, approved: false},
+      accrDoc: { name:'', date:'', uploaded: false, approved: false},
+    
+    url: '',
+    label: '',
+    classKYCbutton: this.props.classHide,
+    canProceed: false,
+    content:'',
 
     open: false,
     buttonIsHovered: false,
@@ -96,36 +118,58 @@ class Dashboard extends Component {
     const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
     console.log (JSON.stringify(response));
 
-    if(response.step1 === true && response.email !== '') {}
+    //if(response.completedKyc === true ) window.location.href= '/registered';
+
+    //else
+    
+    if(response.approved === false || response.waiting === true ){
+      
+      this.setState({
+        //classKYCbutton: this.props.classhide,
+        //label: '',
+        //url: '' ,
+        canProceed: false,
+        content:'We are sorry but..',
+      });
+    }
+
+    else
+
+    if(response.approved === true && response.prekyc === true /*&& this.state.label === ''  && this.state.url === ''*/){
+      
+      this.setState({
+        //classKYCbutton: this.props.classShow,
+        //label: 'Complete the KYC',
+        //url: '/complete'  ,
+        canProceed: true,
+        content:'We are glad to..',
+      });
+    }
+
+    if(response.prekyc === true && response.email !== '') {}
     else window.location.href= '/';
 
-    /*this.state.email = response.email;
-    this.state.firstName = response.firstName;
-    this.state.middleName = response.middleName;
-    this.state.surname = response.surname;
-    this.state.amount = response.amount;
-    this.state.occupation = response.occupation;
-    this.state.phone = response.phone;
-    this.state.country = response.country;*/
   } 
 
-  
-
-  render() {
-
-    const { classes } = this.props;
-    
+  componentDidMount() {
     Auth.currentAuthenticatedUser({
       bypassCache: false  
     }).then(user => {
       
       if(this.state.email !== user.attributes.email)
         this.setState({
-          email: user.attributes.email
-        });
+          email: user.attributes.email,
+      });
       this.getUser();
+      console.log('componentDidMount:\n'+ JSON.stringify(this.state));            
     })
     .catch(err => console.log(err));
+  
+    }
+
+  render() {
+
+    const { classes } = this.props;
 
     return (
       <div className={classes.root}>
@@ -147,14 +191,36 @@ class Dashboard extends Component {
                 />
               </td>
               <td className={classes.tdText}>
-                <Typography className={classes.title} gutterBottom>
-                THANK YOU FOR YOUR APPLICATION
-                </Typography>
-                
-                <Typography className={classes.text} gutterBottom>
-                We will review your information as soon as possible and we will let you know if you are qualified to proceed to the second step of the KYC.
-                </Typography>
+              { 
+              this.state.content === '' ? null : (  
+              
+                this.state.canProceed === true ? (
+                  <div>
+                    <Typography className={classes.title} gutterBottom>
+                    THANK YOU FOR YOUR APPLICATION
+                    </Typography>
+
+                    <Typography className={classes.text} gutterBottom>                
+                    We are glad to communicate that you are qualified to proceed to our full KYC.<br/><br/>
+                    Please <a href="https://xbr.brightcoin.us/signup?coinId=fd6aa11a-2cb9-4272-b37f-9d0f0e0ab953">click here</a> to complete your registration.<br/><br/>
+                    Thank you                  
+                    </Typography>
+
+                  </div>
+                ) : (
+                  <div>
+                    <Typography className={classes.text} gutterBottom>
+                    We are sorry but that you are not qualified to proceed to our full KYC.<br/><br/>
+                    We will let you know as soon the Look Lateral platform will be online.<br/><br/>  
+                    Thank you for your support
+                    </Typography>
+
+                  </div>
+                )) }
+                  
+
               </td>
+  
             </tr>
           </table>
 
